@@ -1,47 +1,138 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kubernetes Cluster Info</title>
-</head>
-<body>
-    <h1>Kubernetes Cluster Information</h1>
-
-    <h2>Cluster</h2>
-    <p>API Version: {{ data.cluster.api_version }}</p>
-    <p>Platform: {{ data.cluster.platform }}</p>
-
-    <h2>Nodes</h2>
-    <ul>
-        {% for node in data.nodes %}
-        <li>
-            <strong>{{ node.name }}</strong>: CPU {{ node.cpu_capacity }},
-            Memory {{ node.memory_capacity }}, Kubelet Version {{ node.kubelet_version }},
-            Roles: {{ node.roles }}
-        </li>
-        {% endfor %}
-    </ul>
-
-    <h2>Pods</h2>
-    <p>Total Pods: {{ data.pods.total_pods }}</p>
-    <ul>
-        {% for ns, count in data.pods.pods_by_namespace.items() %}
-        <li>Namespace {{ ns }}: {{ count }} Pods</li>
-        {% endfor %}
-    </ul>
-
-    <h2>Persistent Volumes</h2>
-    <ul>
-        {% for pv in data.pvs %}
-        <li>
-            <strong>{{ pv.name }}</strong>: {{ pv.capacity }}, Access Modes: {{ pv.access_modes }},
-            Status: {{ pv.status }}
-        </li>
-        {% endfor %}
-    </ul>
-
-    <h2>Deployments</h2>
-    <p>Total Deployments: {{ data.deployments.total_deployments }}</p>
-</body>
-</html>
+apiVersion: v1
+entries:
+  etcd-backup:
+  - annotations:
+      artifacthub.io/changes: |-
+        - kind: added
+          description: Initial release
+        - kind: added
+          description: added dependency tp tpl library
+      artifacthub.io/license: Apache-2.0
+      artifacthub.io/signKey: |
+        fingerprint: B677CB52F8358FA091044E375D24D6846DBA8F8A
+        url: https://keys.openpgp.org/vks/v1/by-fingerprint/B677CB52F8358FA091044E375D24D6846DBA8F8A
+    apiVersion: v2
+    created: "2025-02-28T09:38:23.638286284-05:00"
+    dependencies:
+    - name: tpl
+      repository: https://charts.stderr.at/
+      version: ~1.0.0
+    description: Create a CronJob that performs ETCD Backup and stores the backup
+      to a PV.
+    digest: fecca8aa935dbe9900b4354879396ebf57395742526c0ba356a743fd8db3a17a
+    keywords:
+    - security
+    - backup
+    name: etcd-backup
+    sources:
+    - https://github.com/tjungbauer/helm-charts
+    - https://charts.stderr.at/
+    - https://github.com/tjungbauer/openshift-clusterconfig-gitops
+    urls:
+    - https://jeanlopezxyz.github.io/helm-charts/etcd-backup-1.0.0.tgz
+    version: 1.0.0
+  etcd-defrag:
+  - apiVersion: v2
+    created: "2025-02-28T09:38:23.638505205-05:00"
+    description: Helm Chart para configurar un CronJob que realiza la desfragmentación
+      de etcd en OpenShift
+    digest: f6b9d639f389baace21f9e97718f0757efb40827b7e23877b711f096cc6ea532
+    home: https://example.com/etcd-defrag
+    keywords:
+    - etcd
+    - defrag
+    - OpenShift
+    - CronJob
+    maintainers:
+    - email: jealopez@redhat.com
+      name: Jean Paul
+    name: etcd-defrag
+    sources:
+    - https://github.com/tu-repo/etcd-defrag-chart
+    urls:
+    - https://jeanlopezxyz.github.io/helm-charts/etcd-defrag-0.1.0.tgz
+    version: 0.1.0
+  gitea-setup:
+  - apiVersion: v2
+    appVersion: latest
+    created: "2025-02-28T09:38:23.638682446-05:00"
+    description: A Helm chart for deploying Gitea on OpenShift
+    digest: 0929331611fe5eb608fcf9ce621fd301188d6a5f74b3762c892d19903b8b2d8b
+    name: gitea-setup
+    urls:
+    - https://jeanlopezxyz.github.io/helm-charts/gitea-setup-1.0.0.tgz
+    version: 1.0.0
+  helper-operator:
+  - apiVersion: v2
+    created: "2025-02-28T09:38:23.639385493-05:00"
+    dependencies:
+    - name: tpl
+      repository: https://helm1.labjp.xyz:8443/helm-charts/
+      version: ~1.0.0
+    description: A helper Chart to reduce code repetition. This Chart should be called
+      as a dependency by other charts in order to install Operators.
+    digest: 4cbc6c6b26c3dcd739a65385cebb603e23fcab11fc8b2cc678165fb23d38dca8
+    keywords:
+    - helper
+    - subchart
+    - operator
+    maintainers:
+    - email: tjungbau@redhat.com
+      name: tjungbauer
+      url: https://blog.stderr.at/
+    name: helper-operator
+    sources:
+    - https://github.com/jeanpaullb/helm-charts
+    - https://charts.stderr.at/
+    urls:
+    - https://jeanlopezxyz.github.io/helm-charts/helper-operator-1.0.28.tgz
+    version: 1.0.28
+  helper-status-checker:
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: fixed
+          description: Signing Chart
+        - kind: added
+          description: "Version 4.0.0: It is now possible to use a range of status checks to verify multiple operators."
+        - kind: added
+          description: added new option subscriptionName in case the subscription name is different to the operator name
+        - kind: fixed
+          description: Wrong clusterrole for the installplan approver.
+        - kind: added
+          description: improved output for the installplan approver
+        - kind: added
+          description: added dependency tp tpl library
+        - kind: added
+          description: using tpl.sleeptimer now to prevent code repetition
+      artifacthub.io/license: Apache-2.0
+      artifacthub.io/signKey: |
+        fingerprint: B677CB52F8358FA091044E375D24D6846DBA8F8A
+        url: https://keys.openpgp.org/vks/v1/by-fingerprint/B677CB52F8358FA091044E375D24D6846DBA8F8A
+    apiVersion: v2
+    created: "2025-02-28T09:38:23.639956167-05:00"
+    dependencies:
+    - name: tpl
+      repository: https://charts.stderr.at/
+      version: ~1.0.0
+    description: A helper Chart that creates a job to verify if the deployments of
+      an operator are running. To do so it creates a service account with a role to
+      read the status of the Deployments.
+    digest: 5ef80198edd079cfd3d2f626beba1a947f20862cd14f415a618eee3b1bf7be19
+    home: https://github.com/tjungbauer/helm-charts/tree/main/charts/helper-status-checker
+    icon: https://github.com/tjungbauer/helm-charts/raw/gh-pages/images/helping.png
+    keywords:
+    - helper
+    - subchart
+    maintainers:
+    - email: tjungbau@redhat.com
+      name: tjungbauer
+      url: https://blog.stderr.at/
+    name: helper-status-checker
+    sources:
+    - https://github.com/tjungbauer/helm-charts
+    - https://charts.stderr.at/
+    - https://github.com/tjungbauer/openshift-clusterconfig-gitops
+    urls:
+    - https://jeanlopezxyz.github.io/helm-charts/helper-status-checker-4.0.13.tgz
+    version: 4.0.13
+generated: "2025-02-28T09:38:23.63760167-05:00"
