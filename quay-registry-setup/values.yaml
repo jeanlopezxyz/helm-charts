@@ -1,0 +1,271 @@
+quay:
+  enabled: false
+  config_bundle: config-bundle-secret
+  syncwave: 3
+  public_route: quay.apps.clustername
+
+  namespace:
+    create: false
+    name: quay-enterprise
+    syncwave: 0
+    bindtoNode:
+      role: infra
+
+  bucketClaim:
+    enabled: false
+    name: quay-bucketname
+    storageclass:
+    syncwave: 2
+
+  components:
+    clair:
+      managed: true
+      overrides:
+        replicas: 2
+    clairpostgres:
+      managed: true
+    objectstore:
+      managed: true
+    redis:
+      managed: true
+    hpa:
+      managed: true
+    route:
+      managed: true
+    mirror:
+      managed: true
+      overrides:
+        replicas: 2
+    monitoring:
+      managed: true
+    tls:
+      managed: true
+    postgres:
+      managed: true
+    quay:
+      managed: true
+      overrides:
+        replicas: 2
+
+  job_init_quay:
+    enabled: false
+    syncwave: 200
+    serviceAccount: quay-initiator
+    quay_basename: quay-registry-quay-app
+    sleeptimer: 30
+
+  init_user:
+    enabled: false
+    secretName: initial-user
+    username: admin
+    mail: admin@company.com
+    password: ''
+
+  job_inject_route_cert:
+    enabled: false
+    name: inject-certificate
+    serviceAccount: quay-ca-injector
+    syncwave: 5
+    sleeptimer: 30
+    certificate:
+      enabled: false
+      name: certificate-name
+    additional_ca:
+      enabled: false
+      configmap: kube-root-ca.crt
+      configmap_key: '.data.ca\.crt'
+
+  quay_configuration:
+    enabled: false
+    syncwave: 3
+    configmapName: quay-configuration-skeleton
+    storage:
+      instance: RadosGWStorage
+      maximum_chunk_size_mb: 100
+      server_side_assembly: true
+    ldap_auth_secret: ldap-authentication
+    bucket:
+      name: quay-bucketname
+      is_secure: true
+      port: 443
+      region: us-east-1
+      sts_role_arn: ''
+      boto_timeout: 60
+      sas_token: some/path/
+      swift_ca_path: /conf/stack/swift.cert
+    s3_hostname:
+      overwrite: true
+      hostname: s3-openshift-storage.apps.clustername
+
+    super_user_list:
+      - second_admin
+    authentication_type: Database
+    branding:
+      logo: ''
+      footer_img: ''
+      footer_url: ''
+    browser_api_calls_xhr_only: false
+    external_tls_termination: false
+    feature:
+      user_initialize: true
+      action_log_rotation: false
+      aggregated_log_count_retrieval: true
+      anonymous_access: true
+      app_specific_tokens: true
+      bitbucket_build: false
+      blacklisted_emails: false
+      build_support: false
+      change_tag_expiration: true
+      direct_login: true
+      extended_repository_names: true
+      fips: false
+      garbage_collection: true
+      general_oci_support: true
+      github_build: false
+      github_login: false
+      gitlab_build: false
+      google_login: false
+      helm_oci_support: true
+      invite_only_user_creation: false
+      library_support: true
+      log_export: true
+      mailing: false
+      nonsuperuser_team_syncing_setup: false
+      partial_user_autocomplete: true
+      proxy_storage: false
+      proxy_cache: false
+      public_catalog: false
+      quota_management: false
+      rate_limits: false
+      reader_build_logs: false
+      recaptcha: false
+      repo_mirror: false
+      restricted_v1_push: true
+      restricted_users: false
+      security_notifications: false
+      storage_replication: false
+      super_users: true
+      superusers_full_access: false
+      superusers_org_creation_only: false
+      team_syncing: true
+      ui_v2: false
+      ui_v2_repo_settings: false
+      user_creation: true
+      user_last_accessed: true
+      user_log_access: false
+      user_metadata: false
+      user_rename: false
+      username_confirmation: false
+      repository_garbage_collection: true
+      signing: false
+    fresh_login_timeout: 5m
+    maximum_layer_size: 20G
+    preferred_url_scheme: https
+    registry_state: normal
+    registry_title: Red Hat Quay
+    registry_title_short: Red Hat Quay
+    repo_mirror_interval: 30
+    repo_mirror_rollback: false
+    repo_mirror_tls_verify: false
+    repo_mirror_server_hostname: ''
+    restricted_users_whitelist: []
+    global_readonly_super_users: []
+    search_max_result_page_count: 10
+    search_results_per_page: 30
+    session_cookie_secure: false
+    ssl_protocols:
+      - TLSv1.3
+    successive_trigger_failure_disable_threshold: 100
+    successive_trigger_internal_error_disable_threshold: 5
+    user_recovery_token_lifetime: 30m
+    userfiles_location: default
+    userfiles_path: userfiles/
+    v2_pagination_size: 50
+    tag_expiration_options:
+      - 0s
+      - 1d
+      - 1w
+      - 2w
+      - 4w
+    default_tag_expiration: 2w
+    allow_pulls_without_strict_logging: false
+    avatar_kind: local
+    create_private_repo_on_push: true
+    robots_disallow: false
+    default_system_reject_quota_bytes: 1.073741824e+11
+    quota_backfill: true
+    quota_total_delay_seconds: 1800
+    permanently_delete_tags: false
+    reset_child_manifest_expiration: false
+    ldap_base_dn: []
+    ldap_email_attr: mail
+    ldap_uid_attr: uid
+    ldap_uri: ''
+    ldap_user_filter: ''
+    ldap_user_rdn: []
+    team_resync_stale_time: 30m
+    ldap_superuser_filter: ''
+    ldap_restricted_user_filter: ''
+    ldap_timeout: 10
+    ldap_network_timeout: 10
+    github_login_config:
+      enabled: false
+      github_oauth_secret: github-oauth
+      allowed_organizations: []
+      api_enpoint: ''
+      github_endpoint: ''
+      org_restrict: false
+    google_login_config:
+      enabled: false
+      google_oauth_secret: google-oauth
+    oidc_login_config:
+      enabled: false
+      oidc_name: ''
+      github_oauth_secret: github-oauth
+      oidc_debuglog: false
+      oidc_login_binding_fields: ''
+      oidc_login_scopes: ''
+      oidc_endpoint_custom_params: ''
+      oidc_issuer: ''
+      oidc_server: https://server
+      oidc_preferred_username_claim_name: ''
+      oidc_service_icon: ''
+      oidc_service_name: ''
+      oidc_verified_email_claim_name: ''
+      oidc_preferred_group_claim_name: ''
+      oidc_disable_user_endpoint: false
+    mailing_config:
+      enabled: false
+      mail_auth_secret: mail-auth
+      mail_default_sender: 'support@quay.io'
+      mail_port: 587
+      mail_server: ''
+      mail_use_tls: true
+    logs_model: database
+    logs_model_config:
+      elasticsearch_config:
+        enabled: false
+        log_model_auth: log_model_auth
+        host: ''
+        port: ''
+        aws_region: ''
+        index_prefix: ''
+        index_settings: ''
+        use_ssl: true
+      kafka_config:
+        enabled: false
+        topic: ''
+        bootstrap_servers: []
+        max_block_seconds: ''
+      splunk_config:
+        enabled: false
+        log_model_auth: log_model_auth
+        host: ''
+        port: ''
+        verify_ssl: true
+        index_prefix: ''
+        ssl_ca_path: ''
+    action_log_archive_location: ''
+    action_log_archive_path: ''
+    action_log_rotation_threshold: 30d
+    action_log_audit_logins: true

@@ -1,0 +1,60 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: etcd-defrag
+  namespace: openshift-etcd
+spec:
+  schedule: "0 2 * * *" # Ejecuta todos los días a las 2 AM
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: etcd-defrag
+            image: quay.io/coreos/etcd:latest # Imagen con etcdctl y jq disponibles
+            command:
+            - /bin/sh
+            - -c
+            - |
+              PODS=$(oc get pods -n openshift-etcd -l k8s-app=etcd -o jsonpath='{.items[*].metadata.name}')
+              echo "Pods de etcd: $PODS"
+
+              # Identificar el líder
+              LEADER=""
+              for POD in $PODS; do
+                  echo "Revisando Pod: $POD"
+                  LEADER=$(oc rsh -n openshift-etcd $POD etcdctl endpoint status --cluster -w json | \
+                      jq -r '.[] | select(.Status.leader == .Status.header.member_id) | .Endpoint' | \
+                      awk -F/ '{print $3}' | awk -F: '{print $1}')
+                  if [ -n "$LEADER" ]; then
+                      echo "Líder identificado: $LEADER"
+                      break
+                  fi
+              done
+
+              if [ -z "$LEADER" ]; then
+                  echo "No se pudo identificar el líder. Verifica los permisos y la conectividad."
+                  exit 1
+              fi
+
+              # Desfragmentar los nodos que no son líderes
+              for POD in $PODS; do
+                  NODE_IP=$(oc get pod -n openshift-etcd $POD -o jsonpath='{.status.podIP}')
+                  if [ "$NODE_IP" != "$LEADER" ]; then
+                      echo "Desfragmentando $POD ($NODE_IP)"
+                      oc rsh -n openshift-etcd $POD sh -c "unset ETCDCTL_ENDPOINTS && etcdctl --command-timeout=30s --endpoints=https://localhost:2379 defrag"
+                      echo "Desfragmentación completada en $POD"
+                  else
+                      echo "Saltando líder: $POD ($NODE_IP)"
+                  fi
+              done
+            volumeMounts:
+            - name: kubeconfig
+              mountPath: /root/.kube
+              readOnly: true
+          restartPolicy: OnFailure
+          volumes:
+          - name: kubeconfig
+            hostPath:
+              path: /root/.kube
+              type: Directory

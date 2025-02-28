@@ -1,10 +1,12 @@
+{{- with .Values }}
+{{ if eq ( .enabled | toString) "true" }}
 apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: etcd-defrag
-  namespace: {{ .Values.cronJob.namespace | default "kube-system" }}
+  namespace: {{ .cronJob.namespace | default "kube-system" }}
 spec:
-  schedule: {{ .Values.cronJob.schedule | quote }}
+  schedule: {{ .cronJob.schedule | quote }}
   jobTemplate:
     spec:
       template:
@@ -28,3 +30,5 @@ spec:
             hostPath:
               path: /root/.kube
               type: Directory
+{{- end }}
+{{- end }}

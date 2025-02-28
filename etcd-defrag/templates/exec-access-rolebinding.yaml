@@ -1,13 +1,18 @@
+{{- with .Values }}
+{{ if eq ( .enabled | toString) "true" }}
+---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  name: {{ .Values.rbac.execAccessRoleBindingName } | default exec-access-binding}
+  name: {{ .rbac.execAccessRoleBindingName }}
   namespace: openshift-etcd
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
-  name: {{ .Values.rbac.execAccessRoleName }}
+  name: {{ .rbac.execAccessRoleName }}
 subjects:
 - kind: ServiceAccount
-  name: {{ .Values.rbac.serviceAccountName }}
-  namespace: {{ .Values.cronJob.namespace }}
+  name: {{ .rbac.serviceAccountName }}
+  namespace: {{ .cronJob.namespace }}
+{{- end }}
+{{- end }}

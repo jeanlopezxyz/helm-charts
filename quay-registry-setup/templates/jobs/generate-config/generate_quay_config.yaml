@@ -1,0 +1,369 @@
+w{{- with .Values.quay_configuration }}
+{{- if eq ( .enabled | toString) "true" }}
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: create-config-secret
+  namespace:  {{ $.Values.quay.namespace.name }}
+  annotations:
+    argocd.argoproj.io/hook: Sync
+    argocd.argoproj.io/hook-delete-policy: HookSucceeded
+    argocd.argoproj.io/sync-wave: {{ .syncwave | default 3 | quote }}
+  labels:
+    {{- include "tpl.labels" $ | nindent 4 }}
+spec:
+  template:
+    metadata:
+      name: create-config-secret
+    spec:
+      containers:
+        - name: create-config-secret
+          image: registry.redhat.io/openshift4/ose-cli:latest
+          command:
+            - /bin/bash
+            - -c
+            - |
+              #!/usr/bin/env bash
+
+              # Sleeping before starting with the work, to be sure the bucket has been created.
+              SLEEPER_TMP=0
+
+              printf "Waiting 30 seconds before I start with the generation of the configuration\n"
+
+              {{ include "tpl.sleeptimer" (dict "sleeptimer" "30")  | nindent 14 }}
+
+              printf "\nUsing the following skeleton file\n"
+              cat /tmp/quay-config-skeleton/properties
+
+              #################
+              # Obecjt Storage
+              #################
+
+              bucket_user=`cat /tmp/bucket-secret/AWS_ACCESS_KEY_ID`
+
+              bucket_secret=`cat /tmp/bucket-secret/AWS_SECRET_ACCESS_KEY`
+
+              bucket_name=`cat /tmp/quay-bucket/BUCKET_NAME`
+
+              if [ {{ .s3_hostname.overwrite }} ]; then
+                bucket_host={{ .s3_hostname.hostname }}
+              else
+                bucket_host=`cat /tmp/quay-bucket/BUCKET_HOST`
+              fi
+
+              #######
+              # LDAP
+              #######
+              
+              {{- if eq ( .authentication_type | toString) "LDAP" }}
+              ldap_user=`cat /tmp/ldap-secret/LDAP_ADMIN_DN`
+
+              ldap_password=`cat /tmp/ldap-secret/LDAP_ADMIN_PASSWD`       
+              {{- end }}
+
+              #######
+              # OIDC
+              #######
+              
+              {{- if eq ( .authentication_type | toString) "ODIC" }}
+              oidc_user=`cat /tmp/oidc-secret/OIDC_CLIENT_ID`
+
+              oidc_password=`cat /tmp/oidc-secret/OIDC_CLIENT_SECRET`       
+              {{- end }}
+
+              ##############
+              # Github OAUTH
+              ##############
+              {{- if eq (.github_login_config.enabled | toString) "true" }}
+              gh_oauth_user=`cat /tmp/ghoauth-secret/GH_CLIENT_ID`
+
+              gh_oauth_password=`cat /tmp/ghoauth-secret/GH_CLIENT_SECRET` 
+              {{- end }}
+
+              ##############
+              # Google OAUTH
+              ##############
+              {{- if eq (.google_login_config.enabled | toString) "true" }}
+              google_oauth_user=`cat /tmp/google-oauth-secret/GOOGLE_CLIENT_ID`
+
+              google_oauth_password=`cat /tmp/google-oauth-secret/GOOGLE_CLIENT_SECRET` 
+              {{- end }}
+
+              ##############
+              # MAIL CONFIG
+              ##############
+              {{- if eq (.mailing_config.enabled | toString) "true" }}
+              mail_user=`cat /tmp/mail-auth-secret/MAIL_USERNAME`
+
+              mail_password=`cat /tmp/mail-auth-secret/MAIL_PASSWORD` 
+              {{- end }}
+
+              ###########################
+              # Elasticsearch LOG CONFIG
+              ###########################
+
+              {{- if eq ( .feature.log_export| toString) "true" }}
+              {{- if eq ( .logs_model | toString) "elasticsearch" }}
+              {{- if or (eq ( .logs_model_config.elasticsearch_config.enabled| toString) "true") ( eq (.logs_model_config.kinesis_steam_config.enabled| toString) "true") }}
+
+              log_access_key=`cat /tmp/log_model_auth/ACCESS_KEY`
+
+              log_secret_key=`cat/tmp/log_model_auth/SECRET_KEY` 
+              {{- end }}
+              {{- end }}
+              {{- end }}
+
+
+              ###########################
+              # Splunk LOG CONFIG
+              ###########################
+
+              {{- if eq ( .feature.log_export| toString) "true" }}
+              {{- if eq ( .logs_model | toString) "splunk" }}
+              {{- if eq ( .logs_model_config.splunk_config.enabled| toString) "true" }}
+
+              bearer_token=`cat /tmp/log_model_auth/TOKEN`
+
+              {{- end }}
+              {{- end }}
+              {{- end }}
+
+              mode="replace"
+              check=$(oc get secret quay-generated-configuration 2>&1)
+              if [ $? == 1 ]
+              then
+                if [[ $check == *"forbidden"* ]] 
+                then
+                  echo $check;
+                  exit 1
+                else
+                  printf "Secret does not exist, creating a new one.\n"
+                  mode="create"
+                fi
+              else
+                printf "Secret does exist already, replacing it.\n"
+                mode="replace"
+              fi
+              
+              printf "\nReplacing required information for S3 bucket\n"
+   
+              sed -e "s|PATCH_BUCKET_USER|${bucket_user}|g;" \
+                  -e "s|PATCH_BUCKET_SECRET|${bucket_secret}|g;" \
+                  -e "s|PATCH_BUCKET_SECRET|${bucket_secret}|g;" \
+                  -e "s|PATCH_BUCKET_NAME|${bucket_name}|g;" \
+                  -e "s|PATCH_BUCKET_HOST|${bucket_host}|g;" /tmp/quay-config-skeleton/properties > /tmp/quay-config-skeleton-set-Storage
+
+              current_config_file="/tmp/quay-config-skeleton-set-Storage"
+     
+              #######
+              # LDAP
+              #######
+
+              {{- if eq ( .authentication_type | toString) "LDAP" }}
+              printf "\nReplacing required information for LDAP Authentication\n"
+
+              sed -e "s|PATCH_LDAP_ADMIN_DN$|${ldap_user}|g;" \ 
+                  -e "s|PATCH_LDAP_ADMIN_PASSWD$|${ldap_password}|g;" ${current_config_file} > /tmp/quay-config-skeleton-set-LDAP
+
+              current_config_file="/tmp/quay-config-skeleton-set-LDAP"
+              {{- end }}
+
+              #######
+              # OIDC
+              #######
+
+              {{- if eq ( .authentication_type | toString) "OIDC" }}
+              printf "\nReplacing required information for ODIC Authentication\n"
+
+              sed -e "s|PATCH_OIDC_CLIENT_ID$|${oidc_user}|g;" \
+                  -e "s|PATCH_OIDC_CLIENT_SECRET$|${oidc_password}|g;" ${current_config_file} > /tmp/quay-config-skeleton-set-OIDC
+
+              current_config_file="/tmp/quay-config-skeleton-set-OIDC"              
+              {{- end }}
+              
+              ##############
+              # Google OAUTH
+              ##############
+              {{- if eq (.google_login_config.enabled | toString) "true" }}
+              printf "\nReplacing required information for Google OAUTH\n"
+
+              sed -e "s|PATCH_GOOGLE_CLIENT_ID$|${google_oauth_user}|g;" \
+                  -e "s|PATCH_GOOGLE_CLIENT_SECRET$|${google_oauth_password}|g;" ${current_config_file} > /tmp/quay-config-skeleton-set-GoogleAuth
+
+              current_config_file="/tmp/quay-config-skeleton-set-GoogleAuth"
+
+              {{- end }}
+
+              ##############
+              # Github OAUTH
+              ##############
+              {{- if eq (.github_login_config.enabled | toString) "true" }}
+              printf "\nReplacing required information for Github OAUTH\n"
+
+              sed -e "s|PATCH_GITHUB_CLIENT_ID$|${gh_oauth_user}|g;" \
+                  -e "s|PATCH_GITHUB_CLIENT_SECRET$|${gh_oauth_password}|g;" ${current_config_file} > /tmp/quay-config-skeleton-set-GithubOAuth
+
+              current_config_file="/tmp/quay-config-skeleton-set-GithubOAuth"
+
+              {{- end }}
+
+              ##############
+              # MAIL CONFIG
+              ##############
+              {{- if eq (.mailing_config.enabled | toString) "true" }}
+              printf "\nReplacing required information for Github OAUTH\n"
+
+              sed -e "s|PATCH_MAIL_USER$|${mail_user}|g;" \
+                  -e "s|PATCH_MAIL_PASSWORD$|${mail_password}|g;" ${current_config_file} > /tmp/quay-config-skeleton-set-MailConfig
+
+              current_config_file="/tmp/quay-config-skeleton-set-MailConfig"
+
+              {{- end }}
+
+              ###########################
+              # Elasticsearch LOG CONFIG
+              ###########################
+
+              {{- if eq ( .feature.log_export| toString) "true" }}
+              {{- if eq ( .logs_model | toString) "elasticsearch" }}
+              {{- if or (eq ( .logs_model_config.elasticsearch_config.enabled| toString) "true") ( eq (.logs_model_config.kinesis_steam_config.enabled| toString) "true") }}
+              printf "\nReplacing required information for Elasticsearch Log configuration\n"
+
+              sed -e "s|PATCH_ACCESS_KEY$|${log_access_key}|g;" \
+                  -e "s|PATH_SECRET_KEY$|${log_secret_key}|g;" ${current_config_file} > /tmp/quay-config-skeleton-set-Elasticsearch
+
+              current_config_file="/tmp/quay-config-skeleton-set-Elasticsearch"
+
+              {{- end }}
+              {{- end }}
+              {{- end }}
+
+              ###########################
+              # Splunk LOG CONFIG
+              ###########################
+
+              {{- if eq ( .feature.log_export| toString) "true" }}
+              {{- if eq ( .logs_model | toString) "splunk" }}
+              {{- if eq ( .logs_model_config.splunk_config.enabled| toString) "true" }}
+              printf "\nReplacing required information for Splunk Log configuration\n"
+
+              sed -e "s|PATH_SPLUNK_TOKEN$|${bearer_token}|g;" ${current_config_file} > /tmp/quay-config-skeleton-set-Splunk
+
+              current_config_file="/tmp/quay-config-skeleton-set-Splunk"
+              {{- end }}
+              {{- end }}
+              {{- end }}
+
+              printf "\nCreating or Replacing the quay configuration file\n"
+
+              oc create secret generic {{ $.Values.quay.config_bundle | default "quay-generated-configuration" }} --from-file=config.yaml=${current_config_file} --dry-run=client -o yaml -n {{ $.Values.quay.namespace.name }} | oc $mode -f -
+          volumeMounts:
+            - name: bucket-secret
+              mountPath: "/tmp/bucket-secret"
+              readOnly: true
+            - name: quay-config-skeleton
+              mountPath: /tmp/quay-config-skeleton
+            - name: quay-bucket
+              mountPath: /tmp/quay-bucket
+            {{- if eq ( .authentication_type | toString) "LDAP" }}
+            - name: ldap-secret
+              mountPath: "/tmp/ldap-secret"
+            {{- end }}
+            {{- if eq ( .authentication_type | toString) "OIDC" }}
+            - name: oidc-secret
+              mountPath: "/tmp/oidc-secret"
+            {{- end }}
+            {{- if eq (.github_login_config.enabled | toString) "true" }}
+            - name: github-oauth
+              mountPath: "/tmp/ghoauth-secret"
+            {{- end }}
+            {{- if eq (.google_login_config.enabled | toString) "true" }}
+            - name: google-oauth
+              mountPath: "/tmp/google-oauth-secret"
+            {{- end }}
+            {{- if eq (.mailing_config.enabled | toString) "true" }}
+            - name: mail-auth
+              mountPath: "/tmp/mail-auth-secret"
+            {{- end }}
+            {{- if eq ( .feature.log_export| toString) "true" }}
+            {{- if eq ( .logs_model | toString) "elasticsearch" }}
+            {{- if or (eq ( .logs_model_config.elasticsearch_config.enabled| toString) "true") ( eq (.logs_model_config.kinesis_steam_config.enabled| toString) "true") }}
+            - name: log_model_auth
+              mountPath: "/tmp/log_model_auth"
+            {{- end }}
+            {{- end }}
+            {{- end }}
+            {{- if eq ( .feature.log_export| toString) "true" }}
+            {{- if eq ( .logs_model | toString) "splunk" }}
+            {{- if eq ( .logs_model_config.splunk_config.enabled| toString) "true" }}
+            - name: log_model_auth
+              mountPath: "/tmp/log_model_auth"
+            {{- end }}
+            {{- end }}
+            {{- end }}
+      volumes:
+        - name: bucket-secret
+          secret:
+            secretName: {{ .bucket.name }}
+        {{- if eq ( .authentication_type | toString) "LDAP" }}
+        - name: ldap-secret
+          secret:
+            secretName: {{ .ldap_auth_secret }}
+        {{- end }}
+        {{- if eq ( .authentication_type | toString) "OIDC" }}
+        - name: oidc-secret
+          secret:
+            secretName: {{ .oidc_login_config.oidc_auth_secret }}
+        {{- end }}
+        {{- if eq ( .github_login_config.enabled | toString) "true" }}
+        - name: github-oauth
+          secret:
+            secretName: {{ .github_login_config.github_oauth_secret }}
+        {{- end }}
+        {{- if eq ( .google_login_config.enabled | toString) "true" }}
+        - name: google-oauth
+          secret:
+            secretName: {{ .google_login_config.google_oauth_secret }}
+        {{- end }}
+        {{- if eq ( .mailing_config.enabled | toString) "true" }}
+        - name: mail-auth
+          secret:
+            secretName: {{ .mailing_config.mail_auth_secret }}
+        {{- end }}
+        {{- if eq ( .feature.log_export| toString) "true" }}
+        {{- if eq ( .logs_model | toString) "elasticsearch" }}
+        {{- if eq ( .logs_model_config.elasticsearch_config.enabled| toString) "true" }}
+        - name: log_model_auth
+          secret:
+            secretName: {{ .logs_model_config.elasticsearch_config.log_model_auth }}
+        {{- end }}
+        {{- if eq ( .logs_model_config.kinesis_steam_config.enabled| toString) "true" }}
+        - name: log_model_auth
+          secret:
+            secretName: {{ .logs_model_config.kinesis_steam_config.log_model_auth }}
+        {{- end }}
+        {{- end }}
+        {{- end }}
+        {{- if eq ( .feature.log_export| toString) "true" }}
+        {{- if eq ( .logs_model | toString) "splunk" }}
+        {{- if eq ( .logs_model_config.splunk_config.enabled| toString) "true" }}
+        - name: log_model_auth
+          secret:
+            secretName: {{ .logs_model_config.splunk_config.log_model_auth }}
+        {{- end }}
+        {{- end }}
+        {{- end }}
+        - name: quay-bucket
+          configMap:
+            name: {{ .bucket.name }}
+        - name: quay-config-skeleton
+          configMap:
+            name: {{ .configmapName | default "quay-configuration-skeleton" | quote }}
+            items:
+              - key: quay.cleartext.properties
+                path: properties
+      restartPolicy: Never
+      serviceAccountName: create-config-secret-sa
+{{- end }}
+{{- end }}

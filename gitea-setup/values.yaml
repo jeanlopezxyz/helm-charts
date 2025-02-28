@@ -1,0 +1,23 @@
+replicaCount: 1
+
+image:
+  repository: gitea/gitea
+  tag: latest
+
+user:
+  uid: "1000"
+  gid: "1000"
+
+persistence:
+  size: 10Gi
+  existingClaim: ""
+
+oauth:
+  enabled: false
+  provider: "OpenShift"
+  clientId: "gitea-oauth"
+  secretName: "gitea-oauth-secret"
+  autoDiscoverUrl: "https://api.openshift.example.com/.well-known/openid-configuration"
+
+route:
+  host: "gitea.example.com"

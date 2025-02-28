@@ -1,152 +1,47 @@
-apiVersion: v1
-entries:
-  helper-operator:
-  - annotations:
-      artifacthub.io/changes: |
-        - kind: fixed
-          description: Signing Chart
-        - kind: added
-          description: Added Job that will enable Console Plugins if they are defined.
-        - kind: added
-          description: Possibility to configure config.tolerations, config.nodeSelector and config.env for the subscription, updated inline documentation and README
-        - kind: fixed
-          description: Fix Job _enable_console_plugin_ in a way that it first verifies if the plugin has been added previously already and if it does not exist the Job will add it.
-        - kind: added
-          description: added dependency tp tpl library
-        - kind: added
-          description: switching some snippets to use global tpl
-      artifacthub.io/license: Apache-2.0
-      artifacthub.io/signKey: |
-        fingerprint: B677CB52F8358FA091044E375D24D6846DBA8F8A
-        url: https://keys.openpgp.org/vks/v1/by-fingerprint/B677CB52F8358FA091044E375D24D6846DBA8F8A
-    apiVersion: v2
-    created: "2024-12-23T16:48:48.624232339-05:00"
-    dependencies:
-    - name: tpl
-      repository: https://helm1.labjp.xyz:8443/helm-charts/
-      version: ~1.0.0
-    description: A helper Chart to reduce code repetition. This Chart should be called
-      as a dependency by other charts in order to install Operators.
-    digest: d30f786e639619f7d0fe04438151e4366f624d2e6c795ca87dececc3728e0fe3
-    home: https://github.com/tjungbauer/helm-charts/tree/main/charts/helper-operator
-    icon: https://github.com/tjungbauer/helm-charts/raw/gh-pages/images/helping.png
-    keywords:
-    - helper
-    - subchart
-    - operator
-    maintainers:
-    - email: tjungbau@redhat.com
-      name: tjungbauer
-      url: https://blog.stderr.at/
-    name: helper-operator
-    sources:
-    - https://github.com/tjungbauer/helm-charts
-    - https://charts.stderr.at/
-    - https://github.com/tjungbauer/openshift-clusterconfig-gitops
-    urls:
-    - https://helm1.labjp.xyz:8443/helm-charts/helper-operator-1.0.28.tgz
-    version: 1.0.28
-  helper-status-checker:
-  - annotations:
-      artifacthub.io/changes: |
-        - kind: fixed
-          description: Signing Chart
-        - kind: added
-          description: "Version 4.0.0: It is now possible to use a range of status checks to verify multiple operators."
-        - kind: added
-          description: added new option subscriptionName in case the subscription name is different to the operator name
-        - kind: fixed
-          description: Wrong clusterrole for the installplan approver.
-        - kind: added
-          description: improved output for the installplan approver
-        - kind: added
-          description: added dependency tp tpl library
-        - kind: added
-          description: using tpl.sleeptimer now to prevent code repetition
-      artifacthub.io/license: Apache-2.0
-      artifacthub.io/signKey: |
-        fingerprint: B677CB52F8358FA091044E375D24D6846DBA8F8A
-        url: https://keys.openpgp.org/vks/v1/by-fingerprint/B677CB52F8358FA091044E375D24D6846DBA8F8A
-    apiVersion: v2
-    created: "2024-12-23T16:48:48.624812525-05:00"
-    dependencies:
-    - name: tpl
-      repository: https://charts.stderr.at/
-      version: ~1.0.0
-    description: A helper Chart that creates a job to verify if the deployments of
-      an operator are running. To do so it creates a service account with a role to
-      read the status of the Deployments.
-    digest: 2dfb5ae6d548210bb57550f63452b30b68274ecf1d64b474c08ee2030240cd4c
-    home: https://github.com/tjungbauer/helm-charts/tree/main/charts/helper-status-checker
-    icon: https://github.com/tjungbauer/helm-charts/raw/gh-pages/images/helping.png
-    keywords:
-    - helper
-    - subchart
-    maintainers:
-    - email: tjungbau@redhat.com
-      name: tjungbauer
-      url: https://blog.stderr.at/
-    name: helper-status-checker
-    sources:
-    - https://github.com/tjungbauer/helm-charts
-    - https://charts.stderr.at/
-    - https://github.com/tjungbauer/openshift-clusterconfig-gitops
-    urls:
-    - https://helm1.labjp.xyz:8443/helm-charts/helper-status-checker-4.0.13.tgz
-    version: 4.0.13
-  tpl:
-  - annotations:
-      artifacthub.io/changes: |
-        - kind: added
-          description: Initial release
-        - kind: added
-          description: tpl nodeSelector
-        - kind: added
-          description: tpl for sleeptimer that can be used in jobs
-        - kind: added
-          description: tpl to set nodeSelector and tolartion annoations for a namespace
-        - kind: added
-          description: new TPLs to create matchExpressions and matchLabels blocks
-      artifacthub.io/license: Apache-2.0
-      artifacthub.io/signKey: |
-        fingerprint: B677CB52F8358FA091044E375D24D6846DBA8F8A
-        url: https://keys.openpgp.org/vks/v1/by-fingerprint/B677CB52F8358FA091044E375D24D6846DBA8F8A
-    apiVersion: v2
-    created: "2024-12-23T16:48:48.625571738-05:00"
-    description: A library that shall collect certain templates to reuse them among
-      different charts.
-    digest: 7ba1150352b10581ddc93dbb5f9610154fdfc7bba80571cdc1d5bd9ce33d213a
-    home: https://github.com/tjungbauer/helm-charts/tree/main/charts/tpl
-    icon: https://github.com/tjungbauer/helm-charts/raw/gh-pages/images/template.png
-    keywords:
-    - templates
-    - helper
-    - subchart
-    maintainers:
-    - email: tjungbau@redhat.com
-      name: tjungbauer
-      url: https://blog.stderr.at/
-    name: tpl
-    sources:
-    - https://github.com/tjungbauer/helm-charts
-    - https://charts.stderr.at/
-    - https://github.com/tjungbauer/openshift-clusterconfig-gitops
-    urls:
-    - https://helm1.labjp.xyz:8443/helm-charts/tpl-1.0.15.tgz
-    version: 1.0.15
-  webterminal:
-  - apiVersion: v2
-    appVersion: 1.0.0
-    created: "2024-12-23T16:48:48.626034799-05:00"
-    dependencies:
-    - name: tpl
-      repository: https://helm1.labjp.xyz:8443/helm-charts/
-      version: ~1.0.0
-    description: A Helm chart for Kubernetes
-    digest: 39fc2462c695ac06640e77eb7a20436617a7223dea48cb908901f96ab5037c03
-    name: webterminal
-    type: application
-    urls:
-    - https://helm1.labjp.xyz:8443/helm-charts/webterminal-0.1.0.tgz
-    version: 0.1.0
-generated: "2024-12-23T16:48:48.623285573-05:00"
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kubernetes Cluster Info</title>
+</head>
+<body>
+    <h1>Kubernetes Cluster Information</h1>
+
+    <h2>Cluster</h2>
+    <p>API Version: {{ data.cluster.api_version }}</p>
+    <p>Platform: {{ data.cluster.platform }}</p>
+
+    <h2>Nodes</h2>
+    <ul>
+        {% for node in data.nodes %}
+        <li>
+            <strong>{{ node.name }}</strong>: CPU {{ node.cpu_capacity }},
+            Memory {{ node.memory_capacity }}, Kubelet Version {{ node.kubelet_version }},
+            Roles: {{ node.roles }}
+        </li>
+        {% endfor %}
+    </ul>
+
+    <h2>Pods</h2>
+    <p>Total Pods: {{ data.pods.total_pods }}</p>
+    <ul>
+        {% for ns, count in data.pods.pods_by_namespace.items() %}
+        <li>Namespace {{ ns }}: {{ count }} Pods</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Persistent Volumes</h2>
+    <ul>
+        {% for pv in data.pvs %}
+        <li>
+            <strong>{{ pv.name }}</strong>: {{ pv.capacity }}, Access Modes: {{ pv.access_modes }},
+            Status: {{ pv.status }}
+        </li>
+        {% endfor %}
+    </ul>
+
+    <h2>Deployments</h2>
+    <p>Total Deployments: {{ data.deployments.total_deployments }}</p>
+</body>
+</html>

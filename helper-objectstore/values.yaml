@@ -1,0 +1,31 @@
+######################################
+# OpenShift Data Foundation Configuration
+# Creates BackingStore, BucketClaim, and BucketClass
+# Documentation: https://access.redhat.com/documentation/en-us/red_hat_openshift_data_foundation/4.10/html-single/managing_hybrid_and_multicloud_resources/index#creating-a-local-Persistent-Volume-backed-backingstore_rhodf
+######################################
+
+enabled: false          # Enable or disable the objectstore configuration
+syncwave: 1             # Syncwave for Argo CD
+
+# BackingStore Configuration
+backingstore_name: backingstore
+backingstore_size: 700Gi
+limits:
+  cpu: 500m             # CPU limit for Noobaa Pod
+  memory: 2Gi           # Memory limit for Noobaa Pod
+
+pvPool:
+  numOfVolumes: 1       # Number of volumes for the BackingStore
+  type: pv-pool         # BackingStore type (pv-pool is currently supported)
+
+# StorageClass Configuration
+baseStorageClass: gp3-csi
+storageclass_name: bucket-storage-class
+
+# Bucket Configuration
+bucket:
+  enabled: false
+  name: bucketname
+  namespace: target-namespace
+  syncwave: 2           # Syncwave for bucketclaim creation
+  storageclass: bucket-storage-class

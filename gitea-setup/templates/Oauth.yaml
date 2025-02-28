@@ -1,0 +1,10 @@
+{{- if .Values.oauth.enabled }}
+apiVersion: oauth.openshift.io/v1
+kind: OAuthClient
+metadata:
+  name: {{ .Values.oauth.clientId }}
+secret: {{ .Values.oauth.secretName }}
+redirectURIs:
+  - https://{{ .Values.route.host }}/user/oauth2/redirect
+grantMethod: prompt
+{{- end }}

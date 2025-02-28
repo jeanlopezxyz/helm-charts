@@ -1,9 +1,13 @@
+{{- with .Values }}
+{{ if eq ( .enabled | toString) "true" }}
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
-  name: {{ .Values.rbac.execAccessRoleName } | default exec-access}
+  name: {{ .rbac.execAccessRoleName  | default "exec-access" }}
   namespace: openshift-etcd
 rules:
 - apiGroups: [""]
   resources: ["pods/exec"]
   verbs: ["create"]
+{{- end }}
+{{- end }}

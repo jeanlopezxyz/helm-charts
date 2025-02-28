@@ -1,0 +1,483 @@
+{{- with .Values }}
+{{- if eq ( .quay_configuration.enabled | toString) "true" }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .quay_configuration.configmapName | default "quay-configuration-skeleton" | quote }}
+  namespace: {{ $.Values.quay.namespace.name }}
+  annotations:
+    argocd.argoproj.io/sync-wave: {{ .syncwave | default 3 | quote }}
+  labels:
+    {{- include "tpl.labels" $ | nindent 4 }}
+data:
+  {{- with .quay_configuration }}
+  quay.cleartext.properties: |
+    ALLOW_PULLS_WITHOUT_STRICT_LOGGING: {{ .allow_pulls_without_strict_logging | quote | default "false" | trimAll "\"" }}
+    AUTHENTICATION_TYPE: {{ .authentication_type | quote | default "Database" | trimAll "\"" }}
+    AVATAR_KIND: {{ .avatar_kind | quote | default "local" | trimAll "\"" }}
+    {{- if .branding }}
+    {{- if or (.branding.logo) (.branding.footer_img) (.branding.footer_url) }}
+    BRANDING:
+      {{- if .branding.logo }}
+      logo: {{ .branding.logo | quote | trimAll "\"" }}
+      {{- end }}
+      {{- if .branding.footer_img }}
+      footer_img: {{ .branding.footer_img | quote | trimAll "\"" }}
+      {{- end }}
+      {{- if .branding.footer_url }}
+      footer_url: {{ .branding.footer_url | quote | trimAll "\"" }}
+      {{- end }}
+    {{- end }}
+    {{- end }}
+    BROWSER_API_CALLS_XHR_ONLY: {{ .browser_api_calls_xhr_only | quote | default "false" | trimAll "\"" }}
+    CREATE_PRIVATE_REPO_ON_PUSH: {{ .create_private_repo_on_push | quote | default "true" | trimAll "\"" }}
+    DEFAULT_SYSTEM_REJECT_QUOTA_BYTES: {{ .default_system_reject_quota_bytes | quote | default "1.073741824e+11" | trimAll "\"" }}
+    QUOTA_BACKFILL: {{ .quota_backfill | quote | default "true" | trimAll "\"" }}
+    QUOTA_TOTAL_DELAY_SECONDS: {{ .quota_total_delay_seconds | quote | default "1800" | trimAll "\"" }}
+    PERMANENTLY_DELETE_TAGS: {{ .permanently_delete_tags | quote | default "false" | trimAll "\"" }}
+    RESET_CHILD_MANIFEST_EXPIRATION: {{ .reset_child_manifest_expiration | quote | default "false" | trimAll "\"" }}
+    DEFAULT_TAG_EXPIRATION: {{ .default_tag_expiration | quote | default "2w" | trimAll "\"" }}
+    DISTRIBUTED_STORAGE_CONFIG:
+        {{- if .storage }}
+        {{- if or (eq .storage.instance "LocalStorage") (eq .storage.instance "STSS3Storage") (eq .storage.instance "IBMCloudStorage") }}
+        default:
+        {{- else if or (eq .storage.instance "RHOCSStorage") }}
+        rhocsStorage:
+        {{- else if or (eq .storage.instance "RadosGWStorage") }}
+        radosGWStorage:
+        {{- else if or (eq .storage.instance "S3Storage") }}
+        s3Storage:
+        {{- else if or (eq .storage.instance "GoogleCloudStorage") }}
+        googleCloudStorage:
+        {{- else if or (eq .storage.instance "AzureStorage") }}
+        azureStorage:
+        {{- else if or (eq .storage.instance "SwiftStorage") }}
+        swiftStorage:
+        {{- else if or (eq .storage.instance "S3Storage") }}
+        RadosGWStorage:
+        {{- else }}
+        default:
+        {{- end }}
+        {{- end }}
+            {{- if .storage }}
+            - {{ .storage.instance | quote | default "RadosGWStorage" | trimAll "\"" }}
+            {{- else }}
+            - RadosGWStorage:
+            {{- end }}
+            {{- if .storage }}
+            {{- if .storage.instance }}
+            {{- /* RHOCSStorage */}}
+            {{- if or (eq .storage.instance "RHOCSStorage") (eq .storage.instance "RadosGWStorage") (eq .storage.instance "IBMCloudStorage") }}
+            - access_key: PATCH_BUCKET_USER
+              bucket_name: PATCH_BUCKET_NAME
+              hostname: PATCH_BUCKET_HOST
+              is_secure: {{ .bucket.is_secure | quote | default "true" | trimAll "\"" }}
+              port: {{ .bucket.port | quote | default "443" | trimAll "\"" }}
+              secret_key: PATCH_BUCKET_SECRET
+              storage_path: /datastorage/registry
+              maximum_chunk_size_mb: {{ .storage.maximum_chunk_size_mb | quote | default "100" | trimAll "\"" }}
+              server_side_assembly: {{ .storage.server_side_assembly | quote | default "true" | trimAll "\"" }}
+            {{- else if or (eq .storage.instance "S3Storage") }}
+            - s3_access_key: PATCH_BUCKET_USER
+              s3_bucket: {{ .bucket.name | quote | default "true" | trimAll "\"" }}
+              host: {{ .s3_hostname.hostname | quote | default "true" | trimAll "\"" }}
+              s3_secret_key: PATCH_BUCKET_SECRET
+              s3_region: {{ .bucket.region | quote | default "us-east-1" | trimAll "\"" }}
+              storage_path: /datastorage/registry
+            {{- else if or (eq .storage.instance "STSS3Storage") }}
+            - sts_user_access_key: PATCH_BUCKET_USER
+              s3_bucket: {{ .bucket.name | quote | default "true" | trimAll "\"" }}
+              sts_role_arn: {{ .bucket.sts_role_arn | quote | default "true" | trimAll "\"" }}
+              sts_user_secret_key: PATCH_BUCKET_SECRET
+              s3_region: {{ .bucket.region | quote | default "us-east-1" | trimAll "\"" }}
+              storage_path: /datastorage/registry
+            {{- else if or (eq .storage.instance "GoogleCloudStorage") }}
+            - access_key: PATCH_BUCKET_USER
+              bucket_name: {{ .bucket.name | quote | default "true" | trimAll "\"" }}
+              secret_key: PATCH_BUCKET_SECRET
+              boto_timeout: {{ .bucket.boto_timeout | quote | default "60" | trimAll "\"" }}
+              storage_path: /datastorage/registry
+            {{- else if or (eq .storage.instance "AzureStorage") }}
+            - azure_account_name: PATCH_BUCKET_USER
+              azure_container: {{ .bucket.name | quote | default "true" | trimAll "\"" }}
+              endpoint_url: {{ .s3_hostname.hostname | quote | default "true" | trimAll "\"" }}
+              azure_account_key: PATCH_BUCKET_SECRET
+              sas_token: {{ .bucket.sas_token | quote | default "some/path/" | trimAll "\"" }}
+              storage_path: /datastorage/registry
+            {{- else if or (eq .storage.instance "SwiftStorage") }}
+            - swift_user: PATCH_BUCKET_USER
+              swift_container: {{ .bucket.name | quote | default "true" | trimAll "\"" }}
+              auth_url: {{ .s3_hostname.hostname | quote | default "true" | trimAll "\"" }}
+              swift_password: PATCH_BUCKET_SECRET
+              auth_version: 1
+              ca_cert_path: {{ .bucket.swift_ca_path | quote | default "/conf/stack/swift.cert" | trimAll "\"" }}
+              storage_path: /datastorage/registry
+            {{- else if or (eq .storage.instance "LocalStorage") }}
+            - storage_path: /datastorage/registry
+            {{- else }}
+            - access_key: PATCH_BUCKET_USER
+              bucket_name: PATCH_BUCKET_NAME
+              hostname: PATCH_BUCKET_HOST
+              is_secure: {{ .bucket.is_secure | quote | default "true" | trimAll "\"" }}
+              port: {{ .bucket.port | quote | default "443" | trimAll "\"" }}
+              secret_key: PATCH_BUCKET_SECRET
+              storage_path: /datastorage/registry
+              maximum_chunk_size_mb: {{ .storage.maximum_chunk_size_mb | quote | default "100" | trimAll "\"" }}
+              server_side_assembly: {{ .storage.server_side_assembly | quote | default "true" | trimAll "\"" }}
+            {{- end }}
+            {{- end }}
+            {{- end }}
+    {{- if (eq .storage.instance "IBMCloudStorage") }}
+    DISTRIBUTED_STORAGE_DEFAULT_LOCATIONS:
+      - default
+    {{- else }}
+    DISTRIBUTED_STORAGE_DEFAULT_LOCATIONS: []
+    {{- end }}
+    {{- if (eq .storage.instance "GoogleCloudStorage") }}
+    DISTRIBUTED_STORAGE_PREFERENCE:
+      - googleCloudStorage
+    {{- else if (eq .storage.instance "AzureStorage") }}
+    DISTRIBUTED_STORAGE_PREFERENCE:
+      - azureStorage
+     {{- else if (eq .storage.instance "SwiftStorage") }}
+    DISTRIBUTED_STORAGE_PREFERENCE:
+      - swiftStorage
+    {{- else }}
+    DISTRIBUTED_STORAGE_PREFERENCE:
+      - default
+    {{- end }}
+    ENTERPRISE_LOGO_URL: /static/img/RH_Logo_Quay_Black_UX-horizontal.svg
+    EXTERNAL_TLS_TERMINATION: {{ .external_tls_termination | quote | default "false" | trimAll "\"" }}
+    FEATURE_ACTION_LOG_ROTATION: {{ .feature.action_log_rotation | quote | default "false" | trimAll "\"" }}
+    FEATURE_AGGREGATED_LOG_COUNT_RETRIEVAL: {{ .feature.aggregated_log_count_retrieval | quote | default "true" | trimAll "\"" }}
+    FEATURE_ANONYMOUS_ACCESS: {{ .feature.anonymous_access | quote | default "true" | trimAll "\"" }}
+    FEATURE_APP_SPECIFIC_TOKENS: {{ .feature.app_specific_tokens | quote | default "true" | trimAll "\"" }}
+    FEATURE_BITBUCKET_BUILD: {{ .feature.bitbucket_build | quote | default "false" | trimAll "\"" }}
+    FEATURE_BLACKLISTED_EMAILS: {{ .feature.blacklisted_emails | quote | default "false" | trimAll "\"" }}
+    FEATURE_BUILD_SUPPORT: {{ .feature.build_support | quote | default "false" | trimAll "\"" }}
+    FEATURE_CHANGE_TAG_EXPIRATION: {{ .feature.change_tag_expiration | quote | default "true" | trimAll "\"" }}
+    FEATURE_DIRECT_LOGIN: {{ .feature.direct_login | quote | default "true" | trimAll "\"" }}
+    FEATURE_EXTENDED_REPOSITORY_NAMES: {{ .feature.extended_repository_names | quote | default "true" | trimAll "\"" }}
+    FEATURE_FIPS: {{ .feature.fips | quote | default "false" | trimAll "\"" }}
+    FEATURE_GARBAGE_COLLECTION: {{ .feature.garbage_collection | quote | default "true" | trimAll "\"" }}
+    FEATURE_GENERAL_OCI_SUPPORT: {{ .feature.general_oci_support | quote | default "true" | trimAll "\"" }}
+    FEATURE_GITHUB_BUILD: {{ .feature.github_build | quote | default "false" | trimAll "\"" }}
+    FEATURE_GITHUB_LOGIN: {{ .feature.github_login | quote | default "false" | trimAll "\"" }}
+    FEATURE_GITLAB_BUILD: {{ .feature.gitlab_build | quote | default "false" | trimAll "\"" }}
+    FEATURE_GOOGLE_LOGIN: {{ .feature.google_login | quote | default "false" | trimAll "\"" }}
+    FEATURE_HELM_OCI_SUPPORT: {{ .feature.helm_oci_support | quote | default "false" | trimAll "\"" }}
+    FEATURE_INVITE_ONLY_USER_CREATION: {{ .feature.invite_only_user_creation | quote | default "false" | trimAll "\"" }}
+    FEATURE_LIBRARY_SUPPORT: {{ .feature.library_support | quote | default "true" | trimAll "\"" }}
+    FEATURE_LOG_EXPORT: {{ .feature.log_export | quote | default "true" | trimAll "\"" }}
+    FEATURE_MAILING: {{ .feature.mailing | quote | default "false" | trimAll "\"" }}
+    FEATURE_NONSUPERUSER_TEAM_SYNCING_SETUP: {{ .feature.nonsuperuser_team_syncing_setup | quote | default "false" | trimAll "\"" }}
+    FEATURE_PARTIAL_USER_AUTOCOMPLETE: {{ .feature.partial_user_autocomplete | quote | default "true" | trimAll "\"" }}
+    FEATURE_PROXY_STORAGE: {{ .feature.proxy_storage | quote | default "false" | trimAll "\"" }}
+    FEATURE_PROXY_CACHE: {{ .feature.proxy_cache | quote | default "false" | trimAll "\"" }}
+    FEATURE_PUBLIC_CATALOG: {{ .feature.public_catalog | quote | default "false" | trimAll "\"" }}
+    FEATURE_QUOTA_MANAGEMENT: {{ .feature.quota_management | quote | default "false" | trimAll "\"" }}
+    FEATURE_RATE_LIMITS: {{ .feature.rate_limits | quote | default "false" | trimAll "\"" }}
+    FEATURE_READER_BUILD_LOGS: {{ .feature.reader_build_logs | quote | default "false" | trimAll "\"" }}
+    FEATURE_RECAPTCHA: {{ .feature.recaptcha | quote | default "false" | trimAll "\"" }}
+    FEATURE_REPO_MIRROR: {{ .feature.repo_mirror | quote | default "true" | trimAll "\"" }}
+    FEATURE_RESTRICTED_USERS: {{ .feature.restricted_users | quote | default "false" | trimAll "\"" }}
+    FEATURE_RESTRICTED_V1_PUSH: {{ .feature.restricted_v1_push | quote | default "true" | trimAll "\"" }}
+    FEATURE_SECURITY_NOTIFICATIONS: {{ .feature.security_notifications | quote | default "false" | trimAll "\"" }}
+    FEATURE_SIGNING: {{ .feature.signing | quote | default "false" | trimAll "\"" }}
+    FEATURE_STORAGE_REPLICATION: {{ .feature.storage_replication | quote | default "false" | trimAll "\"" }}
+    FEATURE_SUPER_USERS: {{ .feature.super_users | quote | default "true" | trimAll "\"" }}
+    FEATURE_SUPERUSERS_FULL_ACCESS: {{ .feature.superusers_full_access | quote | default "false" | trimAll "\"" }}
+    FEATURE_SUPERUSERS_ORG_CREATION_ONLY: {{ .feature.superusers_org_creation_only | quote | default "false" | trimAll "\"" }}
+    FEATURE_TEAM_SYNCING: {{ .feature.team_syncing | quote | default "true" | trimAll "\"" }}
+    FEATURE_UI_V2: {{ .feature.ui_v2 | quote | default "true" | trimAll "\"" }}
+    FEATURE_UI_V2_REPO_SETTINGS: {{ .feature.ui_v2_repo_settings | quote | default "false" | trimAll "\"" }}
+    FEATURE_USER_CREATION: {{ .feature.user_creation | quote | default "true" | trimAll "\"" }}
+    FEATURE_USER_INITIALIZE: {{ .feature.user_initialize | quote | default "false" | trimAll "\"" }}
+    FEATURE_USER_LAST_ACCESSED: {{ .feature.user_last_accessed | quote | default "true" | trimAll "\"" }}
+    FEATURE_USER_LOG_ACCESS: {{ .feature.user_log_access | quote | default "false" | trimAll "\"" }}
+    FEATURE_USER_METADATA: {{ .feature.user_metadata | quote | default "false" | trimAll "\"" }}
+    FEATURE_USER_RENAME: {{ .feature.user_rename | quote | default "false" | trimAll "\"" }}
+    FEATURE_USERNAME_CONFIRMATION: {{ .feature.username_confirmation | quote | default "false" | trimAll "\"" }}
+    FRESH_LOGIN_TIMEOUT: {{ .fresh_login_timeout | quote | default "5m" | trimAll "\"" }}
+    {{- /* GITHUB OAUTH CONFIGURATION */}}
+    {{- if .github_login_config }}
+    {{- if eq (.github_login_config.enabled | toString) "true" }}
+    GITHUB_LOGIN_CONFIG:
+      {{- with .github_login_config }}
+      {{- if .allowed_organizations }}
+      ALLOWED_ORGANIZATIONS:
+        {{- range .allowed_organizations }}
+        - {{ . }}
+        {{- end }}
+      {{- end }}
+      {{- if .api_enpoint }}
+      API_ENDPOINT: {{ .api_enpoint | quote | default "" | trimAll "\"" }}
+      {{- end }}
+      CLIENT_ID: PATCH_GITHUB_CLIENT_ID
+      CLIENT_SECRET: PATCH_GITHUB_CLIENT_SECRET
+      {{- if .github_endpoint }}
+      GITHUB_ENDPOINT: {{ .github_endpoint | quote | default "" | trimAll "\"" }}
+      {{- end }}
+      {{- if .org_restrict }}
+      ORG_RESTRICT: {{ .org_restrict | quote | default "false" | trimAll "\"" }}
+      {{- end }}
+      {{- end }}
+    {{- end }}
+    {{- else }}
+    GITHUB_LOGIN_CONFIG: {}
+    {{- end }}
+    {{- /* END GITHUB OAUTH CONFIGURATION */}}
+    GITHUB_TRIGGER_CONFIG: {}
+    GITLAB_TRIGGER_CONFIG: {}
+    GITLAB_TRIGGER_KIND: {}
+    GLOBAL_PROMETHEUS_STATS_FREQUENCY: 60
+    {{- /* END GOOGLE OAUTH CONFIGURATION */}}
+    {{- if .google }}
+    {{- if eq (.google.enabled | toString) "true" }}    
+    GOOGLE_LOGIN_CONFIG:
+      CLIENT_ID: PATCH_GOOGLE_CLIENT_ID
+      CLIENT_SECRET: PATCH_GOOGLE_CLIENT_SECRET
+    {{- end }}
+    {{- else }}
+    GOOGLE_LOGIN_CONFIG: {}
+    {{- end }}
+    {{- /* END GOOGLE OAUTH CONFIGURATION */}}
+    {{- /* LDAP CONFIGURATION */}}
+    {{- if eq ( .authentication_type | toString) "LDAP" }}
+    LDAP_ADMIN_DN: PATCH_LDAP_ADMIN_DN
+    LDAP_ADMIN_PASSWD: PATCH_LDAP_ADMIN_PASSWD
+    {{- end }}
+    LDAP_ALLOW_INSECURE_FALLBACK: {{ .ldap_allow_insecure_fallback | quote | default "false" | trimAll "\"" }}
+    {{- if .ldap_base_dn }}
+    LDAP_BASE_DN:
+      {{- range .ldap_base_dn }}
+      - {{ . }}
+      {{- end }}
+    {{- end }}
+    LDAP_EMAIL_ATTR: {{ .ldap_email_attr | quote | default "mail" | trimAll "\"" }}
+    LDAP_UID_ATTR: {{ .ldap_uid_attr | quote | default "uid" | trimAll "\"" }}
+    {{- if .ldap_uri }}
+    LDAP_URI: {{ .ldap_uri | quote | default "ldap://localhost" | trimAll "\"" }}
+    {{- end }}
+    {{- if .ldap_base_dn }}
+    LDAP_USER_FILTER: {{ .ldap_base_dn | quote | default "" | trimAll "\"" }}
+    {{- end }}
+    {{- if .ldap_user_rdn }}
+    LDAP_USER_RDN:
+      {{- range .ldap_user_rdn }}
+      - {{ . }}
+      {{- end }}
+    {{- if .team_resync_stale_time }}
+    TEAM_RESYNC_STALE_TIME: {{ .team_resync_stale_time | quote | default "30m" | trimAll "\"" }}
+    {{- end }}
+    {{- if .ldap_superuser_filter }}
+    LDAP_SUPERUSER_FILTER: {{ .ldap_superuser_filter | quote | trimAll "\"" }}
+    {{- end }}
+    {{- if .ldap_restricted_user_filter }}
+    LDAP_RESTRICTED_USER_FILTER: {{ .ldap_restricted_user_filter | quote | trimAll "\"" }}
+    {{- end }}
+    {{- if .ldap_timeout }}
+    LDAP_TIMEOUT: {{ .ldap_timeout | quote | default "10" | trimAll "\"" }}
+    {{- end }}
+    {{- if .ldap_network_timeout }}
+    LDAP_NETWORK_TIMEOUT: {{ .ldap_network_timeout | quote | default "10" | trimAll "\"" }}
+    {{- end }}
+    {{- /* END LDAP CONFIGURATION */}}
+    {{- /* OIDC CONFIGURATION */}}
+    {{- end }}
+    {{- if .oidc_login_config }}
+    {{- if eq (.oidc_login_config.enabled | toString) "true" }}
+    {{- if eq ( .authentication_type | toString) "OIDC" }}
+    {{- with .oidc_login_config }}
+    {{ .oidc_name | upper }}_LOGIN_CONFIG:
+      CLIENT_ID: PATCH_OIDC_CLIENT_ID
+      CLIENT_SECRET: PATCH_OIDC_CLIENT_SECRET
+      OIDC_SERVER: {{ .oidc_server | quote | default "" | trimAll "\"" }}
+      SERVICE_NAME: {{ .oidc_service_name | quote | default "" | trimAll "\"" }}
+      DEBUGLOG: {{ .oidc_debuglog | quote | default "false" | trimAll "\"" }}
+      {{- if .oidc_login_binding_fields }}
+      LOGIN_BINDING_FIELDS: {{ .oidc_login_binding_fields | quote | trimAll "\"" }}
+      {{- end }}
+      {{- if .oidc_login_scopes }}
+      LOGIN_SCOPES: {{ .oidc_login_scopes | quote | trimAll "\"" }}
+      {{- end }}
+      {{- if .oidc_endpoint_custom_params }}
+      OIDC_ENDPOINT_CUSTOM_PARAMS: {{ .oidc_endpoint_custom_params | quote | trimAll "\"" }}
+      {{- end }}
+      {{- if .oidc_issuer }}
+      OIDC_ISSUER: {{ .oidc_issuer | quote | trimAll "\"" }}
+      {{- end }}
+      {{- if .oidc_preferred_username_claim_name }}
+      PREFERRED_USERNAME_CLAIM_NAME: {{ .oidc_preferred_username_claim_name | quote | trimAll "\"" }}
+      {{- end }}
+      {{- if .oidc_service_icon }}
+      SERVICE_ICON: {{ .oidc_service_icon | quote | trimAll "\"" }}
+      {{- end }}
+      {{- if .oidc_verified_email_claim_name }}
+      VERIFIED_EMAIL_CLAIM_NAME: {{ .oidc_verified_email_claim_name | quote | trimAll "\"" }}
+      {{- end }}
+      {{- if .oidc_preferred_group_claim_name }}
+      PREFERRED_GROUP_CLAIM_NAME: {{ .oidc_preferred_group_claim_name | quote | trimAll "\"" }}
+      {{- end }}
+      OIDC_DISABLE_USER_ENDPOINT: {{ .oidc_disable_user_endpoint | quote | default "false" | trimAll "\"" }}
+    {{- end }}
+    {{- end }}
+    {{- end }}
+    {{- end }}
+    {{- /* END OIDC CONFIGURATION */}}
+    {{- /* BUILD LOG CONFIGURATION */}}
+    {{- if eq ( .feature.reader_build_logs| toString) "true" }}
+    LOG_ARCHIVE_LOCATION: {{ .log_archive_location | quote | default "default" | trimAll "\"" }}
+    LOG_ARCHIVE_PATH: {{ .log_archive_path | quote | default "" | trimAll "\"" }}
+    {{- end }}
+    {{- /* END BUILD LOG CONFIGURATION */}}
+    {{- /* ACTION LOG CONFIGURATION */}}
+    {{- if eq ( .feature.log_export| toString) "true" }}
+    LOGS_MODEL: {{ .logs_model | quote | default "database" | trimAll "\"" }}
+    {{- end }}
+    {{- if eq ( .feature.log_export| toString) "true" }}
+    {{- if eq ( .logs_model | toString) "elasticsearch" }}
+    {{- if eq ( .logs_model_config.elasticsearch_config.enabled| toString) "true" }}
+    LOGS_MODEL_CONFIG:
+      producer: elasticsearch
+      elasticsearch_config:
+        access_key: PATCH_ACCESS_KEY
+        secret_key: PATH_SECRET_KEY
+        host: {{ .logs_model_config.elasticsearch_config.host | quote | trimAll "\"" }}
+        port: {{ .logs_model_config.elasticsearch_config.port | quote | trimAll "\"" }}
+        use_ssl: {{ .logs_model_config.elasticsearch_config.use_ssl | quote | default "true" | trimAll "\"" }}
+        aws_region: {{ .logs_model_config.elasticsearch_config.aws_region | quote | trimAll "\"" }}
+        index_prefix: {{ .logs_model_config.elasticsearch_config.index_prefix | quote | trimAll "\"" }}
+        index_settings: {{ .logs_model_config.elasticsearch_config.index_settings | quote | trimAll "\"" }}
+    {{- end }}
+    {{- end }}
+    {{- if eq ( .logs_model | toString) "elasticsearch" }}
+    {{- if eq ( .logs_model_config.kinesis_steam_config.enabled| toString) "true" }}
+    LOGS_MODEL_CONFIG:
+      producer: kinesis_stream
+      kinesis_stream_config:
+        access_key: PATCH_ACCESS_KEY
+        secret_key: PATH_SECRET_KEY
+        stream_name: {{ .logs_model_config.kinesis_stream_config.stream_name | quote | trimAll "\"" }}
+        retries: {{ .logs_model_config.kinesis_stream_config.retries | quote | trimAll "\"" }}
+        read_timeout: {{ .logs_model_config.kinesis_stream_config.read_timeout | quote | default "true" | trimAll "\"" }}
+        max_pool_connections: {{ .logs_model_config.kinesis_stream_config.max_pool_connections | quote | trimAll "\"" }}
+        aws_region: {{ .logs_model_config.kinesis_stream_config.aws_region | quote | trimAll "\"" }}
+        connect_timeout: {{ .logs_model_config.kinesis_stream_config.connect_timeout | quote | trimAll "\"" }}
+    {{- end }}
+    {{- end }}
+    {{- if eq ( .logs_model | toString) "kafka" }}
+    {{- if eq ( .logs_model_config.kafka_config.enabled| toString) "true" }}
+    LOGS_MODEL_CONFIG:
+      producer: kafka
+      kafka_config:
+        topic: {{ .logs_model_config.kafka_config.topic | quote | trimAll "\"" }}
+        bootstrap_servers: {{ .logs_model_config.kafka_config.bootstrap_servers | quote | trimAll "\"" }}
+        max_block_seconds: {{ .logs_model_config.kafka_config.max_block_seconds | quote | trimAll "\"" }}
+    {{- end }}
+    {{- end }}
+    {{- if eq ( .logs_model | toString) "splunk" }}
+    {{- if eq ( .logs_model_config.splunk_config.enabled| toString) "true" }}
+    LOGS_MODEL_CONFIG:
+      producer: splunk
+      splunk_config:
+        host: {{ .logs_model_config.splunk_config.host | quote | trimAll "\"" }}
+        port: {{ .logs_model_config.splunk_config.port | quote | trimAll "\"" }}
+        bearer_token: PATH_SPLUNK_TOKEN
+        verify_ssl: {{ .logs_model_config.splunk_config.verify_ssl | quote | default "true" | trimAll "\"" }}
+        index_prefix: {{ .logs_model_config.splunk_config.index_prefix | quote | trimAll "\"" }}
+        ssl_ca_path: {{ .logs_model_config.splunk_config.ssl_ca_path | quote | trimAll "\"" }}
+    {{- end }}
+    {{- end }}
+    {{- else }}
+    LOGS_MODEL_CONFIG: {}
+    {{- end }}
+    {{- if eq ( .feature.action_log_rotation| toString) "true" }}
+    ACTION_LOG_ARCHIVE_LOCATION: {{ .action_log_archive_location | quote | default "" | trimAll "\"" }}
+    ACTION_LOG_ARCHIVE_PATH: {{ .action_log_archive_path | quote | default "" | trimAll "\"" }}
+    ACTION_LOG_ROTATION_THRESHOLD: {{ .action_log_rotation_threshold | quote | default "30d" | trimAll "\"" }}
+    {{- end }}
+    ACTION_LOG_AUDIT_LOGINS: {{ .action_log_audit_logins | quote | default "true" | trimAll "\"" }}
+    {{- /* END ACTION LOG CONFIGURATION */}}
+    {{- /* MAIL CONFIGURATION */}}
+    {{- if eq (.mailing_config.enabled | toString) "true" }}
+    {{- if eq ( .feature.mailing| toString) "true" }}
+    {{- with .mailing_config }}
+    MAIL_PASSWORD: PATCH_MAIL_PASSWORD
+    MAIL_USERNAME: PATCH_MAIL_USER
+    MAIL_SERVER: {{ .mail_server | quote | trimAll "\"" }}
+    MAIL_DEFAULT_SENDER: {{ .mail_default_sender | quote | default "support@quay.io" | trimAll "\"" }}
+    MAIL_PORT: {{ .mail_port | quote | default "587" | trimAll "\"" }}
+    MAIL_USE_TLS: {{ .mail_use_tls | quote | default "true" | trimAll "\"" }}
+    {{- end }}
+    {{- end }}
+    {{- end }}
+    {{- /* END MAIL CONFIGURATION */}}
+    MAXIMUM_LAYER_SIZE: {{ .maximum_layer_size | quote | default "20G" | trimAll "\"" }}
+    PREFERRED_URL_SCHEME: {{ .preferred_url_scheme | quote | default "http" | trimAll "\"" }}
+    REGISTRY_STATE: {{ .registry_state | quote | default "normal" | trimAll "\"" }}
+    REGISTRY_TITLE: {{ .registry_title | quote | default "Red Hat Quay" | trimAll "\"" }}
+    REGISTRY_TITLE_SHORT: {{ .registry_title_short | quote | default "Red Hat Quay" | trimAll "\"" }}
+    REPO_MIRROR_INTERVAL: {{ .repo_mirror_interval | quote | default "30" | trimAll "\"" }}
+    REPO_MIRROR_ROLLBACK: {{ .repo_mirror_rollback | quote | default "false" | trimAll "\"" }}
+    REPO_MIRROR_TLS_VERIFY: {{ .repo_mirror_tls_verify | quote | default "false" | trimAll "\"" }}
+    {{- if .repo_mirror_server_hostname }}
+    REPO_MIRROR_SERVER_HOSTNAME: {{ .repo_mirror_server_hostname | quote | default "" | trimAll "\"" }}
+    {{- end }}
+    {{- if .restricted_users_whitelist }}
+    RESTRICTED_USERS_WHITELIST:
+      {{- range .restricted_users_whitelist }}
+      - {{ . }}
+      {{- end }}
+    {{- end }}
+    {{- if .global_readonly_super_users }}
+    GLOBAL_READONLY_SUPER_USERS:
+      {{- range .global_readonly_super_users }}
+      - {{ . }}
+      {{- end }}
+    {{- end }}
+    SEARCH_MAX_RESULT_PAGE_COUNT: {{ .search_max_result_page_count | quote | default "10" | trimAll "\"" }}
+    SEARCH_RESULTS_PER_PAGE: {{ .search_results_per_page | quote | default "10" | trimAll "\"" }}
+    SECRET_KEY: SuperSecretHERE # notsecret,  just test data
+    SESSION_COOKIE_SECURE: {{ .session_cookie_secure | quote | default "false" | trimAll "\"" }}
+    SETUP_COMPLETE: true
+    {{- if .ssl_protocols }}
+    SSL_PROTOCOLS:
+    {{- range .ssl_protocols }}
+      - {{ . }}
+    {{- end }}
+    {{- else }}
+      - TLSv1.3
+    {{- end }}
+    SUCCESSIVE_TRIGGER_FAILURE_DISABLE_THRESHOLD: {{ .successive_trigger_failure_disable_threshold | quote | default "100" | trimAll "\"" }}
+    SUCCESSIVE_TRIGGER_INTERNAL_ERROR_DISABLE_THRESHOLD: {{ .successive_trigger_internal_error_disable_threshold | quote | default "5" | trimAll "\"" }}
+    {{- if .tag_expiration_options }}
+    TAG_EXPIRATION_OPTIONS:
+    {{- range .tag_expiration_options }}
+     - {{ . }}
+    {{- end }}
+    {{- else }}
+    TAG_EXPIRATION_OPTIONS:
+      - 0s
+      - 1d
+      - 1w
+      - 2w
+      - 4w
+    {{- end }}
+    SUPER_USERS:
+      - {{ $.Values.quay.init_user.username | default "admin" }}
+      {{- if .super_user_list }}
+      {{- range .super_user_list }}
+      - {{ . }}
+      {{- end }}
+      {{- end }}
+    TESTING: false
+    USER_RECOVERY_TOKEN_LIFETIME: {{ .user_recovery_token_lifetime | quote | default "30m" | trimAll "\"" }}
+    USERFILES_LOCATION: {{ .userfiles_location | quote | default "default" | trimAll "\"" }}
+    USERFILES_PATH: {{ .userfiles_path | quote | default "userfiles" | trimAll "\"" }}
+    V2_PAGINATION_SIZE: {{ .v2_pagination_size | quote | default "50" | trimAll "\"" }}
+    ROBOTS_DISALLOW: {{ .robots_disallow | quote | default "false" | trimAll "\"" }}
+    {{- end }}
+{{- end }}
+{{- end }}

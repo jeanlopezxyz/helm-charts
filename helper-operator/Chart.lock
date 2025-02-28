@@ -3,4 +3,4 @@ dependencies:
   repository: https://helm1.labjp.xyz:8443/helm-charts/
   version: 1.0.15
 digest: sha256:4695d3767eab843473e989e4c46da6d8d0b42d11deb906f2321ad4aa94c29f93
-generated: "2024-12-23T17:40:40.269521396-05:00"
+generated: "2025-01-24T16:20:45.074795849-05:00"

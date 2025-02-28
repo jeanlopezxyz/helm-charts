@@ -1,0 +1,11 @@
+apiVersion: v2
+name: quay-registry-setup
+description: Deploy and configure Red Hat Quay Registry.
+version: 2.0.10
+dependencies:
+  - name: tpl
+    version: ~1.0.0
+    repository: https://charts.stderr.at/
+keywords:
+  - management tool
+  - registry

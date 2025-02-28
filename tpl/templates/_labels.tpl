@@ -38,7 +38,7 @@ helm.sh/chart: {{ include "tpl.chart" . }}
 {{ include "tpl.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-{{- end }}
+{{- end }} 
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end }}
 
