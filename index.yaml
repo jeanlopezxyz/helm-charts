@@ -2,14 +2,14 @@ apiVersion: v1
 entries:
   helper-operator:
   - apiVersion: v2
-    created: "2025-09-25T19:50:59.783081296Z"
+    created: "2025-09-25T19:53:54.772929167Z"
     dependencies:
     - name: tpl
       repository: https://charts.stderr.at/
       version: ~1.0.0
     description: Helper chart to reduce code repetition by being used as a dependency
       for installing Operators.
-    digest: e8ae454a89232ccc4e1e7e2df28ed16bb2698905168051113857fdf8c38d0376
+    digest: ea363b76b34db620968b31a2bb3b08c2e219f1b5bafc842837c349d6b80b573a
     keywords:
     - helper
     - subchart
@@ -24,14 +24,14 @@ entries:
   - annotations:
       artifacthub.io/license: Apache-2.0
     apiVersion: v2
-    created: "2025-09-25T19:50:59.783734426Z"
+    created: "2025-09-25T19:53:54.773756409Z"
     dependencies:
     - name: tpl
       repository: https://charts.stderr.at/
       version: ~1.0.0
     description: A helper Chart that creates a job to verify if the deployments of
       an operator are running.
-    digest: 77da259a7dde41ee8ad7a7702f9fb7bb769a2c42a3c83e2f1a1a05bdf8d7a24c
+    digest: d24e194a2f24bfcc9b5be58098f4f781ad9654dd96dc13dfac755c6f50f34f9e
     home: https://github.com/jeanlopezxyz/helm-charts
     keywords:
     - helper
@@ -63,7 +63,7 @@ entries:
       support: Red Hat
     apiVersion: v2
     appVersion: 1.0.0
-    created: "2025-09-25T19:50:59.794729347Z"
+    created: "2025-09-25T19:53:54.785478274Z"
     dependencies:
     - condition: helpers.operator.enabled
       name: helper-operator
@@ -83,7 +83,7 @@ entries:
       version: 18.4.0
     description: Setup OpenShift AI Assistant with RAG architecture and corporate
       repository integration
-    digest: 88d28fea646f608599644e16190ad7e2bbc1527f6290fd0e3b885d8960d10206
+    digest: c57318c4c22c5ef2c1bd7e3b60b28164c0d72ed7bba62a6a80fbb8e5ad696e82
     home: https://github.com/jeanlopezxyz/demojam-2026
     keywords:
     - setup
@@ -117,7 +117,52 @@ entries:
       support: Red Hat
     apiVersion: v2
     appVersion: 1.0.0
-    created: "2025-09-25T19:50:59.79667368Z"
+    created: "2025-09-25T19:53:54.789436411Z"
+    dependencies:
+    - condition: helpers.operator.enabled
+      name: helper-operator
+      repository: https://jeanlopezxyz.github.io/helm-charts
+      version: ~1.0.0
+    - condition: helpers.statusChecker.enabled
+      name: helper-status-checker
+      repository: https://jeanlopezxyz.github.io/helm-charts
+      version: ~4.0.0
+    description: Setup Console operator for enhanced OpenShift UI capabilities
+    digest: 6b97188b28f7832baedcf3a6185b426d74f343ff30300a87fa7ad0558e2d5fe6
+    home: https://docs.openshift.com/container-platform/latest/web_console/web-console.html
+    keywords:
+    - setup
+    - rh
+    - red-hat
+    - console
+    - ui
+    - web-console
+    - openshift
+    - demojam
+    - helper-enhanced
+    maintainers:
+    - email: jealopez@redhat.com
+      name: Jean Paul Lopez
+    name: setup-rh-console
+    sources:
+    - https://github.com/jeanlopezxyz/helm-charts
+    - https://github.com/openshift/console
+    - https://docs.openshift.com/container-platform/latest/web_console/web-console.html
+    type: application
+    urls:
+    - https://jeanlopezxyz.github.io/helm-charts/setup-rh-console-1.0.1.tgz
+    version: 1.0.1
+  - annotations:
+      category: User Interface
+      certified: "true"
+      helm.sh/integration: openshift-console
+      helm.sh/uses-helpers: helper-operator,helper-status-checker
+      helm.sh/vendor: red-hat
+      licenses: Apache-2.0
+      support: Red Hat
+    apiVersion: v2
+    appVersion: 1.0.0
+    created: "2025-09-25T19:53:54.787535859Z"
     dependencies:
     - condition: helpers.operator.enabled
       name: helper-operator
@@ -163,7 +208,7 @@ entries:
       support: Red Hat
     apiVersion: v2
     appVersion: 1.0.0
-    created: "2025-09-25T19:50:59.798907744Z"
+    created: "2025-09-25T19:53:54.791241786Z"
     dependencies:
     - condition: helpers.operator.enabled
       name: helper-operator
@@ -174,7 +219,7 @@ entries:
       repository: https://jeanlopezxyz.github.io/helm-charts
       version: ~4.0.0
     description: Setup Red Hat Pipelines (Tekton) for CI/CD automation
-    digest: deb2c78aa0d7b367985a6c3a9010b24d226522ba5b6c587e05a581b944f28711
+    digest: 594f00dc167c7b292ecb0ae5491b3db9bf1006f8bd5dd028bccaf82c6ec01764
     home: https://tekton.dev/
     keywords:
     - setup
@@ -198,4 +243,4 @@ entries:
     urls:
     - https://jeanlopezxyz.github.io/helm-charts/setup-rh-pipelines-1.0.0.tgz
     version: 1.0.0
-generated: "2025-09-25T19:50:59.782033659Z"
+generated: "2025-09-25T19:53:54.771902513Z"
