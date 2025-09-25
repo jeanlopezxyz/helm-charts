@@ -46,8 +46,6 @@ install: |
 maintainers:
   - name: Jean Paul Lopez
     email: jealopez@redhat.com
-  - name: Abel Luque
-    email: aluque@redhat.com
 annotations:
   artifacthub.io/changes: |
     - kind: added

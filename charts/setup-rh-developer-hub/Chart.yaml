@@ -12,8 +12,6 @@ sources:
 maintainers:
 - name: Jean Paul Lopez
   email: jealopez@redhat.com
-- name: Abel Luque
-  email: aluque@redhat.com
 
 dependencies:
 # Reutilizar helper para status checking

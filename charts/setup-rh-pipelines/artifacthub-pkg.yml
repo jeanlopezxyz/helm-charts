@@ -57,8 +57,6 @@ install: |
 maintainers:
   - name: Jean Paul Lopez
     email: jealopez@redhat.com
-  - name: Abel Luque  
-    email: aluque@redhat.com
 recommendations:
   - url: https://artifacthub.io/packages/helm/demojam/helper-operator
   - url: https://artifacthub.io/packages/helm/demojam/helper-status-checker
