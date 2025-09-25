@@ -8,6 +8,7 @@
 Enterprise Helm charts repository for **Red Hat DemoJam 2026** project, featuring operational helpers and AI-powered applications.
 
 **🌐 Repository URL**: `https://jeanlopezxyz.github.io/helm-charts`
+**🏛️ Artifact Hub**: [demojam charts](https://artifacthub.io/packages/search?repo=demojam)
 
 ## Quick Start
 
@@ -20,7 +21,18 @@ helm repo update
 
 # List available charts
 helm search repo demojam
+
+# Browse charts online
+open https://jeanlopezxyz.github.io/helm-charts
 ```
+
+## Direct Downloads
+
+Individual chart packages are available for download:
+
+- **setup-rh-pipelines**: [setup-rh-pipelines-1.0.0.tgz](https://jeanlopezxyz.github.io/helm-charts/setup-rh-pipelines-1.0.0.tgz)
+- **setup-rh-console**: [setup-rh-console-1.0.0.tgz](https://jeanlopezxyz.github.io/helm-charts/setup-rh-console-1.0.0.tgz)
+- **setup-app-openshift-ai-asistant**: [setup-app-openshift-ai-asistant-2.0.0.tgz](https://jeanlopezxyz.github.io/helm-charts/setup-app-openshift-ai-asistant-2.0.0.tgz)
 
 ## Available Charts
 

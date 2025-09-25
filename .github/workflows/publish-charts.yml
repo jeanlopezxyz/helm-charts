@@ -56,7 +56,17 @@ jobs:
         run: |
           cd gh-pages
           cp ../packages/*.tgz . 2>/dev/null || true
+          
+          # Copy Artifact Hub metadata
+          cp ../artifacthub-repo.yml . 2>/dev/null || true
+          
+          # Generate Helm repository index
           helm repo index . --url https://jeanlopezxyz.github.io/helm-charts
+          
+          # Verify Artifact Hub compatibility
+          if command -v ah &> /dev/null; then
+            ah lint --kind helm || echo "Artifact Hub linting completed"
+          fi
 
       - name: Copy website assets
         run: |
@@ -113,6 +123,11 @@ jobs:
 
           # Install a chart
           helm install my-release demojam/CHART-NAME</code></pre>
+                      </div>
+                      
+                      <div class="artifact-hub-info">
+                          <h3><i class="fas fa-external-link-alt"></i> Also available on Artifact Hub</h3>
+                          <p>Browse and discover our charts on <a href="https://artifacthub.io/packages/search?repo=demojam" target="_blank">Artifact Hub</a></p>
                       </div>
                   </section>
               </main>

@@ -91,14 +91,24 @@ const chartConfig = {
 // Create chart card HTML
 function createChartCard(name, data) {
     const installName = name.replace(/^(setup-|helper-)/, '');
+    const repoUrl = `https://github.com/jeanlopezxyz/helm-charts/tree/main/charts/${name}`;
+    const downloadUrl = `https://jeanlopezxyz.github.io/helm-charts/${name}-${data.version}.tgz`;
     
     return `
         <div class="chart-card category-${data.category}" data-name="${name}" data-tags="${data.tags.join(' ')}">
             <div class="chart-header">
                 <i class="${data.icon} chart-icon"></i>
-                <div>
+                <div class="chart-info">
                     <div class="chart-title">${name}</div>
                     <span class="chart-version">v${data.version}</span>
+                </div>
+                <div class="chart-actions">
+                    <a href="${repoUrl}" target="_blank" class="action-btn repo-btn" title="View Source">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="${downloadUrl}" class="action-btn download-btn" title="Download Chart">
+                        <i class="fas fa-download"></i>
+                    </a>
                 </div>
             </div>
             <div class="chart-description">${data.description}</div>
@@ -106,10 +116,18 @@ function createChartCard(name, data) {
                 ${data.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
             </div>
             <div class="chart-install">
-                <button class="copy-btn" onclick="copyToClipboard(this)">
-                    <i class="fas fa-copy"></i>
-                </button>
-                helm install ${installName} demojam/${name}
+                <div class="install-command">
+                    <code>helm install ${installName} demojam/${name}</code>
+                    <button class="copy-btn" onclick="copyInstallCommand(this, '${installName}', '${name}')">
+                        <i class="fas fa-copy"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="chart-links">
+                <a href="https://artifacthub.io/packages/helm/demojam/${name}" target="_blank" class="artifact-hub-link">
+                    <i class="fas fa-external-link-alt"></i>
+                    View on Artifact Hub
+                </a>
             </div>
         </div>
     `;
@@ -210,27 +228,37 @@ function renderChartsFromConfig() {
     container.innerHTML = html;
 }
 
-// Copy to clipboard functionality
-function copyToClipboard(button) {
-    const commandText = button.parentElement.textContent.replace(/Copy/g, '').trim();
+// Copy install command to clipboard
+function copyInstallCommand(button, installName, chartName) {
+    const commandText = `helm install ${installName} demojam/${chartName}`;
     
     navigator.clipboard.writeText(commandText).then(() => {
         const originalHTML = button.innerHTML;
-        button.innerHTML = '<i class="fas fa-check"></i> Copied!';
-        button.style.background = 'rgba(16, 185, 129, 0.2)';
-        button.style.borderColor = '#10b981';
+        button.innerHTML = '<i class="fas fa-check"></i>';
+        button.classList.add('copied');
         
         setTimeout(() => {
             button.innerHTML = originalHTML;
-            button.style.background = '';
-            button.style.borderColor = '';
+            button.classList.remove('copied');
         }, 2000);
     }).catch(() => {
         // Fallback for older browsers
-        button.innerHTML = '<i class="fas fa-exclamation"></i> Error';
+        button.innerHTML = '<i class="fas fa-exclamation"></i>';
         setTimeout(() => {
             button.innerHTML = '<i class="fas fa-copy"></i>';
         }, 2000);
+    });
+}
+
+// Copy to clipboard functionality (general)
+function copyToClipboard(text) {
+    navigator.clipboard.writeText(text).then(() => {
+        const btn = event.target.closest('button');
+        if (btn) {
+            const original = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-check"></i>';
+            setTimeout(() => btn.innerHTML = original, 2000);
+        }
     });
 }
 
