@@ -214,9 +214,8 @@ jobs:
                   }
                   .search-box:focus { outline: none; border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3); }
                   .search-box::placeholder { color: #94a3b8; }
-                  .charts-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-top: 2rem; max-width: 1200px; margin-left: auto; margin-right: auto; }
-                  @media (max-width: 1024px) { .charts-grid { grid-template-columns: repeat(2, 1fr); } }
-                  @media (max-width: 640px) { .charts-grid { grid-template-columns: 1fr; gap: 1.5rem; } }
+                  .charts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 1.5rem; margin-top: 2rem; max-width: 1400px; margin-left: auto; margin-right: auto; }
+                  @media (max-width: 768px) { .charts-grid { grid-template-columns: 1fr; gap: 1rem; } }
                   .chart-card {
                       background: rgba(30, 41, 59, 0.9); border: 1px solid #475569; border-radius: 16px;
                       padding: 1.5rem; transition: all 0.3s ease; backdrop-filter: blur(20px);
@@ -300,11 +299,8 @@ jobs:
                       </div>
                       <div class="charts-grid" id="charts-container">'''
           
-          # Filter to show only main operator charts (enterprise focus)
-          featured_charts = [chart for chart in charts if chart['name'].startswith('setup-rh-operator-')][:3]
-          
-          # Generate cards for featured charts only
-          for chart in featured_charts:
+          # Generate cards for all charts
+          for chart in charts:
               install_name = chart['name'].replace('setup-rh-operator-', '').replace('setup-', '').replace('helper-', '')
               tags_html = ''.join([f'<span class="tag">{tag}</span>' for tag in chart['tags']])
               
