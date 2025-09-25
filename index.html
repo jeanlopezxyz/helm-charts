@@ -88,19 +88,29 @@
             padding: 0.2rem 0.6rem; border-radius: 6px; font-size: 0.7rem; font-weight: 500;
             margin-right: 0.4rem; margin-bottom: 0.3rem; border: 1px solid rgba(59, 130, 246, 0.25);
         }
+        .command-container {
+            margin-top: auto; position: relative;
+        }
+        .command-header {
+            display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;
+        }
+        .command-label {
+            color: #94a3b8; font-size: 0.75rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em;
+        }
+        .copy-btn {
+            background: rgba(59, 130, 246, 0.2); border: 1px solid #3b82f6;
+            color: #3b82f6; padding: 0.4rem; border-radius: 6px; cursor: pointer; font-size: 0.7rem;
+            transition: all 0.2s ease; display: flex; align-items: center; justify-content: center;
+            width: 28px; height: 28px;
+        }
+        .copy-btn:hover {
+            background: rgba(59, 130, 246, 0.3); transform: scale(1.05);
+        }
         .install-command {
             background: rgba(15, 23, 42, 0.9); border: 1px solid #475569; border-radius: 10px;
             padding: 1rem 1.25rem; font-family: "SF Mono", "Monaco", "Cascadia Code", monospace;
             font-size: 0.85rem; color: #10b981; font-weight: 400; letter-spacing: 0.025em;
-            margin-top: auto; position: relative; display: flex; align-items: center; justify-content: center;
-        }
-        .copy-btn {
-            position: absolute; right: 0.75rem; background: rgba(59, 130, 246, 0.2); border: 1px solid #3b82f6;
-            color: #3b82f6; padding: 0.3rem; border-radius: 4px; cursor: pointer; font-size: 0.7rem;
-            transition: all 0.2s ease; display: flex; align-items: center; justify-content: center;
-        }
-        .copy-btn:hover {
-            background: rgba(59, 130, 246, 0.3); transform: scale(1.05);
+            text-align: center; word-break: break-all;
         }
         .footer-content {
             display: grid; grid-template-columns: repeat(3, 1fr); gap: 3rem; padding: 2rem 0;
@@ -172,14 +182,14 @@
                             </div>
                             <div class="chart-info">
                                 <h3>helper-operator</h3>
-                                <div class="chart-version">v1.0.29</div>
+                                <div class="chart-version">v1.0.30</div>
                             </div>
                         </div>
                         <div class="chart-actions-top">
                             <a href="https://github.com/jeanlopezxyz/helm-charts/tree/main/charts/helper-operator" target="_blank" class="icon-btn icon-btn-secondary" title="View Source">
                                 <i class="fab fa-github"></i>
                             </a>
-                            <a href="https://jeanlopezxyz.github.io/helm-charts/helper-operator-1.0.29.tgz" class="icon-btn icon-btn-success" title="Download Chart">
+                            <a href="https://jeanlopezxyz.github.io/helm-charts/helper-operator-1.0.30.tgz" class="icon-btn icon-btn-success" title="Download Chart">
                                 <i class="fas fa-download"></i>
                             </a>
                             <a href="https://artifacthub.io/packages/helm/jeanlopezxyz/helper-operator" target="_blank" class="icon-btn icon-btn-purple" title="Artifact Hub">
@@ -189,11 +199,14 @@
                     </div>
                     <div class="chart-description">Helper chart to reduce code repetition by being used as a dependency for installing Operators.</div>
                     <div class="chart-tags"><span class="tag">helper</span><span class="tag">subchart</span><span class="tag">operator</span></div>
-                    <div class="install-command">
-                        <span>helm install operator jeanlopezxyz/helper-operator</span>
-                        <button class="copy-btn" onclick="copyToClipboard('helm install operator jeanlopezxyz/helper-operator')" title="Copy command">
-                            <i class="fas fa-copy"></i>
-                        </button>
+                    <div class="command-container">
+                        <div class="command-header">
+                            <span class="command-label">Install Command</span>
+                            <button class="copy-btn" onclick="copyToClipboard('helm install operator jeanlopezxyz/helper-operator')" title="Copy command">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                        <div class="install-command">helm install operator jeanlopezxyz/helper-operator</div>
                     </div>
                 </div>
                 <div class="chart-card">
@@ -221,11 +234,14 @@
                     </div>
                     <div class="chart-description">A helper Chart that creates a job to verify if the deployments of an operator are running.</div>
                     <div class="chart-tags"><span class="tag">helper</span><span class="tag">subchart</span><span class="tag">status-checker</span></div>
-                    <div class="install-command">
-                        <span>helm install status-checker jeanlopezxyz/helper-status-checker</span>
-                        <button class="copy-btn" onclick="copyToClipboard('helm install status-checker jeanlopezxyz/helper-status-checker')" title="Copy command">
-                            <i class="fas fa-copy"></i>
-                        </button>
+                    <div class="command-container">
+                        <div class="command-header">
+                            <span class="command-label">Install Command</span>
+                            <button class="copy-btn" onclick="copyToClipboard('helm install status-checker jeanlopezxyz/helper-status-checker')" title="Copy command">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                        <div class="install-command">helm install status-checker jeanlopezxyz/helper-status-checker</div>
                     </div>
                 </div>
                 <div class="chart-card">
@@ -253,11 +269,14 @@
                     </div>
                     <div class="chart-description">Setup OpenShift AI Assistant with RAG architecture and corporate repository integration</div>
                     <div class="chart-tags"><span class="tag">setup</span><span class="tag">openshift</span><span class="tag">ai</span></div>
-                    <div class="install-command">
-                        <span>helm install app-openshift-ai-asistant jeanlopezxyz/setup-app-openshift-ai-asistant</span>
-                        <button class="copy-btn" onclick="copyToClipboard('helm install app-openshift-ai-asistant jeanlopezxyz/setup-app-openshift-ai-asistant')" title="Copy command">
-                            <i class="fas fa-copy"></i>
-                        </button>
+                    <div class="command-container">
+                        <div class="command-header">
+                            <span class="command-label">Install Command</span>
+                            <button class="copy-btn" onclick="copyToClipboard('helm install app-openshift-ai-asistant jeanlopezxyz/setup-app-openshift-ai-asistant')" title="Copy command">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                        <div class="install-command">helm install app-openshift-ai-asistant jeanlopezxyz/setup-app-openshift-ai-asistant</div>
                     </div>
                 </div>
                 <div class="chart-card">
@@ -285,11 +304,14 @@
                     </div>
                     <div class="chart-description">Setup Bookstack Documentation Platform for DemoJam with backup integration</div>
                     <div class="chart-tags"><span class="tag">setup</span><span class="tag">platform</span><span class="tag">documentation</span></div>
-                    <div class="install-command">
-                        <span>helm install platform-bookstack jeanlopezxyz/setup-platform-bookstack</span>
-                        <button class="copy-btn" onclick="copyToClipboard('helm install platform-bookstack jeanlopezxyz/setup-platform-bookstack')" title="Copy command">
-                            <i class="fas fa-copy"></i>
-                        </button>
+                    <div class="command-container">
+                        <div class="command-header">
+                            <span class="command-label">Install Command</span>
+                            <button class="copy-btn" onclick="copyToClipboard('helm install platform-bookstack jeanlopezxyz/setup-platform-bookstack')" title="Copy command">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                        <div class="install-command">helm install platform-bookstack jeanlopezxyz/setup-platform-bookstack</div>
                     </div>
                 </div>
                 <div class="chart-card">
@@ -317,11 +339,14 @@
                     </div>
                     <div class="chart-description">Setup Gitea Git Server for DemoJam platform with CI/CD and Keycloak integration</div>
                     <div class="chart-tags"><span class="tag">setup</span><span class="tag">platform</span><span class="tag">git</span></div>
-                    <div class="install-command">
-                        <span>helm install platform-gitea jeanlopezxyz/setup-platform-gitea</span>
-                        <button class="copy-btn" onclick="copyToClipboard('helm install platform-gitea jeanlopezxyz/setup-platform-gitea')" title="Copy command">
-                            <i class="fas fa-copy"></i>
-                        </button>
+                    <div class="command-container">
+                        <div class="command-header">
+                            <span class="command-label">Install Command</span>
+                            <button class="copy-btn" onclick="copyToClipboard('helm install platform-gitea jeanlopezxyz/setup-platform-gitea')" title="Copy command">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                        <div class="install-command">helm install platform-gitea jeanlopezxyz/setup-platform-gitea</div>
                     </div>
                 </div>
                 <div class="chart-card">
@@ -349,11 +374,14 @@
                     </div>
                     <div class="chart-description">Setup Console operator for enhanced OpenShift UI capabilities</div>
                     <div class="chart-tags"><span class="tag">setup</span><span class="tag">rh</span><span class="tag">red-hat</span></div>
-                    <div class="install-command">
-                        <span>helm install console jeanlopezxyz/setup-rh-operator-console</span>
-                        <button class="copy-btn" onclick="copyToClipboard('helm install console jeanlopezxyz/setup-rh-operator-console')" title="Copy command">
-                            <i class="fas fa-copy"></i>
-                        </button>
+                    <div class="command-container">
+                        <div class="command-header">
+                            <span class="command-label">Install Command</span>
+                            <button class="copy-btn" onclick="copyToClipboard('helm install console jeanlopezxyz/setup-rh-operator-console')" title="Copy command">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                        <div class="install-command">helm install console jeanlopezxyz/setup-rh-operator-console</div>
                     </div>
                 </div>
                 <div class="chart-card">
@@ -381,11 +409,14 @@
                     </div>
                     <div class="chart-description">Setup Red Hat Developer Hub operator installation</div>
                     <div class="chart-tags"><span class="tag">setup</span><span class="tag">rh</span><span class="tag">rhdh</span></div>
-                    <div class="install-command">
-                        <span>helm install developer-hub jeanlopezxyz/setup-rh-operator-developer-hub</span>
-                        <button class="copy-btn" onclick="copyToClipboard('helm install developer-hub jeanlopezxyz/setup-rh-operator-developer-hub')" title="Copy command">
-                            <i class="fas fa-copy"></i>
-                        </button>
+                    <div class="command-container">
+                        <div class="command-header">
+                            <span class="command-label">Install Command</span>
+                            <button class="copy-btn" onclick="copyToClipboard('helm install developer-hub jeanlopezxyz/setup-rh-operator-developer-hub')" title="Copy command">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                        <div class="install-command">helm install developer-hub jeanlopezxyz/setup-rh-operator-developer-hub</div>
                     </div>
                 </div>
                 <div class="chart-card">
@@ -413,11 +444,14 @@
                     </div>
                     <div class="chart-description">Setup Red Hat Build of Keycloak operator installation</div>
                     <div class="chart-tags"><span class="tag">setup</span><span class="tag">rh</span><span class="tag">keycloak</span></div>
-                    <div class="install-command">
-                        <span>helm install keycloak jeanlopezxyz/setup-rh-operator-keycloak</span>
-                        <button class="copy-btn" onclick="copyToClipboard('helm install keycloak jeanlopezxyz/setup-rh-operator-keycloak')" title="Copy command">
-                            <i class="fas fa-copy"></i>
-                        </button>
+                    <div class="command-container">
+                        <div class="command-header">
+                            <span class="command-label">Install Command</span>
+                            <button class="copy-btn" onclick="copyToClipboard('helm install keycloak jeanlopezxyz/setup-rh-operator-keycloak')" title="Copy command">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                        <div class="install-command">helm install keycloak jeanlopezxyz/setup-rh-operator-keycloak</div>
                     </div>
                 </div>
                 <div class="chart-card">
@@ -445,11 +479,14 @@
                     </div>
                     <div class="chart-description">Setup Red Hat Pipelines (Tekton) for CI/CD automation</div>
                     <div class="chart-tags"><span class="tag">setup</span><span class="tag">rh</span><span class="tag">red-hat</span></div>
-                    <div class="install-command">
-                        <span>helm install pipelines jeanlopezxyz/setup-rh-operator-pipelines</span>
-                        <button class="copy-btn" onclick="copyToClipboard('helm install pipelines jeanlopezxyz/setup-rh-operator-pipelines')" title="Copy command">
-                            <i class="fas fa-copy"></i>
-                        </button>
+                    <div class="command-container">
+                        <div class="command-header">
+                            <span class="command-label">Install Command</span>
+                            <button class="copy-btn" onclick="copyToClipboard('helm install pipelines jeanlopezxyz/setup-rh-operator-pipelines')" title="Copy command">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                        <div class="install-command">helm install pipelines jeanlopezxyz/setup-rh-operator-pipelines</div>
                     </div>
                 </div>
             </div>
