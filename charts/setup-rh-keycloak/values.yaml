@@ -1,0 +1,16 @@
+helpers:
+  operator:
+    enabled: true
+    operators:
+      rhbk-operator:
+        enabled: true
+        syncwave: 0
+        namespace:
+          name: openshift-operators-redhat
+        subscription:
+          channel: stable
+          operatorName: rhbk-operator
+          source: redhat-operators
+
+operator:
+  defaultNamespace: "keycloak"
