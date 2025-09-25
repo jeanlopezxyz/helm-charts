@@ -49,14 +49,14 @@ Artifact Hub will automatically sync changes from the published repository.
 ## Chart Features on Artifact Hub
 
 Each chart will display:
-- ✅ Installation instructions
-- ✅ Configuration documentation  
-- ✅ Links to source repository
-- ✅ Maintainer information
-- ✅ Keywords and categories
-- ✅ Version history
-- ✅ Dependencies
-- ✅ Security scanning results
+- Installation instructions
+- Configuration documentation  
+- Links to source repository
+- Maintainer information
+- Keywords and categories
+- Version history
+- Dependencies
+- Security scanning results
 
 ## Links
 

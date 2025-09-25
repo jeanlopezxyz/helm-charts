@@ -5,10 +5,10 @@
 
 ## Overview
 
-Enterprise Helm charts repository for **Red Hat DemoJam 2026** project, featuring operational helpers and AI-powered applications.
+Enterprise Helm charts repository featuring operational helpers and AI-powered applications for Red Hat environments.
 
-**🌐 Repository URL**: `https://jeanlopezxyz.github.io/helm-charts`
-**🏛️ Artifact Hub**: [jeanlopezxyz charts](https://artifacthub.io/packages/search?repo=jeanlopezxyz)
+**Repository URL**: `https://jeanlopezxyz.github.io/helm-charts`
+**Artifact Hub**: [jeanlopezxyz charts](https://artifacthub.io/packages/search?repo=jeanlopezxyz)
 
 ## Quick Start
 
@@ -36,7 +36,8 @@ Individual chart packages are available for download:
 
 ## Available Charts
 
-### 🔧 **Helper Charts (Existing)**
+### Helper Charts
+
 | Chart | Version | Description |
 |-------|---------|-------------|
 | [helper-operator](charts/helper-operator/) | 1.0.28 | Meta-chart for installing operators |
@@ -46,7 +47,8 @@ Individual chart packages are available for download:
 | [etcd-defrag](charts/etcd-defrag/) | 0.1.0 | etcd maintenance automation |
 | [gitea-setup](charts/gitea-setup/) | 1.0.0 | Git server deployment |
 
-### ⚙️ **Setup Charts (Enhanced)**
+### Setup Charts
+
 | Chart | Version | Description |
 |-------|---------|-------------|
 | [setup-app-openshift-ai-asistant](charts/setup-app-openshift-ai-asistant/) | 2.0.0 | OpenShift AI Assistant with RAG integration |
@@ -60,6 +62,7 @@ Individual chart packages are available for download:
 ## Usage Examples
 
 ### Installing Helper Charts
+
 ```bash
 # Install operator helper (installs multiple operators)
 helm install platform-operators jeanlopezxyz/helper-operator \
@@ -73,6 +76,7 @@ helm install health-monitor jeanlopezxyz/helper-status-checker \
 ```
 
 ### Installing Setup Charts
+
 ```bash
 # Install OpenShift AI Assistant (uses helpers)
 helm install ai-assistant jeanlopezxyz/setup-app-openshift-ai-asistant
@@ -98,6 +102,7 @@ helm install git-server jeanlopezxyz/setup-platform-gitea
 ## Architecture
 
 ### Helper-First Architecture
+
 ```mermaid
 graph TD
     A[helper-operator] --> B[Red Hat Operators]
@@ -116,33 +121,38 @@ graph TD
 ```
 
 ### Deployment Flow
-1. **Helpers** → Install operational utilities
-2. **Operators** → Install via helper-operator
-3. **Applications** → Deploy using helpers for automation
-4. **Platform** → Meta-chart orchestrating everything
+
+1. **Helpers** - Install operational utilities
+2. **Operators** - Install via helper-operator
+3. **Applications** - Deploy using helpers for automation
+4. **Platform** - Meta-chart orchestrating everything
 
 ## Enterprise Features
 
-### 🔒 **Security**
+### Security
+
 - Non-root containers
 - Read-only filesystems
 - RBAC and ServiceAccounts
 - Network policies
 - Security context constraints
 
-### 📊 **Monitoring** 
+### Monitoring
+
 - Prometheus metrics
 - Health checking via helper-status-checker
 - Grafana dashboards
 - Alert management
 
-### 💾 **Backup**
+### Backup
+
 - Automated backup via helper-objectstore
 - etcd cluster backup
 - Database backup automation
 - Configuration backup
 
-### 🔄 **Automation**
+### Automation
+
 - Operator installation via helper-operator
 - Health validation via helper-status-checker
 - GitOps integration
@@ -151,6 +161,7 @@ graph TD
 ## Development
 
 ### Local Testing
+
 ```bash
 # Clone repository
 git clone https://github.com/jeanlopezxyz/helm-charts.git
@@ -166,6 +177,7 @@ helm install test-ai-assistant charts/ai-assistant/ --dry-run
 ```
 
 ### Contributing
+
 1. Fork the repository
 2. Create feature branch
 3. Make changes
@@ -174,9 +186,9 @@ helm install test-ai-assistant charts/ai-assistant/ --dry-run
 
 ## Support
 
-- **📚 Documentation**: Each chart includes comprehensive README
-- **🐛 Issues**: [GitHub Issues](https://github.com/jeanlopezxyz/helm-charts/issues)
-- **📧 Contact**: Jean Lopez (jealopez@redhat.com)
+- **Documentation**: Each chart includes comprehensive README
+- **Issues**: [GitHub Issues](https://github.com/jeanlopezxyz/helm-charts/issues)
+- **Contact**: Jean Lopez (jealopez@redhat.com)
 
 ## License
 
