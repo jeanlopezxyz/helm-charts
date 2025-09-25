@@ -25,7 +25,70 @@
         <section class="charts-section">
             <h2>Available Charts</h2>
             <div id="charts-container" class="charts-grid">
-                <div class="loading">Loading charts...</div>
+                <!-- Static chart cards -->
+                <div class="chart-card" style="background: white; border: 2px solid #e5e7eb; padding: 20px; margin: 15px 0; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                    <h3 style="margin: 0 0 10px 0; color: #1f2937; font-size: 1.3rem;">helper-operator</h3>
+                    <p style="color: #6b7280; margin: 0 0 15px 0; line-height: 1.5;">Meta-chart for installing operators with standardized configuration</p>
+                    <div style="margin-bottom: 15px;">
+                        <span style="background: #dc2626; color: white; padding: 4px 8px; border-radius: 4px; font-size: 0.85rem; font-weight: 600;">v1.0.28</span>
+                        <span style="background: #f3f4f6; color: #374151; padding: 4px 8px; border-radius: 4px; font-size: 0.85rem; margin-left: 8px;">helper</span>
+                    </div>
+                    <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+                        <a href="https://github.com/jeanlopezxyz/helm-charts/tree/main/charts/helper-operator" target="_blank" style="padding: 8px 12px; background: #f9fafb; border: 1px solid #d1d5db; border-radius: 6px; text-decoration: none; color: #374151; font-size: 0.9rem;">GitHub</a>
+                        <a href="https://jeanlopezxyz.github.io/helm-charts/helper-operator-1.0.28.tgz" style="padding: 8px 12px; background: #059669; color: white; border-radius: 6px; text-decoration: none; font-size: 0.9rem;">Download</a>
+                    </div>
+                    <div style="background: #f9fafb; padding: 12px; border-radius: 6px; font-family: monospace; font-size: 0.9rem; color: #374151;">
+                        helm install operator jeanlopezxyz/helper-operator
+                    </div>
+                </div>
+
+                <div class="chart-card" style="background: white; border: 2px solid #e5e7eb; padding: 20px; margin: 15px 0; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                    <h3 style="margin: 0 0 10px 0; color: #1f2937; font-size: 1.3rem;">setup-rh-pipelines</h3>
+                    <p style="color: #6b7280; margin: 0 0 15px 0; line-height: 1.5;">Red Hat Pipelines (Tekton) for CI/CD automation</p>
+                    <div style="margin-bottom: 15px;">
+                        <span style="background: #dc2626; color: white; padding: 4px 8px; border-radius: 4px; font-size: 0.85rem; font-weight: 600;">v1.0.1</span>
+                        <span style="background: #f3f4f6; color: #374151; padding: 4px 8px; border-radius: 4px; font-size: 0.85rem; margin-left: 8px;">setup</span>
+                    </div>
+                    <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+                        <a href="https://github.com/jeanlopezxyz/helm-charts/tree/main/charts/setup-rh-pipelines" target="_blank" style="padding: 8px 12px; background: #f9fafb; border: 1px solid #d1d5db; border-radius: 6px; text-decoration: none; color: #374151; font-size: 0.9rem;">GitHub</a>
+                        <a href="https://jeanlopezxyz.github.io/helm-charts/setup-rh-pipelines-1.0.1.tgz" style="padding: 8px 12px; background: #059669; color: white; border-radius: 6px; text-decoration: none; font-size: 0.9rem;">Download</a>
+                    </div>
+                    <div style="background: #f9fafb; padding: 12px; border-radius: 6px; font-family: monospace; font-size: 0.9rem; color: #374151;">
+                        helm install pipelines jeanlopezxyz/setup-rh-pipelines
+                    </div>
+                </div>
+
+                <div class="chart-card" style="background: white; border: 2px solid #e5e7eb; padding: 20px; margin: 15px 0; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                    <h3 style="margin: 0 0 10px 0; color: #1f2937; font-size: 1.3rem;">setup-rh-console</h3>
+                    <p style="color: #6b7280; margin: 0 0 15px 0; line-height: 1.5;">Enhanced OpenShift Console operator with customizations</p>
+                    <div style="margin-bottom: 15px;">
+                        <span style="background: #dc2626; color: white; padding: 4px 8px; border-radius: 4px; font-size: 0.85rem; font-weight: 600;">v1.0.3</span>
+                        <span style="background: #f3f4f6; color: #374151; padding: 4px 8px; border-radius: 4px; font-size: 0.85rem; margin-left: 8px;">setup</span>
+                    </div>
+                    <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+                        <a href="https://github.com/jeanlopezxyz/helm-charts/tree/main/charts/setup-rh-console" target="_blank" style="padding: 8px 12px; background: #f9fafb; border: 1px solid #d1d5db; border-radius: 6px; text-decoration: none; color: #374151; font-size: 0.9rem;">GitHub</a>
+                        <a href="https://jeanlopezxyz.github.io/helm-charts/setup-rh-console-1.0.3.tgz" style="padding: 8px 12px; background: #059669; color: white; border-radius: 6px; text-decoration: none; font-size: 0.9rem;">Download</a>
+                    </div>
+                    <div style="background: #f9fafb; padding: 12px; border-radius: 6px; font-family: monospace; font-size: 0.9rem; color: #374151;">
+                        helm install console jeanlopezxyz/setup-rh-console
+                    </div>
+                </div>
+
+                <div class="chart-card" style="background: white; border: 2px solid #e5e7eb; padding: 20px; margin: 15px 0; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                    <h3 style="margin: 0 0 10px 0; color: #1f2937; font-size: 1.3rem;">setup-app-openshift-ai-asistant</h3>
+                    <p style="color: #6b7280; margin: 0 0 15px 0; line-height: 1.5;">AI-powered assistant with OpenShift AI and RAG architecture</p>
+                    <div style="margin-bottom: 15px;">
+                        <span style="background: #dc2626; color: white; padding: 4px 8px; border-radius: 4px; font-size: 0.85rem; font-weight: 600;">v2.0.0</span>
+                        <span style="background: #f3f4f6; color: #374151; padding: 4px 8px; border-radius: 4px; font-size: 0.85rem; margin-left: 8px;">setup</span>
+                    </div>
+                    <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+                        <a href="https://github.com/jeanlopezxyz/helm-charts/tree/main/charts/setup-app-openshift-ai-asistant" target="_blank" style="padding: 8px 12px; background: #f9fafb; border: 1px solid #d1d5db; border-radius: 6px; text-decoration: none; color: #374151; font-size: 0.9rem;">GitHub</a>
+                        <a href="https://jeanlopezxyz.github.io/helm-charts/setup-app-openshift-ai-asistant-2.0.0.tgz" style="padding: 8px 12px; background: #059669; color: white; border-radius: 6px; text-decoration: none; font-size: 0.9rem;">Download</a>
+                    </div>
+                    <div style="background: #f9fafb; padding: 12px; border-radius: 6px; font-family: monospace; font-size: 0.9rem; color: #374151;">
+                        helm install ai-asistant jeanlopezxyz/setup-app-openshift-ai-asistant
+                    </div>
+                </div>
             </div>
         </section>
         

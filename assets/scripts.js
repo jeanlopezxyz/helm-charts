@@ -280,15 +280,59 @@ function scrollToTop() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
+// Simple chart rendering - no async complexity
+function renderChartsSimple() {
+    const container = document.getElementById('charts-container');
+    
+    if (!container) {
+        console.error('Container not found!');
+        return;
+    }
+    
+    console.log('Rendering charts...');
+    
+    const charts = [
+        { name: 'helper-operator', version: '1.0.28', description: 'Meta-chart for installing operators', category: 'helper' },
+        { name: 'helper-status-checker', version: '4.0.13', description: 'Health validation for deployments', category: 'helper' },
+        { name: 'setup-rh-pipelines', version: '1.0.1', description: 'Red Hat Pipelines (Tekton) for CI/CD', category: 'setup' },
+        { name: 'setup-rh-console', version: '1.0.3', description: 'Enhanced OpenShift Console operator', category: 'setup' },
+        { name: 'setup-app-openshift-ai-asistant', version: '2.0.0', description: 'AI-powered assistant with OpenShift AI', category: 'setup' },
+        { name: 'setup-rh-developer-hub', version: '1.0.0', description: 'Red Hat Developer Hub (Backstage)', category: 'setup' },
+        { name: 'setup-rh-keycloak', version: '1.0.0', description: 'Red Hat Build of Keycloak', category: 'setup' },
+        { name: 'setup-platform-bookstack', version: '1.0.0', description: 'Bookstack documentation platform', category: 'setup' },
+        { name: 'setup-platform-gitea', version: '1.1.0', description: 'Gitea Git server with CI/CD', category: 'setup' }
+    ];
+    
+    let html = '';
+    charts.forEach(chart => {
+        const installName = chart.name.replace(/^(setup-|helper-)/, '');
+        html += `
+            <div class="chart-card" style="background: white; border: 2px solid #e5e7eb; padding: 20px; margin: 15px 0; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                <h3 style="margin: 0 0 10px 0; color: #1f2937; font-size: 1.3rem;">${chart.name}</h3>
+                <p style="color: #6b7280; margin: 0 0 15px 0; line-height: 1.5;">${chart.description}</p>
+                <div style="margin-bottom: 15px;">
+                    <span style="background: #dc2626; color: white; padding: 4px 8px; border-radius: 4px; font-size: 0.85rem; font-weight: 600;">v${chart.version}</span>
+                    <span style="background: #f3f4f6; color: #374151; padding: 4px 8px; border-radius: 4px; font-size: 0.85rem; margin-left: 8px;">${chart.category}</span>
+                </div>
+                <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+                    <a href="https://github.com/jeanlopezxyz/helm-charts/tree/main/charts/${chart.name}" target="_blank" style="padding: 8px 12px; background: #f9fafb; border: 1px solid #d1d5db; border-radius: 6px; text-decoration: none; color: #374151; font-size: 0.9rem;">GitHub</a>
+                    <a href="https://jeanlopezxyz.github.io/helm-charts/${chart.name}-${chart.version}.tgz" style="padding: 8px 12px; background: #059669; color: white; border-radius: 6px; text-decoration: none; font-size: 0.9rem;">Download</a>
+                </div>
+                <div style="background: #f9fafb; padding: 12px; border-radius: 6px; font-family: monospace; font-size: 0.9rem; color: #374151;">
+                    helm install ${installName} jeanlopezxyz/${chart.name}
+                </div>
+            </div>
+        `;
+    });
+    
+    container.innerHTML = html;
+    console.log('Charts rendered successfully');
+}
+
 // Initialize page
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('DOM loaded, initializing...');
-    
-    // Force render from config immediately 
-    renderChartsFromConfig();
-    
-    // Also try to load from index.yaml (non-blocking)
-    loadCharts();
+    console.log('DOM loaded, rendering charts...');
+    renderChartsSimple();
     
     // Scroll to top button
     const scrollButton = document.createElement('button');
