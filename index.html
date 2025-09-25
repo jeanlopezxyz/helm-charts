@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DemoJam Helm Charts</title>
+    <link href="assets/styles.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header class="hero">
+        <div class="container">
+            <h1><i class="fas fa-ship"></i> DemoJam Helm Charts</h1>
+            <p>Enterprise repository for Red Hat DemoJam 2026</p>
+            <div class="repo-url">
+                <code>helm repo add demojam https://jeanlopezxyz.github.io/helm-charts</code>
+                <button onclick="copyToClipboard(this.previousElementSibling.textContent)">
+                    <i class="fas fa-copy"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+    
+    <main class="container">
+        <section class="charts-section">
+            <h2>Available Charts</h2>
+            <div id="charts-container" class="charts-grid">
+                <!-- Charts will be loaded here by JavaScript -->
+            </div>
+        </section>
+        
+        <section class="instructions">
+            <h2>Quick Start</h2>
+            <div class="code-block">
+                <pre><code># Add the repository
+helm repo add demojam https://jeanlopezxyz.github.io/helm-charts
+
+# Update repositories
+helm repo update
+
+# List available charts
+helm search repo demojam
+
+# Install a chart
+helm install my-release demojam/CHART-NAME</code></pre>
+            </div>
+            
+            <div class="artifact-hub-info">
+                <h3><i class="fas fa-external-link-alt"></i> Also available on Artifact Hub</h3>
+                <p>Browse and discover our charts on <a href="https://artifacthub.io/packages/search?repo=demojam" target="_blank">Artifact Hub</a></p>
+            </div>
+        </section>
+    </main>
+    
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Red Hat DemoJam. Licensed under MIT.</p>
+        </div>
+    </footer>
+    
+    <script src="assets/scripts.js"></script>
+    <script>
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                const btn = event.target.closest('button');
+                const original = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-check"></i>';
+                setTimeout(() => btn.innerHTML = original, 2000);
+            });
+        }
+        
+        // Load charts when page loads
+        document.addEventListener('DOMContentLoaded', loadCharts);
+    </script>
+</body>
+</html>
