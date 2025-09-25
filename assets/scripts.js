@@ -33,8 +33,8 @@ const chartConfig = {
     'setup-rh-keycloak': {
         icon: 'fas fa-key',
         category: 'setup',
-        description: 'Red Hat Build of Keycloak with SSO and realm configuration',
-        tags: ['setup', 'red-hat', 'keycloak', 'sso'],
+        description: 'Red Hat Build of Keycloak operator installation',
+        tags: ['setup', 'red-hat', 'keycloak', 'operator'],
         version: '1.0.0'
     },
     'setup-rh-developer-hub': {
