@@ -67,23 +67,24 @@
         .icon-btn-success { background: rgba(16, 185, 129, 0.8); border: 1px solid #10b981; color: white; }
         .icon-btn-success:hover { background: rgba(5, 150, 105, 0.9); transform: scale(1.05); }
         .chart-icon {
-            width: 36px; height: 36px; margin-right: 0.75rem; border-radius: 8px; display: flex;
-            align-items: center; justify-content: center; font-size: 1rem; color: #3b82f6;
+            width: 44px; height: 54px; margin-right: 1rem; border-radius: 10px; display: flex;
+            align-items: center; justify-content: center; font-size: 1.2rem; color: #3b82f6;
             background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.2);
+            align-self: flex-start;
         }
-        .chart-info h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.25rem; color: #f8fafc; }
-        .chart-version { color: #94a3b8; font-size: 0.8rem; font-weight: 500; }
+        .chart-info h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.1rem; color: #f8fafc; line-height: 1.3; }
+        .chart-version { color: #94a3b8; font-size: 0.75rem; font-weight: 500; }
         .chart-description { color: #cbd5e1; font-size: 0.85rem; margin-bottom: 1rem; line-height: 1.5; }
         .chart-tags { margin-bottom: 1rem; }
         .tag {
-            display: inline-block; background: rgba(59, 130, 246, 0.2); color: #93c5fd;
-            padding: 0.4rem 0.8rem; border-radius: 8px; font-size: 0.8rem; font-weight: 500;
-            margin-right: 0.5rem; margin-bottom: 0.5rem; border: 1px solid rgba(59, 130, 246, 0.3);
+            display: inline-block; background: rgba(59, 130, 246, 0.15); color: #93c5fd;
+            padding: 0.2rem 0.6rem; border-radius: 6px; font-size: 0.7rem; font-weight: 500;
+            margin-right: 0.4rem; margin-bottom: 0.3rem; border: 1px solid rgba(59, 130, 246, 0.25);
         }
         .install-command {
-            background: rgba(15, 23, 42, 0.9); border: 1px solid #475569; border-radius: 12px;
-            padding: 1.25rem; font-family: "SF Mono", "Monaco", "Cascadia Code", monospace;
-            font-size: 0.95rem; color: #10b981; font-weight: 600;
+            background: rgba(15, 23, 42, 0.9); border: 1px solid #475569; border-radius: 10px;
+            padding: 1rem 1.25rem; font-family: "SF Mono", "Monaco", "Cascadia Code", monospace;
+            font-size: 0.85rem; color: #10b981; font-weight: 400; letter-spacing: 0.025em;
         }
     </style>
 </head>
@@ -240,22 +241,22 @@
                                 <i class="fas fa-dharmachakra"></i>
                             </div>
                             <div class="chart-info">
-                                <h3>setup-rh-console</h3>
+                                <h3>setup-rh-operator-console</h3>
                                 <div class="chart-version">v1.0.8</div>
                             </div>
                         </div>
                         <div class="chart-actions-top">
-                            <a href="https://github.com/jeanlopezxyz/helm-charts/tree/main/charts/setup-rh-console" target="_blank" class="icon-btn icon-btn-secondary" title="View Source">
+                            <a href="https://github.com/jeanlopezxyz/helm-charts/tree/main/charts/setup-rh-operator-console" target="_blank" class="icon-btn icon-btn-secondary" title="View Source">
                                 <i class="fab fa-github"></i>
                             </a>
-                            <a href="https://jeanlopezxyz.github.io/helm-charts/setup-rh-console-1.0.8.tgz" class="icon-btn icon-btn-success" title="Download Chart">
+                            <a href="https://jeanlopezxyz.github.io/helm-charts/setup-rh-operator-console-1.0.8.tgz" class="icon-btn icon-btn-success" title="Download Chart">
                                 <i class="fas fa-download"></i>
                             </a>
                         </div>
                     </div>
                     <div class="chart-description">Setup Console operator for enhanced OpenShift UI capabilities</div>
                     <div class="chart-tags"><span class="tag">setup</span><span class="tag">rh</span><span class="tag">red-hat</span></div>
-                    <div class="install-command">helm install rh-console jeanlopezxyz/setup-rh-console</div>
+                    <div class="install-command">helm install rh-operator-console jeanlopezxyz/setup-rh-operator-console</div>
                 </div>
                 <div class="chart-card">
                     <div class="chart-header">
@@ -264,22 +265,22 @@
                                 <i class="fas fa-dharmachakra"></i>
                             </div>
                             <div class="chart-info">
-                                <h3>setup-rh-developer-hub</h3>
+                                <h3>setup-rh-operator-developer-hub</h3>
                                 <div class="chart-version">v1.1.1</div>
                             </div>
                         </div>
                         <div class="chart-actions-top">
-                            <a href="https://github.com/jeanlopezxyz/helm-charts/tree/main/charts/setup-rh-developer-hub" target="_blank" class="icon-btn icon-btn-secondary" title="View Source">
+                            <a href="https://github.com/jeanlopezxyz/helm-charts/tree/main/charts/setup-rh-operator-developer-hub" target="_blank" class="icon-btn icon-btn-secondary" title="View Source">
                                 <i class="fab fa-github"></i>
                             </a>
-                            <a href="https://jeanlopezxyz.github.io/helm-charts/setup-rh-developer-hub-1.1.1.tgz" class="icon-btn icon-btn-success" title="Download Chart">
+                            <a href="https://jeanlopezxyz.github.io/helm-charts/setup-rh-operator-developer-hub-1.1.1.tgz" class="icon-btn icon-btn-success" title="Download Chart">
                                 <i class="fas fa-download"></i>
                             </a>
                         </div>
                     </div>
                     <div class="chart-description">Setup Red Hat Developer Hub operator installation</div>
                     <div class="chart-tags"><span class="tag">setup</span><span class="tag">rh</span><span class="tag">rhdh</span></div>
-                    <div class="install-command">helm install rh-developer-hub jeanlopezxyz/setup-rh-developer-hub</div>
+                    <div class="install-command">helm install rh-operator-developer-hub jeanlopezxyz/setup-rh-operator-developer-hub</div>
                 </div>
                 <div class="chart-card">
                     <div class="chart-header">
@@ -288,22 +289,22 @@
                                 <i class="fas fa-dharmachakra"></i>
                             </div>
                             <div class="chart-info">
-                                <h3>setup-rh-keycloak</h3>
+                                <h3>setup-rh-operator-keycloak</h3>
                                 <div class="chart-version">v1.0.3</div>
                             </div>
                         </div>
                         <div class="chart-actions-top">
-                            <a href="https://github.com/jeanlopezxyz/helm-charts/tree/main/charts/setup-rh-keycloak" target="_blank" class="icon-btn icon-btn-secondary" title="View Source">
+                            <a href="https://github.com/jeanlopezxyz/helm-charts/tree/main/charts/setup-rh-operator-keycloak" target="_blank" class="icon-btn icon-btn-secondary" title="View Source">
                                 <i class="fab fa-github"></i>
                             </a>
-                            <a href="https://jeanlopezxyz.github.io/helm-charts/setup-rh-keycloak-1.0.3.tgz" class="icon-btn icon-btn-success" title="Download Chart">
+                            <a href="https://jeanlopezxyz.github.io/helm-charts/setup-rh-operator-keycloak-1.0.3.tgz" class="icon-btn icon-btn-success" title="Download Chart">
                                 <i class="fas fa-download"></i>
                             </a>
                         </div>
                     </div>
                     <div class="chart-description">Setup Red Hat Build of Keycloak operator installation</div>
                     <div class="chart-tags"><span class="tag">setup</span><span class="tag">rh</span><span class="tag">keycloak</span></div>
-                    <div class="install-command">helm install rh-keycloak jeanlopezxyz/setup-rh-keycloak</div>
+                    <div class="install-command">helm install rh-operator-keycloak jeanlopezxyz/setup-rh-operator-keycloak</div>
                 </div>
                 <div class="chart-card">
                     <div class="chart-header">
@@ -312,22 +313,22 @@
                                 <i class="fas fa-dharmachakra"></i>
                             </div>
                             <div class="chart-info">
-                                <h3>setup-rh-pipelines</h3>
+                                <h3>setup-rh-operator-pipelines</h3>
                                 <div class="chart-version">v1.0.6</div>
                             </div>
                         </div>
                         <div class="chart-actions-top">
-                            <a href="https://github.com/jeanlopezxyz/helm-charts/tree/main/charts/setup-rh-pipelines" target="_blank" class="icon-btn icon-btn-secondary" title="View Source">
+                            <a href="https://github.com/jeanlopezxyz/helm-charts/tree/main/charts/setup-rh-operator-pipelines" target="_blank" class="icon-btn icon-btn-secondary" title="View Source">
                                 <i class="fab fa-github"></i>
                             </a>
-                            <a href="https://jeanlopezxyz.github.io/helm-charts/setup-rh-pipelines-1.0.6.tgz" class="icon-btn icon-btn-success" title="Download Chart">
+                            <a href="https://jeanlopezxyz.github.io/helm-charts/setup-rh-operator-pipelines-1.0.6.tgz" class="icon-btn icon-btn-success" title="Download Chart">
                                 <i class="fas fa-download"></i>
                             </a>
                         </div>
                     </div>
                     <div class="chart-description">Setup Red Hat Pipelines (Tekton) for CI/CD automation</div>
                     <div class="chart-tags"><span class="tag">setup</span><span class="tag">rh</span><span class="tag">red-hat</span></div>
-                    <div class="install-command">helm install rh-pipelines jeanlopezxyz/setup-rh-pipelines</div>
+                    <div class="install-command">helm install rh-operator-pipelines jeanlopezxyz/setup-rh-operator-pipelines</div>
                 </div>
             </div>
             <div class="instructions">

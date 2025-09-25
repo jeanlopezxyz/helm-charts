@@ -99,23 +99,24 @@ html_content = '''<!DOCTYPE html>
         .icon-btn-success { background: rgba(16, 185, 129, 0.8); border: 1px solid #10b981; color: white; }
         .icon-btn-success:hover { background: rgba(5, 150, 105, 0.9); transform: scale(1.05); }
         .chart-icon {
-            width: 36px; height: 36px; margin-right: 0.75rem; border-radius: 8px; display: flex;
-            align-items: center; justify-content: center; font-size: 1rem; color: #3b82f6;
+            width: 44px; height: 54px; margin-right: 1rem; border-radius: 10px; display: flex;
+            align-items: center; justify-content: center; font-size: 1.2rem; color: #3b82f6;
             background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.2);
+            align-self: flex-start;
         }
-        .chart-info h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.25rem; color: #f8fafc; }
-        .chart-version { color: #94a3b8; font-size: 0.8rem; font-weight: 500; }
+        .chart-info h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.1rem; color: #f8fafc; line-height: 1.3; }
+        .chart-version { color: #94a3b8; font-size: 0.75rem; font-weight: 500; }
         .chart-description { color: #cbd5e1; font-size: 0.85rem; margin-bottom: 1rem; line-height: 1.5; }
         .chart-tags { margin-bottom: 1rem; }
         .tag {
-            display: inline-block; background: rgba(59, 130, 246, 0.2); color: #93c5fd;
-            padding: 0.4rem 0.8rem; border-radius: 8px; font-size: 0.8rem; font-weight: 500;
-            margin-right: 0.5rem; margin-bottom: 0.5rem; border: 1px solid rgba(59, 130, 246, 0.3);
+            display: inline-block; background: rgba(59, 130, 246, 0.15); color: #93c5fd;
+            padding: 0.2rem 0.6rem; border-radius: 6px; font-size: 0.7rem; font-weight: 500;
+            margin-right: 0.4rem; margin-bottom: 0.3rem; border: 1px solid rgba(59, 130, 246, 0.25);
         }
         .install-command {
-            background: rgba(15, 23, 42, 0.9); border: 1px solid #475569; border-radius: 12px;
-            padding: 1.25rem; font-family: "SF Mono", "Monaco", "Cascadia Code", monospace;
-            font-size: 0.95rem; color: #10b981; font-weight: 600;
+            background: rgba(15, 23, 42, 0.9); border: 1px solid #475569; border-radius: 10px;
+            padding: 1rem 1.25rem; font-family: "SF Mono", "Monaco", "Cascadia Code", monospace;
+            font-size: 0.85rem; color: #10b981; font-weight: 400; letter-spacing: 0.025em;
         }
     </style>
 </head>
