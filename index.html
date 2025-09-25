@@ -44,9 +44,8 @@
         }
         .search-box:focus { outline: none; border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3); }
         .search-box::placeholder { color: #94a3b8; }
-        .charts-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-top: 2rem; max-width: 1200px; margin-left: auto; margin-right: auto; }
-        @media (max-width: 1024px) { .charts-grid { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 640px) { .charts-grid { grid-template-columns: 1fr; gap: 1.5rem; } }
+        .charts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 1.5rem; margin-top: 2rem; max-width: 1400px; margin-left: auto; margin-right: auto; }
+        @media (max-width: 768px) { .charts-grid { grid-template-columns: 1fr; gap: 1rem; } }
         .chart-card {
             background: rgba(30, 41, 59, 0.9); border: 1px solid #475569; border-radius: 16px;
             padding: 1.5rem; transition: all 0.3s ease; backdrop-filter: blur(20px);
@@ -136,6 +135,151 @@
                                 <i class="fas fa-dharmachakra"></i>
                             </div>
                             <div class="chart-info">
+                                <h3>helper-operator</h3>
+                                <div class="chart-version">v1.0.28</div>
+                            </div>
+                        </div>
+                        <div class="chart-actions-top">
+                            <a href="https://github.com/jeanlopezxyz/helm-charts/tree/main/charts/helper-operator" target="_blank" class="icon-btn icon-btn-secondary" title="View Source">
+                                <i class="fab fa-github"></i>
+                            </a>
+                            <a href="https://jeanlopezxyz.github.io/helm-charts/helper-operator-1.0.28.tgz" class="icon-btn icon-btn-success" title="Download Chart">
+                                <i class="fas fa-download"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="chart-description">Helper chart to reduce code repetition by being used as a dependency for installing Operators.</div>
+                    <div class="chart-tags"><span class="tag">helper</span><span class="tag">subchart</span><span class="tag">operator</span></div>
+                    <div class="artifact-hub-link">
+                        <a href="https://artifacthub.io/packages/helm/jeanlopezxyz/helper-operator" target="_blank">
+                            <i class="fas fa-external-link-alt"></i> View on Artifact Hub
+                        </a>
+                    </div>
+                    <div class="install-command">helm install operator jeanlopezxyz/helper-operator</div>
+                </div>
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <div class="chart-main-info">
+                            <div class="chart-icon">
+                                <i class="fas fa-dharmachakra"></i>
+                            </div>
+                            <div class="chart-info">
+                                <h3>helper-status-checker</h3>
+                                <div class="chart-version">v4.0.13</div>
+                            </div>
+                        </div>
+                        <div class="chart-actions-top">
+                            <a href="https://github.com/jeanlopezxyz/helm-charts/tree/main/charts/helper-status-checker" target="_blank" class="icon-btn icon-btn-secondary" title="View Source">
+                                <i class="fab fa-github"></i>
+                            </a>
+                            <a href="https://jeanlopezxyz.github.io/helm-charts/helper-status-checker-4.0.13.tgz" class="icon-btn icon-btn-success" title="Download Chart">
+                                <i class="fas fa-download"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="chart-description">A helper Chart that creates a job to verify if the deployments of an operator are running.</div>
+                    <div class="chart-tags"><span class="tag">helper</span><span class="tag">subchart</span><span class="tag">status-checker</span></div>
+                    <div class="artifact-hub-link">
+                        <a href="https://artifacthub.io/packages/helm/jeanlopezxyz/helper-status-checker" target="_blank">
+                            <i class="fas fa-external-link-alt"></i> View on Artifact Hub
+                        </a>
+                    </div>
+                    <div class="install-command">helm install status-checker jeanlopezxyz/helper-status-checker</div>
+                </div>
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <div class="chart-main-info">
+                            <div class="chart-icon">
+                                <i class="fas fa-dharmachakra"></i>
+                            </div>
+                            <div class="chart-info">
+                                <h3>setup-app-openshift-ai-asistant</h3>
+                                <div class="chart-version">v2.0.1</div>
+                            </div>
+                        </div>
+                        <div class="chart-actions-top">
+                            <a href="https://github.com/jeanlopezxyz/helm-charts/tree/main/charts/setup-app-openshift-ai-asistant" target="_blank" class="icon-btn icon-btn-secondary" title="View Source">
+                                <i class="fab fa-github"></i>
+                            </a>
+                            <a href="https://jeanlopezxyz.github.io/helm-charts/setup-app-openshift-ai-asistant-2.0.1.tgz" class="icon-btn icon-btn-success" title="Download Chart">
+                                <i class="fas fa-download"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="chart-description">Setup OpenShift AI Assistant with RAG architecture and corporate repository integration</div>
+                    <div class="chart-tags"><span class="tag">setup</span><span class="tag">openshift</span><span class="tag">ai</span></div>
+                    <div class="artifact-hub-link">
+                        <a href="https://artifacthub.io/packages/helm/jeanlopezxyz/setup-app-openshift-ai-asistant" target="_blank">
+                            <i class="fas fa-external-link-alt"></i> View on Artifact Hub
+                        </a>
+                    </div>
+                    <div class="install-command">helm install app-openshift-ai-asistant jeanlopezxyz/setup-app-openshift-ai-asistant</div>
+                </div>
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <div class="chart-main-info">
+                            <div class="chart-icon">
+                                <i class="fas fa-dharmachakra"></i>
+                            </div>
+                            <div class="chart-info">
+                                <h3>setup-platform-bookstack</h3>
+                                <div class="chart-version">v1.0.0</div>
+                            </div>
+                        </div>
+                        <div class="chart-actions-top">
+                            <a href="https://github.com/jeanlopezxyz/helm-charts/tree/main/charts/setup-platform-bookstack" target="_blank" class="icon-btn icon-btn-secondary" title="View Source">
+                                <i class="fab fa-github"></i>
+                            </a>
+                            <a href="https://jeanlopezxyz.github.io/helm-charts/setup-platform-bookstack-1.0.0.tgz" class="icon-btn icon-btn-success" title="Download Chart">
+                                <i class="fas fa-download"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="chart-description">Setup Bookstack Documentation Platform for DemoJam with backup integration</div>
+                    <div class="chart-tags"><span class="tag">setup</span><span class="tag">platform</span><span class="tag">documentation</span></div>
+                    <div class="artifact-hub-link">
+                        <a href="https://artifacthub.io/packages/helm/jeanlopezxyz/setup-platform-bookstack" target="_blank">
+                            <i class="fas fa-external-link-alt"></i> View on Artifact Hub
+                        </a>
+                    </div>
+                    <div class="install-command">helm install platform-bookstack jeanlopezxyz/setup-platform-bookstack</div>
+                </div>
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <div class="chart-main-info">
+                            <div class="chart-icon">
+                                <i class="fas fa-dharmachakra"></i>
+                            </div>
+                            <div class="chart-info">
+                                <h3>setup-platform-gitea</h3>
+                                <div class="chart-version">v1.1.0</div>
+                            </div>
+                        </div>
+                        <div class="chart-actions-top">
+                            <a href="https://github.com/jeanlopezxyz/helm-charts/tree/main/charts/setup-platform-gitea" target="_blank" class="icon-btn icon-btn-secondary" title="View Source">
+                                <i class="fab fa-github"></i>
+                            </a>
+                            <a href="https://jeanlopezxyz.github.io/helm-charts/setup-platform-gitea-1.1.0.tgz" class="icon-btn icon-btn-success" title="Download Chart">
+                                <i class="fas fa-download"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="chart-description">Setup Gitea Git Server for DemoJam platform with CI/CD and Keycloak integration</div>
+                    <div class="chart-tags"><span class="tag">setup</span><span class="tag">platform</span><span class="tag">git</span></div>
+                    <div class="artifact-hub-link">
+                        <a href="https://artifacthub.io/packages/helm/jeanlopezxyz/setup-platform-gitea" target="_blank">
+                            <i class="fas fa-external-link-alt"></i> View on Artifact Hub
+                        </a>
+                    </div>
+                    <div class="install-command">helm install platform-gitea jeanlopezxyz/setup-platform-gitea</div>
+                </div>
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <div class="chart-main-info">
+                            <div class="chart-icon">
+                                <i class="fas fa-dharmachakra"></i>
+                            </div>
+                            <div class="chart-info">
                                 <h3>setup-rh-operator-console</h3>
                                 <div class="chart-version">v1.0.9</div>
                             </div>
@@ -215,6 +359,35 @@
                         </a>
                     </div>
                     <div class="install-command">helm install keycloak jeanlopezxyz/setup-rh-operator-keycloak</div>
+                </div>
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <div class="chart-main-info">
+                            <div class="chart-icon">
+                                <i class="fas fa-dharmachakra"></i>
+                            </div>
+                            <div class="chart-info">
+                                <h3>setup-rh-operator-pipelines</h3>
+                                <div class="chart-version">v1.0.7</div>
+                            </div>
+                        </div>
+                        <div class="chart-actions-top">
+                            <a href="https://github.com/jeanlopezxyz/helm-charts/tree/main/charts/setup-rh-operator-pipelines" target="_blank" class="icon-btn icon-btn-secondary" title="View Source">
+                                <i class="fab fa-github"></i>
+                            </a>
+                            <a href="https://jeanlopezxyz.github.io/helm-charts/setup-rh-operator-pipelines-1.0.7.tgz" class="icon-btn icon-btn-success" title="Download Chart">
+                                <i class="fas fa-download"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="chart-description">Setup Red Hat Pipelines (Tekton) for CI/CD automation</div>
+                    <div class="chart-tags"><span class="tag">setup</span><span class="tag">rh</span><span class="tag">red-hat</span></div>
+                    <div class="artifact-hub-link">
+                        <a href="https://artifacthub.io/packages/helm/jeanlopezxyz/setup-rh-operator-pipelines" target="_blank">
+                            <i class="fas fa-external-link-alt"></i> View on Artifact Hub
+                        </a>
+                    </div>
+                    <div class="install-command">helm install pipelines jeanlopezxyz/setup-rh-operator-pipelines</div>
                 </div>
             </div>
         </div>
