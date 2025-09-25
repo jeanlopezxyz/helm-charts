@@ -1,6 +1,6 @@
 # Artifact Hub package metadata file
 version: 1.0.0
-name: setup-rh-console
+name: setup-rh-operator-console
 displayName: Enhanced OpenShift Console
 createdAt: "2025-01-25T10:00:00Z"
 description: |
@@ -33,7 +33,7 @@ install: |
   
   ```bash
   helm repo add jeanlopezxyz https://jeanlopezxyz.github.io/helm-charts
-  helm install console jeanlopezxyz/setup-rh-console
+  helm install console jeanlopezxyz/setup-rh-operator-console
   ```
   
   ## Features

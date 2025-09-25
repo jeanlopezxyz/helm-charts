@@ -1,5 +1,5 @@
 apiVersion: v2
-name: setup-rh-console
+name: setup-rh-operator-console
 description: Setup Console operator for enhanced OpenShift UI capabilities
 type: application
 version: 1.0.8
@@ -29,12 +29,11 @@ keywords:
 - setup
 - rh
 - red-hat
+- operator
 - console
 - ui
 - web-console
 - openshift
-- demojam
-- helper-enhanced
 
 annotations:
   category: User Interface

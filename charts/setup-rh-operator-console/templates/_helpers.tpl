@@ -1,14 +1,14 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "setup-rh-console.name" -}}
+{{- define "setup-rh-operator-console.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
 Create a default fully qualified app name.
 */}}
-{{- define "setup-rh-console.fullname" -}}
+{{- define "setup-rh-operator-console.fullname" -}}
 {{- if .Values.fullnameOverride }}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
@@ -24,16 +24,16 @@ Create a default fully qualified app name.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "setup-rh-console.chart" -}}
+{{- define "setup-rh-operator-console.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
 Common labels
 */}}
-{{- define "setup-rh-console.labels" -}}
-helm.sh/chart: {{ include "setup-rh-console.chart" . }}
-{{ include "setup-rh-console.selectorLabels" . }}
+{{- define "setup-rh-operator-console.labels" -}}
+helm.sh/chart: {{ include "setup-rh-operator-console.chart" . }}
+{{ include "setup-rh-operator-console.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -45,17 +45,17 @@ app.kubernetes.io/part-of: demojam-platform
 {{/*
 Selector labels
 */}}
-{{- define "setup-rh-console.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "setup-rh-console.name" . }}
+{{- define "setup-rh-operator-console.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "setup-rh-operator-console.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
 Create the name of the service account to use
 */}}
-{{- define "setup-rh-console.serviceAccountName" -}}
+{{- define "setup-rh-operator-console.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create }}
-{{- default (include "setup-rh-console.fullname" .) .Values.serviceAccount.name }}
+{{- default (include "setup-rh-operator-console.fullname" .) .Values.serviceAccount.name }}
 {{- else }}
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
@@ -64,6 +64,6 @@ Create the name of the service account to use
 {{/*
 Create the namespace to use
 */}}
-{{- define "setup-rh-console.namespace" -}}
+{{- define "setup-rh-operator-console.namespace" -}}
 {{- default .Release.Namespace .Values.namespace }}
 {{- end }}

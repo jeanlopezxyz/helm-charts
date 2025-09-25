@@ -1,20 +1,19 @@
 apiVersion: v2
-name: setup-rh-developer-hub
-description: Setup Red Hat Developer Hub operator installation
+name: setup-rh-operator-keycloak
+description: Setup Red Hat Build of Keycloak operator installation
 type: application
-version: 1.1.1
-appVersion: "1.2.0"
-home: https://developers.redhat.com/products/developer-hub
+version: 1.0.3
+appVersion: "23.0.0"
+home: https://access.redhat.com/products/red-hat-build-of-keycloak
 sources:
 - https://github.com/jeanlopezxyz/helm-charts
-- https://github.com/redhat-developer/red-hat-developer-hub
-- https://access.redhat.com/documentation/en-us/red_hat_developer_hub
+- https://access.redhat.com/documentation/en-us/red_hat_build_of_keycloak
 maintainers:
 - name: Jean Paul Lopez
   email: jealopez@redhat.com
 
 dependencies:
-# Reutilizar helper-operator para instalar RHDH operator
+# Reutilizar helper-operator para instalar RHBK operator
 - name: helper-operator
   version: "~1.0.0"
   repository: "https://jeanlopezxyz.github.io/helm-charts"
@@ -23,14 +22,16 @@ dependencies:
 keywords:
 - setup
 - rh
-- rhdh
-- red-hat-developer-hub
+- keycloak
+- rhbk
 - operator
-- backstage
+- identity
+- red-hat
 
 annotations:
-  category: Developer Tools
+  category: Security
   certified: "true"
   support: "Red Hat"
   licenses: Apache-2.0
+  "helm.sh/uses-operator": "rhbk-operator"
   "helm.sh/vendor": "red-hat"
