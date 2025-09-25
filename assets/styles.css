@@ -222,18 +222,17 @@ body {
     box-shadow: var(--shadow-lg);
 }
 
-
 .chart-icon {
     font-size: 2.2rem;
-    margin-right: 15px;
     width: 50px;
+    flex-shrink: 0;
 }
 
 .chart-title {
     font-size: 1.3rem;
     font-weight: 600;
-    color: var(--primary);
-    flex: 1;
+    color: #0f172a;
+    margin-bottom: 8px;
 }
 
 .chart-version {
@@ -246,7 +245,7 @@ body {
 }
 
 .chart-description {
-    color: var(--text-muted);
+    color: #64748b;
     margin-bottom: 20px;
     font-size: 0.95rem;
     line-height: 1.5;
@@ -413,7 +412,7 @@ footer p {
     opacity: 0.8;
 }
 
-/* New UI elements */
+/* Chart header layout */
 .chart-header {
     display: flex;
     align-items: flex-start;
@@ -423,7 +422,6 @@ footer p {
 
 .chart-info {
     flex: 1;
-    margin-left: 15px;
 }
 
 .chart-actions {
