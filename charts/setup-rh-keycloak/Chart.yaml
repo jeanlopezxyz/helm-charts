@@ -1,0 +1,44 @@
+apiVersion: v2
+name: setup-rh-keycloak
+description: Setup Red Hat Build of Keycloak operator installation
+type: application
+version: 1.0.1
+appVersion: "23.0.0"
+home: https://access.redhat.com/products/red-hat-build-of-keycloak
+sources:
+- https://github.com/jeanlopezxyz/helm-charts
+- https://access.redhat.com/documentation/en-us/red_hat_build_of_keycloak
+maintainers:
+- name: Jean Paul Lopez
+  email: jealopez@redhat.com
+
+dependencies:
+# Reutilizar helper-operator para instalar RHBK operator
+- name: helper-operator
+  version: "~1.0.0"
+  repository: "https://jeanlopezxyz.github.io/helm-charts"
+  condition: helpers.operator.enabled
+# Reutilizar helper para status checking
+- name: helper-status-checker
+  version: "~4.0.0"
+  repository: "https://jeanlopezxyz.github.io/helm-charts"
+  condition: helpers.statusChecker.enabled
+
+keywords:
+- setup
+- rh
+- keycloak
+- rhbk
+- operator
+- identity
+- red-hat
+- helper-enhanced
+
+annotations:
+  category: Security
+  certified: "true"
+  support: "Red Hat"
+  licenses: Apache-2.0
+  "helm.sh/uses-helpers": "helper-operator,helper-status-checker"
+  "helm.sh/vendor": "red-hat"
+  "helm.sh/integration": "rhbk-operator"

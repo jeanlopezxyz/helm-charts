@@ -1,0 +1,87 @@
+# Helpers integration
+helpers:
+  # Helper Operator para instalar RHBK operator
+  operator:
+    enabled: true
+    operators:
+      rhbk-operator:
+        enabled: true
+        syncwave: 0
+        namespace:
+          name: openshift-operators-redhat
+        subscription:
+          channel: stable
+          operatorName: rhbk-operator
+          source: redhat-operators
+
+  # Status Checker para health monitoring
+  statusChecker:
+    enabled: true
+    statusChecks:
+      checks:
+        rhbk-operator:
+          enabled: true
+          type: deployment
+          namespace: openshift-operators-redhat
+          name: rhbk-operator
+
+# Operator Configuration (basic settings only)
+operator:
+  # Default namespace where Keycloak instances can be created
+  defaultNamespace: "keycloak"
+  
+  # Operator resource limits
+  resources:
+    limits:
+      cpu: 200m
+      memory: 256Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+
+# Security Context (Enterprise Best Practices)
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 1001
+  runAsGroup: 1001
+  fsGroup: 1001
+  seccompProfile:
+    type: RuntimeDefault
+
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
+  runAsUser: 1001
+  runAsGroup: 1001
+  capabilities:
+    drop:
+    - ALL
+
+# Service Account
+serviceAccount:
+  create: true
+  annotations: {}
+  name: ""
+  automountServiceAccountToken: false
+
+# Network Policy
+networkPolicy:
+  enabled: true
+  ingress:
+    - from:
+      - namespaceSelector:
+          matchLabels:
+            name: openshift-operators-redhat
+      ports:
+      - protocol: TCP
+        port: 8080
+
+# Node selection
+nodeSelector: {}
+
+# Tolerations
+tolerations: []
+
+# Pod affinity
+affinity: {}
