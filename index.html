@@ -83,6 +83,18 @@
             padding: 0.2rem 0.6rem; border-radius: 6px; font-size: 0.7rem; font-weight: 500;
             margin-right: 0.4rem; margin-bottom: 0.3rem; border: 1px solid rgba(59, 130, 246, 0.25);
         }
+        .artifact-hub-link {
+            margin-bottom: 1rem; text-align: center;
+        }
+        .artifact-hub-link a {
+            color: #8b5cf6; text-decoration: none; font-size: 0.8rem; font-weight: 500;
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            padding: 0.5rem 1rem; background: rgba(139, 92, 246, 0.1); border: 1px solid rgba(139, 92, 246, 0.2);
+            border-radius: 8px; transition: all 0.2s ease;
+        }
+        .artifact-hub-link a:hover {
+            background: rgba(139, 92, 246, 0.2); border-color: #8b5cf6; transform: translateY(-1px);
+        }
         .install-command {
             background: rgba(15, 23, 42, 0.9); border: 1px solid #475569; border-radius: 10px;
             padding: 1rem 1.25rem; font-family: "SF Mono", "Monaco", "Cascadia Code", monospace;
@@ -139,6 +151,11 @@
                     </div>
                     <div class="chart-description">Setup Console operator for enhanced OpenShift UI capabilities</div>
                     <div class="chart-tags"><span class="tag">setup</span><span class="tag">rh</span><span class="tag">red-hat</span></div>
+                    <div class="artifact-hub-link">
+                        <a href="https://artifacthub.io/packages/helm/jeanlopezxyz/setup-rh-operator-console" target="_blank">
+                            <i class="fas fa-external-link-alt"></i> View on Artifact Hub
+                        </a>
+                    </div>
                     <div class="install-command">helm install console jeanlopezxyz/setup-rh-operator-console</div>
                 </div>
                 <div class="chart-card">
@@ -163,6 +180,11 @@
                     </div>
                     <div class="chart-description">Setup Red Hat Developer Hub operator installation</div>
                     <div class="chart-tags"><span class="tag">setup</span><span class="tag">rh</span><span class="tag">rhdh</span></div>
+                    <div class="artifact-hub-link">
+                        <a href="https://artifacthub.io/packages/helm/jeanlopezxyz/setup-rh-operator-developer-hub" target="_blank">
+                            <i class="fas fa-external-link-alt"></i> View on Artifact Hub
+                        </a>
+                    </div>
                     <div class="install-command">helm install developer-hub jeanlopezxyz/setup-rh-operator-developer-hub</div>
                 </div>
                 <div class="chart-card">
@@ -173,40 +195,33 @@
                             </div>
                             <div class="chart-info">
                                 <h3>setup-rh-operator-keycloak</h3>
-                                <div class="chart-version">v1.0.3</div>
+                                <div class="chart-version">v1.0.4</div>
                             </div>
                         </div>
                         <div class="chart-actions-top">
                             <a href="https://github.com/jeanlopezxyz/helm-charts/tree/main/charts/setup-rh-operator-keycloak" target="_blank" class="icon-btn icon-btn-secondary" title="View Source">
                                 <i class="fab fa-github"></i>
                             </a>
-                            <a href="https://jeanlopezxyz.github.io/helm-charts/setup-rh-operator-keycloak-1.0.3.tgz" class="icon-btn icon-btn-success" title="Download Chart">
+                            <a href="https://jeanlopezxyz.github.io/helm-charts/setup-rh-operator-keycloak-1.0.4.tgz" class="icon-btn icon-btn-success" title="Download Chart">
                                 <i class="fas fa-download"></i>
                             </a>
                         </div>
                     </div>
                     <div class="chart-description">Setup Red Hat Build of Keycloak operator installation</div>
                     <div class="chart-tags"><span class="tag">setup</span><span class="tag">rh</span><span class="tag">keycloak</span></div>
+                    <div class="artifact-hub-link">
+                        <a href="https://artifacthub.io/packages/helm/jeanlopezxyz/setup-rh-operator-keycloak" target="_blank">
+                            <i class="fas fa-external-link-alt"></i> View on Artifact Hub
+                        </a>
+                    </div>
                     <div class="install-command">helm install keycloak jeanlopezxyz/setup-rh-operator-keycloak</div>
                 </div>
-            </div>
-            <div class="instructions">
-                <h2>Getting Started</h2>
-                <p>Add this repository to your Helm installation:</p>
-                <div class="code-block">helm repo add jeanlopezxyz https://jeanlopezxyz.github.io/helm-charts
-helm repo update
-helm search repo jeanlopezxyz</div>
-                <h3 style="margin-top: 2rem; margin-bottom: 1rem;">Install a chart</h3>
-                <div class="code-block">helm install my-release jeanlopezxyz/CHART-NAME</div>
             </div>
         </div>
     </main>
     <footer>
         <div class="container">
-            <p>&copy; 2025 Red Hat. Licensed under MIT License.</p>
-            <p style="margin-top: 0.5rem;">
-                <a href="https://artifacthub.io/packages/search?repo=jeanlopezxyz" target="_blank">Also available on Artifact Hub →</a>
-            </p>
+            <p>&copy; 2025 jeanlopezxyz. Licensed under Apache License.</p>
         </div>
     </footer>
     <script>
