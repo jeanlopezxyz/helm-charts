@@ -78,13 +78,6 @@ const chartConfig = {
         description: 'Git server with CI/CD and Keycloak integration',
         tags: ['setup', 'platform', 'git', 'ci-cd'],
         version: '1.1.0'
-    },
-    'demojam-platform': {
-        icon: 'fas fa-layer-group',
-        category: 'platform',
-        description: 'Complete DemoJam platform - entire stack deployment',
-        tags: ['platform', 'meta-chart', 'complete'],
-        version: '1.0.0'
     }
 };
 

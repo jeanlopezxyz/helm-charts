@@ -56,7 +56,6 @@ Individual chart packages are available for download:
 | [setup-rh-keycloak](charts/setup-rh-keycloak/) | 1.0.0 | Red Hat Build of Keycloak |
 | [setup-rh-pipelines](charts/setup-rh-pipelines/) | 1.0.0 | Red Hat Pipelines (Tekton) for CI/CD |
 | [setup-rh-console](charts/setup-rh-console/) | 1.0.0 | Enhanced OpenShift Console operator |
-| [demojam-platform](charts/demojam-platform/) | 1.0.0 | Complete platform meta-chart |
 
 ## Usage Examples
 
@@ -94,8 +93,6 @@ helm install console jeanlopezxyz/setup-rh-console
 helm install documentation jeanlopezxyz/setup-platform-bookstack
 helm install git-server jeanlopezxyz/setup-platform-gitea
 
-# Install complete platform
-helm install demojam-platform jeanlopezxyz/demojam-platform
 ```
 
 ## Architecture
@@ -113,7 +110,7 @@ graph TD
     H --> C
     I[rhbk] --> A
     
-    J[demojam-platform] --> G
+    J[platform] --> G
     J --> H
     J --> I
 ```
