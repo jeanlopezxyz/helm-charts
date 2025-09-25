@@ -336,6 +336,88 @@ body {
     text-shadow: 0 0 10px var(--success);
 }
 
+/* Additional styles for new layout */
+.repo-url {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 30px;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+}
+
+.repo-url code {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-family: 'Monaco', monospace;
+    font-size: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.repo-url button {
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    padding: 12px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-size: 1rem;
+}
+
+.repo-url button:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.05);
+}
+
+.instructions {
+    background: var(--card);
+    border-radius: 20px;
+    padding: 40px;
+    margin: 40px 0;
+    box-shadow: var(--shadow);
+}
+
+.instructions h2 {
+    color: var(--primary);
+    margin-bottom: 25px;
+    font-size: 1.8rem;
+}
+
+.code-block {
+    background: #1a202c;
+    border-radius: 15px;
+    padding: 25px;
+    margin: 20px 0;
+    position: relative;
+    overflow-x: auto;
+}
+
+.code-block pre {
+    margin: 0;
+    color: #10b981;
+    font-family: 'Monaco', 'Consolas', monospace;
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+footer {
+    background: var(--primary);
+    color: white;
+    text-align: center;
+    padding: 40px 20px;
+    margin-top: 60px;
+}
+
+footer p {
+    margin: 0;
+    opacity: 0.8;
+}
+
 @media (max-width: 768px) {
     .hero h1 { font-size: 2.8rem; }
     .hero p { font-size: 1.2rem; }
@@ -345,4 +427,11 @@ body {
         gap: 20px; 
     }
     .quick-start { padding: 30px 25px; }
+    .repo-url {
+        flex-direction: column;
+        gap: 10px;
+    }
+    .repo-url code {
+        font-size: 0.9rem;
+    }
 }

@@ -115,25 +115,99 @@ function createChartCard(name, data) {
     `;
 }
 
-// Render charts with search filtering
-function renderCharts() {
-    const container = document.getElementById('charts-grid');
-    const searchTerm = document.getElementById('search').value.toLowerCase();
+// Load charts from index.yaml and render them
+async function loadCharts() {
+    const container = document.getElementById('charts-container');
     
+    if (!container) {
+        console.error('Charts container not found');
+        return;
+    }
+
+    try {
+        // Try to load from index.yaml
+        const response = await fetch('./index.yaml');
+        const yamlText = await response.text();
+        
+        // Parse YAML (simple parsing for entries)
+        const charts = parseHelmIndex(yamlText);
+        renderChartsFromIndex(charts);
+    } catch (error) {
+        console.log('Loading charts from static config');
+        // Fallback to static config
+        renderChartsFromConfig();
+    }
+}
+
+// Simple YAML parser for Helm index
+function parseHelmIndex(yamlText) {
+    const charts = {};
+    const lines = yamlText.split('\n');
+    let currentChart = null;
+    let inEntries = false;
+    
+    for (const line of lines) {
+        if (line.includes('entries:')) {
+            inEntries = true;
+            continue;
+        }
+        
+        if (inEntries && line.match(/^\s*\S+:/)) {
+            currentChart = line.trim().replace(':', '');
+            charts[currentChart] = {
+                name: currentChart,
+                version: '1.0.0',
+                description: chartConfig[currentChart]?.description || 'Helm chart'
+            };
+        }
+        
+        if (currentChart && line.includes('version:')) {
+            const version = line.split(':')[1]?.trim().replace(/['"]/g, '');
+            if (version) charts[currentChart].version = version;
+        }
+        
+        if (currentChart && line.includes('description:')) {
+            const desc = line.split(':')[1]?.trim().replace(/['"]/g, '');
+            if (desc) charts[currentChart].description = desc;
+        }
+    }
+    
+    return charts;
+}
+
+// Render charts from index.yaml data
+function renderChartsFromIndex(indexCharts) {
+    const container = document.getElementById('charts-container');
     let html = '';
-    let visibleCount = 0;
+    
+    Object.entries(indexCharts).forEach(([name, data]) => {
+        const config = chartConfig[name] || {
+            icon: 'fas fa-box',
+            category: 'other',
+            description: data.description,
+            tags: ['helm', 'chart'],
+            version: data.version
+        };
+        
+        html += createChartCard(name, {
+            ...config,
+            version: data.version
+        });
+    });
+    
+    container.innerHTML = html || '<p>No charts available</p>';
+}
+
+// Fallback: render charts from static config
+function renderChartsFromConfig() {
+    const container = document.getElementById('charts-container');
+    let html = '';
     
     Object.entries(chartConfig).forEach(([name, data]) => {
-        const searchContent = `${name} ${data.description} ${data.tags.join(' ')}`.toLowerCase();
-        if (searchContent.includes(searchTerm)) {
-            html += createChartCard(name, data);
-            visibleCount++;
-        }
+        html += createChartCard(name, data);
     });
     
     container.innerHTML = html;
-    document.getElementById('visible-count').textContent = visibleCount;
-    document.getElementById('total-count').textContent = Object.keys(chartConfig).length;
 }
 
 // Copy to clipboard functionality
@@ -167,11 +241,8 @@ function scrollToTop() {
 
 // Initialize page
 document.addEventListener('DOMContentLoaded', () => {
-    // Render charts
-    renderCharts();
-    
-    // Search functionality
-    document.getElementById('search').addEventListener('input', renderCharts);
+    // Load and render charts
+    loadCharts();
     
     // Scroll to top button
     const scrollButton = document.createElement('button');
