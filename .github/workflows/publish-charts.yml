@@ -39,23 +39,74 @@ jobs:
           helm repo add bitnami https://charts.bitnami.com/bitnami
           helm repo add codecentric https://codecentric.github.io/helm-charts
           helm repo add tjungbauer https://charts.stderr.at/
+          
+          # Try to add our own repo if it exists (for dependencies)
+          helm repo add demojam https://jeanlopezxyz.github.io/helm-charts 2>/dev/null || echo "Own repository not yet available"
+          
           helm repo update
 
       - name: Package charts
         run: |
           mkdir -p packages
+          
+          # First pass: Package charts without dependencies
+          echo "=== First pass: Charts without external dependencies ==="
           for chart in charts/*/; do
             if [ -f "$chart/Chart.yaml" ]; then
-              echo "Packaging $(basename $chart)"
-              helm dependency update "$chart" 2>/dev/null || true
-              helm package "$chart" --destination packages
+              chart_name=$(basename $chart)
+              echo "Checking $chart_name"
+              
+              # Skip charts with external dependencies on first pass
+              if ! grep -q "repository:" "$chart/Chart.yaml" 2>/dev/null; then
+                echo "Packaging $chart_name (no external deps)"
+                helm package "$chart" --destination packages
+              else
+                echo "Skipping $chart_name (has external deps)"
+              fi
             fi
           done
+          
+          # Second pass: Package charts with dependencies (best effort)
+          echo "=== Second pass: Charts with dependencies ==="
+          for chart in charts/*/; do
+            if [ -f "$chart/Chart.yaml" ]; then
+              chart_name=$(basename $chart)
+              
+              # Only process charts with dependencies
+              if grep -q "repository:" "$chart/Chart.yaml" 2>/dev/null; then
+                echo "Attempting to package $chart_name"
+                
+                # Try to update dependencies, continue on failure
+                if helm dependency update "$chart" 2>/dev/null; then
+                  echo "Dependencies updated successfully for $chart_name"
+                else
+                  echo "Warning: Could not update dependencies for $chart_name, packaging anyway"
+                fi
+                
+                # Package the chart
+                if helm package "$chart" --destination packages 2>/dev/null; then
+                  echo "Successfully packaged $chart_name"
+                else
+                  echo "Warning: Failed to package $chart_name"
+                fi
+              fi
+            fi
+          done
+          
+          echo "=== Packaging summary ==="
+          ls -la packages/ || echo "No packages created"
 
       - name: Update repository
         run: |
           cd gh-pages
-          cp ../packages/*.tgz . 2>/dev/null || true
+          
+          # Copy chart packages if they exist
+          if ls ../packages/*.tgz 1> /dev/null 2>&1; then
+            echo "Copying chart packages"
+            cp ../packages/*.tgz .
+          else
+            echo "No chart packages found"
+          fi
           
           # Copy Artifact Hub metadata
           cp ../artifacthub-repo.yml . 2>/dev/null || true
@@ -67,6 +118,9 @@ jobs:
           if command -v ah &> /dev/null; then
             ah lint --kind helm || echo "Artifact Hub linting completed"
           fi
+          
+          echo "=== Repository contents ==="
+          ls -la
 
       - name: Copy website assets
         run: |
