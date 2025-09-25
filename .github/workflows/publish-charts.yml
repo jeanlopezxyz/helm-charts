@@ -158,8 +158,9 @@ jobs:
               <main class="container">
                   <section class="charts-section">
                       <h2>Available Charts</h2>
-                      <div id="charts-container" style="background: #1f2937; padding: 40px; border-radius: 15px; margin: 30px 0;">
-                          <h3 style="color: white; text-align: center; margin-bottom: 30px; font-size: 1.8rem;">Available Charts</h3>
+                      <div id="charts-container" style="background: #dc2626; padding: 40px; border-radius: 15px; margin: 30px 0; border: 10px solid #fbbf24;">
+                          <h3 style="color: #fbbf24; text-align: center; margin-bottom: 30px; font-size: 2.5rem; font-weight: 900; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">🔥 CHARTS DISPONIBLES 🔥</h3>
+                          <p style="color: white; text-align: center; font-size: 1.2rem; margin-bottom: 40px;">Si no ves las tarjetas abajo, refresca la página (Ctrl+F5)</p>
                           
                           <!-- Static chart cards with maximum visibility -->
                           <div class="chart-card" style="background: #ffffff; border: 5px solid #3b82f6; padding: 30px; margin: 25px auto; border-radius: 15px; box-shadow: 0 8px 16px rgba(0,0,0,0.3); position: relative; z-index: 9999; max-width: 600px; display: block;">
