@@ -1,0 +1,94 @@
+name: Publish Charts
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'charts/**'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    name: Package and Publish
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Checkout gh-pages
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          path: gh-pages
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Helm
+        uses: azure/setup-helm@v3
+        with:
+          version: v3.13.2
+
+      - name: Add repositories
+        run: |
+          helm repo add bitnami https://charts.bitnami.com/bitnami
+          helm repo add codecentric https://codecentric.github.io/helm-charts
+          helm repo add tjungbauer https://charts.stderr.at/
+          helm repo update
+
+      - name: Package charts
+        run: |
+          mkdir -p packages
+          for chart in charts/*/; do
+            if [ -f "$chart/Chart.yaml" ]; then
+              echo "Packaging $(basename $chart)"
+              helm dependency update "$chart" 2>/dev/null || true
+              helm package "$chart" --destination packages
+            fi
+          done
+
+      - name: Update repository
+        run: |
+          cd gh-pages
+          cp ../packages/*.tgz . 2>/dev/null || true
+          helm repo index . --url https://jeanlopezxyz.github.io/helm-charts
+
+      - name: Copy website assets
+        run: |
+          cd gh-pages
+          mkdir -p assets
+          cp ../assets/* assets/ 2>/dev/null || true
+
+      - name: Generate website
+        run: |
+          cd gh-pages
+          cat > index.html << 'EOF'
+          <!DOCTYPE html>
+          <html>
+          <head>
+              <title>DemoJam Helm Charts</title>
+              <link href="assets/styles.css" rel="stylesheet">
+          </head>
+          <body>
+              <div class="hero">
+                  <h1>DemoJam Helm Charts</h1>
+                  <p>Enterprise repository for Red Hat DemoJam 2026</p>
+              </div>
+              <script src="assets/scripts.js"></script>
+          </body>
+          </html>
+          EOF
+
+      - name: Deploy
+        run: |
+          cd gh-pages
+          git config user.email "action@github.com"
+          git config user.name "GitHub Action"
+          git add .
+          git commit -m "Update charts and website"
+          git push origin gh-pages
