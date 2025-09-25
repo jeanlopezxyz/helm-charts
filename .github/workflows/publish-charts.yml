@@ -3,8 +3,6 @@ name: Publish Charts
 on:
   push:
     branches: [main]
-    paths:
-      - 'charts/**'
   workflow_dispatch:
 
 permissions:
