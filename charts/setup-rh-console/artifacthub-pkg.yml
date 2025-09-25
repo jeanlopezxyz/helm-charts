@@ -32,8 +32,8 @@ install: |
   ## Installation
   
   ```bash
-  helm repo add demojam https://jeanlopezxyz.github.io/helm-charts
-  helm install console demojam/setup-rh-console
+  helm repo add jeanlopezxyz https://jeanlopezxyz.github.io/helm-charts
+  helm install console jeanlopezxyz/setup-rh-console
   ```
   
   ## Features

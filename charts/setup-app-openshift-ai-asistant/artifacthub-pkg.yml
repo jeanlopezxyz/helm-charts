@@ -33,8 +33,8 @@ install: |
   ## Installation
   
   ```bash
-  helm repo add demojam https://jeanlopezxyz.github.io/helm-charts
-  helm install ai-assistant demojam/setup-app-openshift-ai-asistant
+  helm repo add jeanlopezxyz https://jeanlopezxyz.github.io/helm-charts
+  helm install ai-assistant jeanlopezxyz/setup-app-openshift-ai-asistant
   ```
   
   ## Features
@@ -49,8 +49,8 @@ maintainers:
   - name: Jean Paul Lopez
     email: jealopez@redhat.com
 recommendations:
-  - url: https://artifacthub.io/packages/helm/demojam/helper-operator
-  - url: https://artifacthub.io/packages/helm/demojam/helper-status-checker
+  - url: https://artifacthub.io/packages/helm/jeanlopezxyz/helper-operator
+  - url: https://artifacthub.io/packages/helm/jeanlopezxyz/helper-status-checker
 annotations:
   artifacthub.io/changes: |
     - kind: added

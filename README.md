@@ -8,19 +8,19 @@
 Enterprise Helm charts repository for **Red Hat DemoJam 2026** project, featuring operational helpers and AI-powered applications.
 
 **🌐 Repository URL**: `https://jeanlopezxyz.github.io/helm-charts`
-**🏛️ Artifact Hub**: [demojam charts](https://artifacthub.io/packages/search?repo=demojam)
+**🏛️ Artifact Hub**: [jeanlopezxyz charts](https://artifacthub.io/packages/search?repo=jeanlopezxyz)
 
 ## Quick Start
 
 ```bash
 # Add the Helm repository
-helm repo add demojam https://jeanlopezxyz.github.io/helm-charts
+helm repo add jeanlopezxyz https://jeanlopezxyz.github.io/helm-charts
 
 # Update repository index
 helm repo update
 
 # List available charts
-helm search repo demojam
+helm search repo jeanlopezxyz
 
 # Browse charts online
 open https://jeanlopezxyz.github.io/helm-charts
@@ -63,12 +63,12 @@ Individual chart packages are available for download:
 ### Installing Helper Charts
 ```bash
 # Install operator helper (installs multiple operators)
-helm install platform-operators demojam/helper-operator \
+helm install platform-operators jeanlopezxyz/helper-operator \
   --set operators.rhbk-operator.enabled=true \
   --set operators.openshift-ai-operator.enabled=true
 
 # Install status checker (monitors health)
-helm install health-monitor demojam/helper-status-checker \
+helm install health-monitor jeanlopezxyz/helper-status-checker \
   --set statusChecks.checks.ai-assistant.enabled=true \
   --set statusChecks.checks.rhdh.enabled=true
 ```
@@ -76,26 +76,26 @@ helm install health-monitor demojam/helper-status-checker \
 ### Installing Setup Charts
 ```bash
 # Install OpenShift AI Assistant (uses helpers)
-helm install ai-assistant demojam/setup-app-openshift-ai-asistant
+helm install ai-assistant jeanlopezxyz/setup-app-openshift-ai-asistant
 
 # Install Red Hat Developer Hub
-helm install developer-hub demojam/setup-rh-developer-hub
+helm install developer-hub jeanlopezxyz/setup-rh-developer-hub
 
 # Install Red Hat Keycloak
-helm install keycloak demojam/setup-rh-keycloak
+helm install keycloak jeanlopezxyz/setup-rh-keycloak
 
 # Install Red Hat Pipelines
-helm install pipelines demojam/setup-rh-pipelines
+helm install pipelines jeanlopezxyz/setup-rh-pipelines
 
 # Install Enhanced Console
-helm install console demojam/setup-rh-console
+helm install console jeanlopezxyz/setup-rh-console
 
 # Install Platform Components
-helm install documentation demojam/setup-platform-bookstack
-helm install git-server demojam/setup-platform-gitea
+helm install documentation jeanlopezxyz/setup-platform-bookstack
+helm install git-server jeanlopezxyz/setup-platform-gitea
 
 # Install complete platform
-helm install demojam-platform demojam/demojam-platform
+helm install demojam-platform jeanlopezxyz/demojam-platform
 ```
 
 ## Architecture

@@ -37,13 +37,13 @@ install: |
   
   Add the Helm repository:
   ```bash
-  helm repo add demojam https://jeanlopezxyz.github.io/helm-charts
+  helm repo add jeanlopezxyz https://jeanlopezxyz.github.io/helm-charts
   helm repo update
   ```
   
   Install the chart:
   ```bash
-  helm install pipelines demojam/setup-rh-pipelines
+  helm install pipelines jeanlopezxyz/setup-rh-pipelines
   ```
   
   ## Configuration
@@ -58,8 +58,8 @@ maintainers:
   - name: Jean Paul Lopez
     email: jealopez@redhat.com
 recommendations:
-  - url: https://artifacthub.io/packages/helm/demojam/helper-operator
-  - url: https://artifacthub.io/packages/helm/demojam/helper-status-checker
+  - url: https://artifacthub.io/packages/helm/jeanlopezxyz/helper-operator
+  - url: https://artifacthub.io/packages/helm/jeanlopezxyz/helper-status-checker
 annotations:
   artifacthub.io/changes: |
     - kind: added

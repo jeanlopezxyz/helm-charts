@@ -3,6 +3,8 @@ name: Publish Charts
 on:
   push:
     branches: [main]
+    paths:
+      - 'charts/**'
   workflow_dispatch:
 
 permissions:
@@ -38,8 +40,8 @@ jobs:
           helm repo add codecentric https://codecentric.github.io/helm-charts
           helm repo add tjungbauer https://charts.stderr.at/
           
-          # Try to add our own repo if it exists (for dependencies)
-          helm repo add demojam https://jeanlopezxyz.github.io/helm-charts 2>/dev/null || echo "Own repository not yet available"
+          # Try to add our own repo if it exists (for dependencies)  
+          helm repo add jeanlopezxyz https://jeanlopezxyz.github.io/helm-charts 2>/dev/null || echo "Own repository not yet available"
           
           helm repo update
 
@@ -145,7 +147,7 @@ jobs:
                       <h1><i class="fas fa-ship"></i> DemoJam Helm Charts</h1>
                       <p>Enterprise repository for Red Hat DemoJam 2026</p>
                       <div class="repo-url">
-                          <code>helm repo add demojam https://jeanlopezxyz.github.io/helm-charts</code>
+                          <code>helm repo add jeanlopezxyz https://jeanlopezxyz.github.io/helm-charts</code>
                           <button onclick="copyToClipboard(this.previousElementSibling.textContent)">
                               <i class="fas fa-copy"></i>
                           </button>
@@ -165,21 +167,21 @@ jobs:
                       <h2>Quick Start</h2>
                       <div class="code-block">
                           <pre><code># Add the repository
-          helm repo add demojam https://jeanlopezxyz.github.io/helm-charts
+          helm repo add jeanlopezxyz https://jeanlopezxyz.github.io/helm-charts
 
           # Update repositories
           helm repo update
 
           # List available charts
-          helm search repo demojam
+          helm search repo jeanlopezxyz
 
           # Install a chart
-          helm install my-release demojam/CHART-NAME</code></pre>
+          helm install my-release jeanlopezxyz/CHART-NAME</code></pre>
                       </div>
                       
                       <div class="artifact-hub-info">
                           <h3><i class="fas fa-external-link-alt"></i> Also available on Artifact Hub</h3>
-                          <p>Browse and discover our charts on <a href="https://artifacthub.io/packages/search?repo=demojam" target="_blank">Artifact Hub</a></p>
+                          <p>Browse and discover our charts on <a href="https://artifacthub.io/packages/search?repo=jeanlopezxyz" target="_blank">Artifact Hub</a></p>
                       </div>
                   </section>
               </main>
