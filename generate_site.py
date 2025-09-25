@@ -68,16 +68,20 @@ html_content = '''<!DOCTYPE html>
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
         }
         main { padding: 2rem 0; }
-        .search-section { margin-bottom: 2rem; }
+        .search-section { margin-bottom: 2rem; display: flex; justify-content: flex-start; }
         .search-box {
-            width: 100%; max-width: 400px; padding: 1rem 1.5rem; border: 1px solid #475569;
-            border-radius: 12px; font-size: 1rem; background: rgba(30, 41, 59, 0.8);
+            width: 350px; padding: 0.75rem 1.25rem; border: 1px solid #475569;
+            border-radius: 10px; font-size: 0.95rem; background: rgba(30, 41, 59, 0.8);
             color: #f8fafc; backdrop-filter: blur(20px);
         }
         .search-box:focus { outline: none; border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3); }
         .search-box::placeholder { color: #94a3b8; }
         .charts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 1.5rem; margin-top: 2rem; max-width: 1400px; margin-left: auto; margin-right: auto; }
-        @media (max-width: 768px) { .charts-grid { grid-template-columns: 1fr; gap: 1rem; } }
+        @media (max-width: 768px) { 
+            .charts-grid { grid-template-columns: 1fr; gap: 1rem; } 
+            .search-box { width: 100%; }
+            .search-section { justify-content: center; }
+        }
         .chart-card {
             background: rgba(30, 41, 59, 0.9); border: 1px solid #475569; border-radius: 16px;
             padding: 1.5rem; transition: all 0.3s ease; backdrop-filter: blur(20px);
