@@ -83,44 +83,33 @@ const chartConfig = {
 
 // Create chart card HTML
 function createChartCard(name, data) {
+    console.log(`Creating card for: ${name}`);
     const installName = name.replace(/^(setup-|helper-)/, '');
     const repoUrl = `https://github.com/jeanlopezxyz/helm-charts/tree/main/charts/${name}`;
     const downloadUrl = `https://jeanlopezxyz.github.io/helm-charts/${name}-${data.version}.tgz`;
     
     return `
-        <div class="chart-card category-${data.category}" data-name="${name}" data-tags="${data.tags.join(' ')}">
-            <div class="chart-header">
-                <i class="${data.icon} chart-icon"></i>
+        <div class="chart-card category-${data.category}" style="background: white; border: 1px solid #ccc; padding: 20px; margin: 10px; border-radius: 8px;">
+            <div class="chart-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
                 <div class="chart-info">
-                    <div class="chart-title">${name}</div>
-                    <span class="chart-version">v${data.version}</span>
+                    <h3 class="chart-title" style="margin: 0; color: #333; font-size: 1.2rem;">${name}</h3>
+                    <span class="chart-version" style="background: #dc2626; color: white; padding: 4px 8px; border-radius: 4px; font-size: 0.8rem;">v${data.version}</span>
                 </div>
-                <div class="chart-actions">
-                    <a href="${repoUrl}" target="_blank" class="action-btn repo-btn" title="View Source">
-                        <i class="fab fa-github"></i>
+                <div class="chart-actions" style="display: flex; gap: 8px;">
+                    <a href="${repoUrl}" target="_blank" class="action-btn repo-btn" title="View Source" style="padding: 8px; background: #f0f0f0; border-radius: 4px; text-decoration: none; color: #333;">
+                        GitHub
                     </a>
-                    <a href="${downloadUrl}" class="action-btn download-btn" title="Download Chart">
-                        <i class="fas fa-download"></i>
+                    <a href="${downloadUrl}" class="action-btn download-btn" title="Download Chart" style="padding: 8px; background: #059669; color: white; border-radius: 4px; text-decoration: none;">
+                        Download
                     </a>
                 </div>
             </div>
-            <div class="chart-description">${data.description}</div>
-            <div class="chart-tags">
-                ${data.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+            <div class="chart-description" style="color: #666; margin-bottom: 15px; line-height: 1.4;">${data.description}</div>
+            <div class="chart-tags" style="margin-bottom: 15px;">
+                ${data.tags.map(tag => `<span class="tag" style="background: #f1f5f9; color: #475569; padding: 2px 8px; border-radius: 4px; font-size: 0.8rem; margin-right: 4px; display: inline-block;">${tag}</span>`).join('')}
             </div>
-            <div class="chart-install">
-                <div class="install-command">
-                    <code>helm install ${installName} jeanlopezxyz/${name}</code>
-                    <button class="copy-btn" onclick="copyInstallCommand(this, '${installName}', '${name}')">
-                        <i class="fas fa-copy"></i>
-                    </button>
-                </div>
-            </div>
-            <div class="chart-links">
-                <a href="https://artifacthub.io/packages/helm/jeanlopezxyz/${name}" target="_blank" class="artifact-hub-link">
-                    <i class="fas fa-external-link-alt"></i>
-                    View on Artifact Hub
-                </a>
+            <div class="chart-install" style="background: #f8fafc; padding: 10px; border-radius: 4px;">
+                <code style="font-family: monospace; color: #333;">helm install ${installName} jeanlopezxyz/${name}</code>
             </div>
         </div>
     `;
@@ -293,7 +282,12 @@ function scrollToTop() {
 
 // Initialize page
 document.addEventListener('DOMContentLoaded', () => {
-    // Load and render charts
+    console.log('DOM loaded, initializing...');
+    
+    // Force render from config immediately 
+    renderChartsFromConfig();
+    
+    // Also try to load from index.yaml (non-blocking)
     loadCharts();
     
     // Scroll to top button
