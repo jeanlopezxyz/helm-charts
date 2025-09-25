@@ -172,11 +172,6 @@
             background: linear-gradient(90deg, #3b82f6, #06b6d4);
         }
         
-        .chart-card:hover {
-            transform: translateY(-8px);
-            border-color: #3b82f6;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
-        }
         
         .chart-header {
             display: flex;
@@ -217,11 +212,6 @@
             color: #e2e8f0;
         }
         
-        .icon-btn-secondary:hover {
-            background: rgba(71, 85, 105, 0.9);
-            border-color: #3b82f6;
-            transform: scale(1.05);
-        }
         
         .icon-btn-success {
             background: rgba(16, 185, 129, 0.8);
@@ -229,10 +219,6 @@
             color: white;
         }
         
-        .icon-btn-success:hover {
-            background: rgba(5, 150, 105, 0.9);
-            transform: scale(1.05);
-        }
         
         .chart-icon {
             width: 36px;
@@ -356,6 +342,31 @@
             color: #60a5fa;
         }
         
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(16, 185, 129, 0.95);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            font-weight: 500;
+            z-index: 1000;
+            opacity: 0;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(-10px);
+        }
+        
     </style>
 </head>
 <body>
@@ -423,8 +434,11 @@
                         <span class="tag">operator</span>
                         <span class="tag">automation</span>
                     </div>
-                    <div class="install-command">
-                        helm install operator jeanlopezxyz/helper-operator
+                    <div class="install-command" style="position: relative;">
+                        <span>helm install operator jeanlopezxyz/helper-operator</span>
+                        <button class="copy-btn" onclick="copyCommand(this, 'helm install operator jeanlopezxyz/helper-operator')" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: rgba(59, 130, 246, 0.8); border: none; color: white; padding: 6px 8px; border-radius: 4px; cursor: pointer; font-size: 0.8rem;">
+                            <i class="fas fa-copy"></i>
+                        </button>
                     </div>
                 </div>
 
@@ -456,8 +470,11 @@
                         <span class="tag">monitoring</span>
                         <span class="tag">health</span>
                     </div>
-                    <div class="install-command">
-                        helm install status-checker jeanlopezxyz/helper-status-checker
+                    <div class="install-command" style="position: relative;">
+                        <span>helm install status-checker jeanlopezxyz/helper-status-checker</span>
+                        <button class="copy-btn" onclick="copyCommand(this, 'helm install status-checker jeanlopezxyz/helper-status-checker')" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: rgba(59, 130, 246, 0.8); border: none; color: white; padding: 6px 8px; border-radius: 4px; cursor: pointer; font-size: 0.8rem;">
+                            <i class="fas fa-copy"></i>
+                        </button>
                     </div>
                 </div>
 
@@ -489,8 +506,11 @@
                         <span class="tag">tekton</span>
                         <span class="tag">operator</span>
                     </div>
-                    <div class="install-command">
-                        helm install pipelines jeanlopezxyz/setup-rh-operator-pipelines
+                    <div class="install-command" style="position: relative;">
+                        <span>helm install pipelines jeanlopezxyz/setup-rh-operator-pipelines</span>
+                        <button class="copy-btn" onclick="copyCommand(this, 'helm install pipelines jeanlopezxyz/setup-rh-operator-pipelines')" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: rgba(59, 130, 246, 0.8); border: none; color: white; padding: 6px 8px; border-radius: 4px; cursor: pointer; font-size: 0.8rem;">
+                            <i class="fas fa-copy"></i>
+                        </button>
                     </div>
                 </div>
 
@@ -522,8 +542,11 @@
                         <span class="tag">operator</span>
                         <span class="tag">openshift</span>
                     </div>
-                    <div class="install-command">
-                        helm install console jeanlopezxyz/setup-rh-operator-console
+                    <div class="install-command" style="position: relative;">
+                        <span>helm install console jeanlopezxyz/setup-rh-operator-console</span>
+                        <button class="copy-btn" onclick="copyCommand(this, 'helm install console jeanlopezxyz/setup-rh-operator-console')" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: rgba(59, 130, 246, 0.8); border: none; color: white; padding: 6px 8px; border-radius: 4px; cursor: pointer; font-size: 0.8rem;">
+                            <i class="fas fa-copy"></i>
+                        </button>
                     </div>
                 </div>
 
@@ -555,8 +578,11 @@
                         <span class="tag">operator</span>
                         <span class="tag">identity</span>
                     </div>
-                    <div class="install-command">
-                        helm install keycloak jeanlopezxyz/setup-rh-operator-keycloak
+                    <div class="install-command" style="position: relative;">
+                        <span>helm install keycloak jeanlopezxyz/setup-rh-operator-keycloak</span>
+                        <button class="copy-btn" onclick="copyCommand(this, 'helm install keycloak jeanlopezxyz/setup-rh-operator-keycloak')" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: rgba(59, 130, 246, 0.8); border: none; color: white; padding: 6px 8px; border-radius: 4px; cursor: pointer; font-size: 0.8rem;">
+                            <i class="fas fa-copy"></i>
+                        </button>
                     </div>
                 </div>
 
@@ -588,8 +614,11 @@
                         <span class="tag">operator</span>
                         <span class="tag">backstage</span>
                     </div>
-                    <div class="install-command">
-                        helm install developer-hub jeanlopezxyz/setup-rh-operator-developer-hub
+                    <div class="install-command" style="position: relative;">
+                        <span>helm install developer-hub jeanlopezxyz/setup-rh-operator-developer-hub</span>
+                        <button class="copy-btn" onclick="copyCommand(this, 'helm install developer-hub jeanlopezxyz/setup-rh-operator-developer-hub')" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: rgba(59, 130, 246, 0.8); border: none; color: white; padding: 6px 8px; border-radius: 4px; cursor: pointer; font-size: 0.8rem;">
+                            <i class="fas fa-copy"></i>
+                        </button>
                     </div>
                 </div>
 
@@ -621,8 +650,11 @@
                         <span class="tag">openshift</span>
                         <span class="tag">assistant</span>
                     </div>
-                    <div class="install-command">
-                        helm install ai-assistant jeanlopezxyz/setup-app-openshift-ai-asistant
+                    <div class="install-command" style="position: relative;">
+                        <span>helm install ai-assistant jeanlopezxyz/setup-app-openshift-ai-asistant</span>
+                        <button class="copy-btn" onclick="copyCommand(this, 'helm install ai-assistant jeanlopezxyz/setup-app-openshift-ai-asistant')" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: rgba(59, 130, 246, 0.8); border: none; color: white; padding: 6px 8px; border-radius: 4px; cursor: pointer; font-size: 0.8rem;">
+                            <i class="fas fa-copy"></i>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -666,6 +698,59 @@ helm install my-release jeanlopezxyz/CHART-NAME
                 card.style.display = text.includes(searchTerm) ? 'block' : 'none';
             });
         });
+
+        // Modern copy function with toast notification
+        function copyCommand(button, command) {
+            navigator.clipboard.writeText(command).then(() => {
+                showToast('¡Comando copiado al portapapeles!');
+                
+                // Change button icon temporarily
+                const originalIcon = button.innerHTML;
+                button.innerHTML = '<i class="fas fa-check"></i>';
+                button.style.background = 'rgba(16, 185, 129, 0.8)';
+                
+                setTimeout(() => {
+                    button.innerHTML = originalIcon;
+                    button.style.background = 'rgba(59, 130, 246, 0.8)';
+                }, 2000);
+            }).catch(() => {
+                showToast('Error al copiar al portapapeles', 'error');
+            });
+        }
+
+        // Show toast notification
+        function showToast(message, type = 'success') {
+            // Remove existing toast
+            const existingToast = document.querySelector('.toast');
+            if (existingToast) {
+                existingToast.remove();
+            }
+
+            // Create new toast
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
+                <span>${message}</span>
+            `;
+
+            document.body.appendChild(toast);
+
+            // Show toast
+            setTimeout(() => {
+                toast.classList.add('show');
+            }, 100);
+
+            // Hide toast after 3 seconds
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => {
+                    if (toast.parentNode) {
+                        toast.parentNode.removeChild(toast);
+                    }
+                }, 300);
+            }, 3000);
+        }
     </script>
 </body>
 </html>
