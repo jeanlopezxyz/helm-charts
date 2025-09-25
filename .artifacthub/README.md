@@ -13,7 +13,7 @@ To register this repository with Artifact Hub:
 5. Select "Helm Charts"
 6. Fill in the details:
    - **Name**: `jeanlopezxyz`
-   - **Display Name**: `DemoJam Helm Charts Repository`
+   - **Display Name**: `Helm Charts Repository`
    - **URL**: `https://jeanlopezxyz.github.io/helm-charts`
    - **Description**: `Enterprise Helm charts repository for Red Hat DemoJam 2026`
 

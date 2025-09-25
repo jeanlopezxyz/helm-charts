@@ -1,4 +1,4 @@
-# DemoJam Helm Charts Repository
+# Helm Charts Repository
 
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Helm](https://img.shields.io/badge/Helm-v3-blue)](https://helm.sh)
