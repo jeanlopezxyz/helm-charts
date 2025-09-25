@@ -228,7 +228,7 @@ jobs:
                   .chart-card:hover { transform: translateY(-8px); border-color: #3b82f6; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5); }
                   .chart-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 0.75rem; position: relative; }
                   .chart-main-info { display: flex; align-items: center; flex: 1; }
-                  .chart-actions-top { display: flex; gap: 0.4rem; flex-shrink: 0; }
+                  .chart-actions-top { display: flex; gap: 0.3rem; flex-shrink: 0; }
                   .icon-btn {
                       width: 30px; height: 30px; border-radius: 6px; display: flex; align-items: center; justify-content: center;
                       text-decoration: none; transition: all 0.2s ease; backdrop-filter: blur(10px); font-size: 0.8rem;
@@ -237,6 +237,8 @@ jobs:
                   .icon-btn-secondary:hover { background: rgba(71, 85, 105, 0.9); border-color: #3b82f6; transform: scale(1.05); }
                   .icon-btn-success { background: rgba(16, 185, 129, 0.8); border: 1px solid #10b981; color: white; }
                   .icon-btn-success:hover { background: rgba(5, 150, 105, 0.9); transform: scale(1.05); }
+                  .icon-btn-purple { background: rgba(139, 92, 246, 0.8); border: 1px solid #8b5cf6; color: white; }
+                  .icon-btn-purple:hover { background: rgba(124, 58, 237, 0.9); transform: scale(1.05); }
                   .chart-icon {
                       width: 44px; height: 54px; margin-right: 1rem; border-radius: 10px; display: flex;
                       align-items: center; justify-content: center; font-size: 1.2rem; color: #3b82f6;
@@ -252,23 +254,19 @@ jobs:
                       padding: 0.2rem 0.6rem; border-radius: 6px; font-size: 0.7rem; font-weight: 500;
                       margin-right: 0.4rem; margin-bottom: 0.3rem; border: 1px solid rgba(59, 130, 246, 0.25);
                   }
-                  .artifact-hub-link {
-                      margin-bottom: 1rem; text-align: center;
-                  }
-                  .artifact-hub-link a {
-                      color: #8b5cf6; text-decoration: none; font-size: 0.8rem; font-weight: 500;
-                      display: inline-flex; align-items: center; gap: 0.5rem;
-                      padding: 0.5rem 1rem; background: rgba(139, 92, 246, 0.1); border: 1px solid rgba(139, 92, 246, 0.2);
-                      border-radius: 8px; transition: all 0.2s ease;
-                  }
-                  .artifact-hub-link a:hover {
-                      background: rgba(139, 92, 246, 0.2); border-color: #8b5cf6; transform: translateY(-1px);
-                  }
                   .install-command {
                       background: rgba(15, 23, 42, 0.9); border: 1px solid #475569; border-radius: 10px;
                       padding: 1rem 1.25rem; font-family: "SF Mono", "Monaco", "Cascadia Code", monospace;
                       font-size: 0.85rem; color: #10b981; font-weight: 400; letter-spacing: 0.025em;
-                      margin-top: auto; text-align: center;
+                      margin-top: auto; position: relative; display: flex; align-items: center; justify-content: center;
+                  }
+                  .copy-btn {
+                      position: absolute; right: 0.75rem; background: rgba(59, 130, 246, 0.2); border: 1px solid #3b82f6;
+                      color: #3b82f6; padding: 0.3rem; border-radius: 4px; cursor: pointer; font-size: 0.7rem;
+                      transition: all 0.2s ease; display: flex; align-items: center; justify-content: center;
+                  }
+                  .copy-btn:hover {
+                      background: rgba(59, 130, 246, 0.3); transform: scale(1.05);
                   }
                   .footer-content {
                       display: grid; grid-template-columns: repeat(3, 1fr); gap: 3rem; padding: 2rem 0;
@@ -357,16 +355,19 @@ jobs:
                                       <a href="https://jeanlopezxyz.github.io/helm-charts/{chart['name']}-{chart['version']}.tgz" class="icon-btn icon-btn-success" title="Download Chart">
                                           <i class="fas fa-download"></i>
                                       </a>
+                                      <a href="https://artifacthub.io/packages/helm/jeanlopezxyz/{chart['name']}" target="_blank" class="icon-btn icon-btn-purple" title="Artifact Hub">
+                                          <i class="fas fa-cube"></i>
+                                      </a>
                                   </div>
                               </div>
                               <div class="chart-description">{chart['description']}</div>
                               <div class="chart-tags">{tags_html}</div>
-                              <div class="artifact-hub-link">
-                                  <a href="https://artifacthub.io/packages/helm/jeanlopezxyz/{chart['name']}" target="_blank">
-                                      <i class="fas fa-external-link-alt"></i> View on Artifact Hub
-                                  </a>
+                              <div class="install-command">
+                                  <span>helm install {install_name} jeanlopezxyz/{chart['name']}</span>
+                                  <button class="copy-btn" onclick="copyToClipboard('helm install {install_name} jeanlopezxyz/{chart['name']}')" title="Copy command">
+                                      <i class="fas fa-copy"></i>
+                                  </button>
                               </div>
-                              <div class="install-command">helm install {install_name} jeanlopezxyz/{chart['name']}</div>
                           </div>'''
           
           html_content += '''
@@ -411,6 +412,23 @@ jobs:
                           card.style.display = text.includes(searchTerm) ? 'block' : 'none';
                       });
                   });
+                  
+                  function copyToClipboard(text) {
+                      navigator.clipboard.writeText(text).then(() => {
+                          const btn = event.target.closest('.copy-btn');
+                          const original = btn.innerHTML;
+                          btn.innerHTML = '<i class="fas fa-check"></i>';
+                          btn.style.background = 'rgba(16, 185, 129, 0.3)';
+                          btn.style.borderColor = '#10b981';
+                          btn.style.color = '#10b981';
+                          setTimeout(() => {
+                              btn.innerHTML = original;
+                              btn.style.background = '';
+                              btn.style.borderColor = '';
+                              btn.style.color = '';
+                          }, 2000);
+                      });
+                  }
               </script>
           </body>
           </html>'''
