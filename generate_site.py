@@ -132,6 +132,40 @@ html_content = '''<!DOCTYPE html>
             font-size: 0.85rem; color: #10b981; font-weight: 400; letter-spacing: 0.025em;
             margin-top: auto; text-align: center;
         }
+        .footer-content {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 3rem; padding: 2rem 0;
+            border-top: 1px solid rgba(59, 130, 246, 0.2);
+        }
+        .footer-section h4 {
+            color: #f8fafc; font-size: 1.1rem; font-weight: 600; margin-bottom: 1rem;
+        }
+        .footer-section p {
+            color: #94a3b8; font-size: 0.9rem; margin-bottom: 0.5rem; line-height: 1.5;
+        }
+        .footer-links {
+            display: flex; gap: 1rem; margin-top: 1rem;
+        }
+        .footer-links a {
+            color: #3b82f6; text-decoration: none; font-size: 0.9rem; font-weight: 500;
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            padding: 0.5rem 1rem; background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 8px; transition: all 0.2s ease;
+        }
+        .footer-links a:hover {
+            background: rgba(59, 130, 246, 0.2); transform: translateY(-1px);
+        }
+        .footer-command {
+            margin-top: 1rem;
+        }
+        .footer-command code {
+            background: rgba(15, 23, 42, 0.9); color: #10b981; padding: 0.75rem 1rem;
+            border-radius: 8px; font-size: 0.8rem; border: 1px solid #475569;
+            display: block; font-family: "SF Mono", "Monaco", "Cascadia Code", monospace;
+        }
+        @media (max-width: 768px) {
+            .footer-content { grid-template-columns: 1fr; gap: 2rem; text-align: center; }
+            .footer-links { justify-content: center; }
+        }
     </style>
 </head>
 <body>
@@ -203,7 +237,31 @@ html_content += '''
     </main>
     <footer>
         <div class="container">
-            <p>&copy; 2025 jeanlopezxyz. Licensed under Apache License.</p>
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Repository</h4>
+                    <p>Enterprise Helm charts for Red Hat environments</p>
+                    <div class="footer-links">
+                        <a href="https://github.com/jeanlopezxyz/helm-charts" target="_blank">
+                            <i class="fab fa-github"></i> GitHub
+                        </a>
+                        <a href="https://artifacthub.io/packages/search?repo=jeanlopezxyz" target="_blank">
+                            <i class="fas fa-cube"></i> Artifact Hub
+                        </a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Start</h4>
+                    <div class="footer-command">
+                        <code>helm repo add jeanlopezxyz https://jeanlopezxyz.github.io/helm-charts</code>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>License</h4>
+                    <p>&copy; 2025 jeanlopezxyz</p>
+                    <p>Apache License 2.0</p>
+                </div>
+            </div>
         </div>
     </footer>
     <script>
