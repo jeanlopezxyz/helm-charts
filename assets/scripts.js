@@ -117,14 +117,14 @@ function createChartCard(name, data) {
             </div>
             <div class="chart-install">
                 <div class="install-command">
-                    <code>helm install ${installName} demojam/${name}</code>
+                    <code>helm install ${installName} jeanlopezxyz/${name}</code>
                     <button class="copy-btn" onclick="copyInstallCommand(this, '${installName}', '${name}')">
                         <i class="fas fa-copy"></i>
                     </button>
                 </div>
             </div>
             <div class="chart-links">
-                <a href="https://artifacthub.io/packages/helm/demojam/${name}" target="_blank" class="artifact-hub-link">
+                <a href="https://artifacthub.io/packages/helm/jeanlopezxyz/${name}" target="_blank" class="artifact-hub-link">
                     <i class="fas fa-external-link-alt"></i>
                     View on Artifact Hub
                 </a>
@@ -230,7 +230,7 @@ function renderChartsFromConfig() {
 
 // Copy install command to clipboard
 function copyInstallCommand(button, installName, chartName) {
-    const commandText = `helm install ${installName} demojam/${chartName}`;
+    const commandText = `helm install ${installName} jeanlopezxyz/${chartName}`;
     
     navigator.clipboard.writeText(commandText).then(() => {
         const originalHTML = button.innerHTML;
