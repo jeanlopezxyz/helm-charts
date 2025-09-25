@@ -159,7 +159,7 @@ jobs:
                   <section class="charts-section">
                       <h2>Available Charts</h2>
                       <div id="charts-container" class="charts-grid">
-                          <!-- Charts will be loaded here by JavaScript -->
+                          <div class="loading">Loading charts...</div>
                       </div>
                   </section>
                   

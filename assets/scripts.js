@@ -135,15 +135,32 @@ async function loadCharts() {
         return;
     }
 
+    console.log('Loading charts...');
+    
     try {
         // Try to load from index.yaml
+        console.log('Fetching index.yaml...');
         const response = await fetch('./index.yaml');
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
         const yamlText = await response.text();
+        console.log('YAML loaded, parsing...');
         
         // Parse YAML (simple parsing for entries)
         const charts = parseHelmIndex(yamlText);
-        renderChartsFromIndex(charts);
+        console.log('Parsed charts:', charts);
+        
+        if (Object.keys(charts).length > 0) {
+            renderChartsFromIndex(charts);
+        } else {
+            console.log('No charts found in index.yaml, using fallback');
+            renderChartsFromConfig();
+        }
     } catch (error) {
+        console.log('Error loading from index.yaml:', error);
         console.log('Loading charts from static config');
         // Fallback to static config
         renderChartsFromConfig();
@@ -212,13 +229,27 @@ function renderChartsFromIndex(indexCharts) {
 // Fallback: render charts from static config
 function renderChartsFromConfig() {
     const container = document.getElementById('charts-container');
+    
+    if (!container) {
+        console.error('Charts container not found in renderChartsFromConfig');
+        return;
+    }
+    
+    console.log('Rendering from static config...');
     let html = '';
     
     Object.entries(chartConfig).forEach(([name, data]) => {
+        console.log(`Adding chart: ${name}`);
         html += createChartCard(name, data);
     });
     
+    if (html === '') {
+        html = '<p>No charts available</p>';
+        console.log('No charts found in static config');
+    }
+    
     container.innerHTML = html;
+    console.log('Charts rendered from static config');
 }
 
 // Copy install command to clipboard
