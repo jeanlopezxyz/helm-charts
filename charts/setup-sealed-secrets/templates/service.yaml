@@ -1,0 +1,56 @@
+{{- if .Values.sealedSecrets.controller.create -}}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.sealedSecrets.controller.name }}
+  namespace: {{ .Values.sealedSecrets.namespace.name }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+  labels:
+    app.kubernetes.io/name: sealed-secrets
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/component: controller
+spec:
+  type: {{ .Values.sealedSecrets.service.type }}
+  ports:
+  - port: {{ .Values.sealedSecrets.service.port }}
+    targetPort: 8080
+    protocol: TCP
+    name: http
+  selector:
+    app.kubernetes.io/name: sealed-secrets
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/component: controller
+
+{{- if .Values.sealedSecrets.metrics.enabled }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.sealedSecrets.controller.name }}-metrics
+  namespace: {{ .Values.sealedSecrets.namespace.name }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+    {{- with .Values.sealedSecrets.metrics.service.annotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+  labels:
+    app.kubernetes.io/name: sealed-secrets
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/component: controller
+spec:
+  type: ClusterIP
+  ports:
+  - port: {{ .Values.sealedSecrets.metrics.service.port }}
+    targetPort: {{ .Values.sealedSecrets.metrics.port }}
+    protocol: TCP
+    name: metrics
+  selector:
+    app.kubernetes.io/name: sealed-secrets
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/component: controller
+{{- end }}
+{{- end -}}

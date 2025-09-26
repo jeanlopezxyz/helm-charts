@@ -1,0 +1,212 @@
+# Sealed Secrets Configuration
+
+# Helpers integration
+helpers:
+  # Helper Operator para instalar Sealed Secrets operator
+  operator:
+    enabled: true
+    operators:
+      sealed-secrets-operator:
+        enabled: true
+        syncwave: 0
+        namespace:
+          name: openshift-operators
+        subscription:
+          channel: stable
+          operatorName: sealed-secrets-operator
+          source: community-operators
+
+  # Status Checker para health monitoring
+  statusChecker:
+    enabled: true
+    statusChecks:
+      checks:
+        sealed-secrets-controller:
+          enabled: true
+          type: deployment
+          namespace: sealed-secrets
+          name: sealed-secrets-controller
+
+# Sealed Secrets Controller Configuration
+sealedSecrets:
+  # Namespace where controller will be installed
+  namespace:
+    create: true
+    name: sealed-secrets
+
+  # Controller deployment configuration
+  controller:
+    create: true
+    name: sealed-secrets-controller
+
+    # Replica count
+    replicas: 1
+
+    # Log level (info, debug, trace)
+    logLevel: info
+
+    # Update strategy
+    updateStrategy:
+      type: RollingUpdate
+      rollingUpdate:
+        maxSurge: 1
+        maxUnavailable: 0
+
+    # Resources
+    resources:
+      requests:
+        memory: "128Mi"
+        cpu: "100m"
+      limits:
+        memory: "512Mi"
+        cpu: "500m"
+
+    # Node selector
+    nodeSelector: {}
+
+    # Tolerations
+    tolerations: []
+
+    # Affinity
+    affinity: {}
+
+    # Security context
+    securityContext:
+      runAsNonRoot: true
+      runAsUser: 1001
+      fsGroup: 1001
+
+  # Service configuration
+  service:
+    type: ClusterIP
+    port: 8080
+
+  # RBAC configuration
+  rbac:
+    create: true
+    clusterRole: true
+
+  # Service Account
+  serviceAccount:
+    create: true
+    name: sealed-secrets-controller
+    annotations: {}
+
+  # Secret rotation
+  keyRotation:
+    # Enable automatic key rotation
+    enabled: true
+    # Rotation schedule (cron format)
+    schedule: "0 0 * * 0"  # Weekly on Sunday
+
+  # Metrics
+  metrics:
+    enabled: true
+    port: 8081
+    service:
+      create: true
+      port: 8081
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8081"
+        prometheus.io/path: "/metrics"
+
+  # Network Policy
+  networkPolicy:
+    enabled: false
+    policyTypes:
+      - Ingress
+      - Egress
+    ingress:
+      - from:
+        - namespaceSelector:
+            matchLabels:
+              name: kube-system
+        ports:
+        - protocol: TCP
+          port: 8080
+
+  # Additional configuration
+  additionalConfig:
+    # Private key renewal interval (default 30 days)
+    keyRenewalInterval: "720h"
+
+    # Key prefix for secrets
+    keyPrefix: "sealed-secrets-key"
+
+    # Key certificate validity period
+    keyCertificateValidity: "8760h"  # 1 year
+
+    # Allow updates to existing sealed secrets
+    updateStatus: true
+
+    # Skip fetching from the API server
+    skipFetch: false
+
+    # Log info level
+    logInfoToStdout: true
+
+# Kubeseal CLI configuration (for client-side)
+kubeseal:
+  # Image configuration for init container that downloads kubeseal
+  downloadUrl: "https://github.com/bitnami-labs/sealed-secrets/releases/download/v0.24.5/kubeseal-0.24.5-linux-amd64.tar.gz"
+
+  # Install kubeseal CLI locally
+  installLocal: false
+
+# Backup configuration
+backup:
+  enabled: false
+  schedule: "0 2 * * *"  # Daily at 2 AM
+  retention: 30  # Keep backups for 30 days
+  storageClass: "gp2"
+  storageSize: "1Gi"
+
+# Monitoring and Alerts
+monitoring:
+  enabled: false
+  prometheusRule:
+    enabled: false
+    namespace: openshift-monitoring
+    rules:
+      - alert: SealedSecretsControllerDown
+        expr: up{job="sealed-secrets-controller"} == 0
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Sealed Secrets Controller is down"
+          description: "Sealed Secrets Controller has been down for more than 5 minutes"
+
+      - alert: SealedSecretsKeyRotationFailed
+        expr: sealed_secrets_key_rotation_errors_total > 0
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Sealed Secrets key rotation failed"
+          description: "Failed to rotate Sealed Secrets keys"
+
+# Advanced Configuration
+advanced:
+  # Custom annotations for all resources
+  annotations: {}
+
+  # Custom labels for all resources
+  labels: {}
+
+  # Priority class name
+  priorityClassName: ""
+
+  # Pod disruption budget
+  podDisruptionBudget:
+    enabled: false
+    minAvailable: 1
+
+  # Horizontal Pod Autoscaler
+  autoscaling:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 3
+    targetCPUUtilizationPercentage: 80
+    targetMemoryUtilizationPercentage: 80

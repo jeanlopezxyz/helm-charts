@@ -1,0 +1,35 @@
+apiVersion: v2
+name: setup-sealed-secrets
+description: Sealed Secrets controller for encrypted secrets management in Kubernetes
+type: application
+version: 1.0.0
+appVersion: "0.24.5"
+home: https://sealed-secrets.netlify.app/
+icon: https://raw.githubusercontent.com/bitnami-labs/sealed-secrets/main/assets/images/sealed-secrets.svg
+sources:
+- https://github.com/jeanlopezxyz/helm-charts
+- https://github.com/bitnami-labs/sealed-secrets
+maintainers:
+- name: Jean Paul Lopez
+  email: jealopez@redhat.com
+keywords:
+  - sealed-secrets
+  - security
+  - encryption
+  - secrets
+  - gitops
+dependencies:
+  - name: helper-operator
+    version: 1.0.0
+    repository: https://jeanlopezxyz.github.io/helm-charts
+    condition: helpers.operator.enabled
+  - name: helper-status-checker
+    version: 1.0.0
+    repository: https://jeanlopezxyz.github.io/helm-charts
+    condition: helpers.statusChecker.enabled
+annotations:
+  artifacthub.io/category: security
+  artifacthub.io/license: Apache-2.0
+  artifacthub.io/signKey: |
+    fingerprint: C12345678901234567890123456789012345678
+    url: https://keybase.io/jeanlopezxyz

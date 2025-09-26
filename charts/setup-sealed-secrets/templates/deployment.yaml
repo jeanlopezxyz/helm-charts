@@ -1,0 +1,105 @@
+{{- if .Values.sealedSecrets.controller.create -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.sealedSecrets.controller.name }}
+  namespace: {{ .Values.sealedSecrets.namespace.name }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+  labels:
+    app.kubernetes.io/name: sealed-secrets
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/component: controller
+spec:
+  replicas: {{ .Values.sealedSecrets.controller.replicas }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: sealed-secrets
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  {{- with .Values.sealedSecrets.controller.updateStrategy }}
+  strategy:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  template:
+    metadata:
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/deployment.yaml") . | sha256sum }}
+      labels:
+        app.kubernetes.io/name: sealed-secrets
+        app.kubernetes.io/instance: {{ .Release.Name }}
+        app.kubernetes.io/component: controller
+    spec:
+      serviceAccountName: {{ .Values.sealedSecrets.serviceAccount.name }}
+      {{- with .Values.sealedSecrets.controller.securityContext }}
+      securityContext:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.advanced.priorityClassName }}
+      priorityClassName: {{ . }}
+      {{- end }}
+      containers:
+      - name: controller
+        image: docker.io/bitnami/sealed-secrets-controller:0.24.5
+        imagePullPolicy: IfNotPresent
+        command:
+        - controller
+        args:
+        - --update-status={{ .Values.sealedSecrets.additionalConfig.updateStatus }}
+        - --skip-fetch={{ .Values.sealedSecrets.additionalConfig.skipFetch }}
+        - --key-renew-period={{ .Values.sealedSecrets.additionalConfig.keyRenewalInterval }}
+        - --key-prefix={{ .Values.sealedSecrets.additionalConfig.keyPrefix }}
+        - --log-level={{ .Values.sealedSecrets.controller.logLevel }}
+        {{- if .Values.sealedSecrets.metrics.enabled }}
+        - --metrics-addr=:{{ .Values.sealedSecrets.metrics.port }}
+        {{- end }}
+        ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP
+        {{- if .Values.sealedSecrets.metrics.enabled }}
+        - containerPort: {{ .Values.sealedSecrets.metrics.port }}
+          name: metrics
+          protocol: TCP
+        {{- end }}
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: http
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 1
+          successThreshold: 1
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: http
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          timeoutSeconds: 1
+          successThreshold: 1
+          failureThreshold: 3
+        {{- with .Values.sealedSecrets.controller.resources }}
+        resources:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
+        volumeMounts:
+        - mountPath: /tmp
+          name: tmp
+      volumes:
+      - name: tmp
+        emptyDir: {}
+      {{- with .Values.sealedSecrets.controller.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.sealedSecrets.controller.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.sealedSecrets.controller.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{- end -}}
