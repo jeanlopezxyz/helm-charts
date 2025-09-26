@@ -1,10 +1,12 @@
-# Sealed Secrets Setup
+# Sealed Secrets Controller Setup
 
 This Helm chart installs the Sealed Secrets controller for secure secret management in Kubernetes/OpenShift.
 
 ## Overview
 
-Sealed Secrets encrypts Kubernetes secrets that can be safely stored in Git repositories. Only the controller in the cluster can decrypt them.
+Sealed Secrets is a Kubernetes controller (not an operator) that encrypts secrets so they can be safely stored in Git repositories. Only the controller running in your cluster can decrypt them using its private key.
+
+**Note**: This is a standalone controller, not a Kubernetes Operator. It watches for SealedSecret custom resources and automatically creates decrypted Secret objects.
 
 ## Features
 

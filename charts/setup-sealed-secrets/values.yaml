@@ -1,31 +1,6 @@
-# Sealed Secrets Configuration
-
-# Helpers integration
-helpers:
-  # Helper Operator para instalar Sealed Secrets operator
-  operator:
-    enabled: true
-    operators:
-      sealed-secrets-operator:
-        enabled: true
-        syncwave: 0
-        namespace:
-          name: openshift-operators
-        subscription:
-          channel: stable
-          operatorName: sealed-secrets-operator
-          source: community-operators
-
-  # Status Checker para health monitoring
-  statusChecker:
-    enabled: true
-    statusChecks:
-      checks:
-        sealed-secrets-controller:
-          enabled: true
-          type: deployment
-          namespace: sealed-secrets
-          name: sealed-secrets-controller
+# Sealed Secrets Controller Configuration
+# Note: Sealed Secrets is a controller, not an operator
+# It manages SealedSecret custom resources and decrypts them into regular Secrets
 
 # Sealed Secrets Controller Configuration
 sealedSecrets:
