@@ -1,4 +1,6 @@
-# Helpers integration
+# Red Hat Developer Hub (Backstage) Configuration
+
+# Helpers integration for operator installation
 helpers:
   # Helper Operator para instalar RHDH operator
   operator:
@@ -25,7 +27,202 @@ helpers:
           namespace: openshift-operators
           name: rhdh-operator
 
-# Configuración básica del operador
-operator:
-  # Namespace por defecto donde se pueden crear instancias RHDH
-  defaultNamespace: "rhdh"
+# Backstage Instance Configuration
+backstage:
+  # Namespace configuration
+  namespace:
+    create: true
+    name: rhdh
+
+  # Backstage instance creation
+  instance:
+    enabled: true
+    name: developer-hub
+
+  # Number of replicas
+  replicas: 1
+
+  # Route configuration
+  route:
+    enabled: true
+    # host: developer-hub.apps.cluster.example.com  # Optional: specify custom host
+    tls:
+      enabled: true
+      termination: edge
+
+  # Database configuration
+  database:
+    # Use local database (PostgreSQL in pod)
+    enableLocalDb: true
+    # For external database, set enableLocalDb: false and provide:
+    # authSecretName: rhdh-postgres-secret
+
+  # Application configuration
+  appConfig:
+    enabled: true
+    configMapName: rhdh-app-config
+    app:
+      title: Red Hat Developer Hub
+      baseUrl: https://developer-hub.apps.cluster.example.com
+    backend:
+      baseUrl: https://developer-hub.apps.cluster.example.com
+      cors:
+        origin: https://developer-hub.apps.cluster.example.com
+      auth: true
+    # GitHub Integration
+    integrations:
+      github:
+        - host: github.com
+          token: ${GITHUB_TOKEN}
+    # Catalog configuration
+    catalog:
+      import:
+        entityFilename: catalog-info.yaml
+      rules:
+        - allow: [Component, System, API, Resource, Location, Template]
+      locations:
+        # Example catalog locations
+        - type: url
+          target: https://github.com/backstage/backstage/blob/master/packages/catalog-model/examples/all.yaml
+    # Kubernetes plugin configuration
+    kubernetes:
+      serviceLocatorMethod:
+        type: multiTenant
+      clusterLocatorMethods:
+        - type: config
+          clusters:
+            - name: local
+              url: https://kubernetes.default.svc
+              authProvider: serviceAccount
+              skipTLSVerify: false
+              skipMetricsLookup: false
+    # TechDocs configuration
+    techdocs:
+      builder: local
+      generator:
+        runIn: local
+      publisher:
+        type: local
+    # ArgoCD plugin configuration
+    argocd:
+      appLocatorMethods:
+        - type: config
+          instances:
+            - name: argocd
+              url: https://argocd-server.argocd.svc
+              username: ${ARGOCD_USERNAME}
+              password: ${ARGOCD_PASSWORD}
+
+  # Dynamic Plugins Configuration
+  dynamicPlugins:
+    enabled: true
+    configMapName: dynamic-plugins-rhdh
+    plugins:
+      # GitHub plugin
+      - package: './dynamic-plugins/dist/backstage-plugin-catalog-backend-module-github-dynamic'
+        disabled: false
+        pluginConfig:
+          catalog:
+            providers:
+              github:
+                organization: "${GITHUB_ORG}"
+                schedule:
+                  frequency:
+                    minutes: 30
+                  timeout:
+                    minutes: 3
+                  initialDelay:
+                    seconds: 100
+
+      # Kubernetes plugin
+      - package: './dynamic-plugins/dist/backstage-plugin-kubernetes-backend-dynamic'
+        disabled: false
+
+      # ArgoCD plugin
+      - package: './dynamic-plugins/dist/roadiehq-backstage-plugin-argo-cd-backend-dynamic'
+        disabled: false
+
+      # Jira plugin
+      - package: './dynamic-plugins/dist/roadiehq-backstage-plugin-jira-dynamic'
+        disabled: true  # Enable if Jira is configured
+        pluginConfig:
+          jira:
+            host: "${JIRA_URL}"
+            token: "${JIRA_TOKEN}"
+
+      # SonarQube plugin
+      - package: './dynamic-plugins/dist/backstage-plugin-sonarqube-backend-dynamic'
+        disabled: true  # Enable if SonarQube is configured
+        pluginConfig:
+          sonarqube:
+            baseUrl: "${SONARQUBE_URL}"
+            apiKey: "${SONARQUBE_TOKEN}"
+
+      # PagerDuty plugin
+      - package: './dynamic-plugins/dist/backstage-plugin-pagerduty-dynamic'
+        disabled: true  # Enable if PagerDuty is configured
+
+      # Jenkins plugin
+      - package: './dynamic-plugins/dist/backstage-plugin-jenkins-backend-dynamic'
+        disabled: true  # Enable if Jenkins is configured
+        pluginConfig:
+          jenkins:
+            baseUrl: "${JENKINS_URL}"
+            username: "${JENKINS_USERNAME}"
+            apiKey: "${JENKINS_API_KEY}"
+
+      # TechDocs plugin
+      - package: './dynamic-plugins/dist/backstage-plugin-techdocs-backend-dynamic'
+        disabled: false
+
+      # GitHub Actions plugin
+      - package: './dynamic-plugins/dist/backstage-plugin-github-actions-dynamic'
+        disabled: false
+
+      # GitLab plugin
+      - package: './dynamic-plugins/dist/backstage-plugin-gitlab-backend-dynamic'
+        disabled: true  # Enable if GitLab is configured
+        pluginConfig:
+          integrations:
+            gitlab:
+              - host: "${GITLAB_HOST}"
+                token: "${GITLAB_TOKEN}"
+                apiBaseUrl: "${GITLAB_API_URL}"
+
+      # Prometheus plugin
+      - package: './dynamic-plugins/dist/roadiehq-backstage-plugin-prometheus-dynamic'
+        disabled: true  # Enable if Prometheus is configured
+        pluginConfig:
+          prometheus:
+            proxyPath: /prometheus/api
+            uiUrl: "${PROMETHEUS_URL}"
+
+  # Environment variables from secrets
+  extraEnvs:
+    secrets:
+      - rhdh-secrets  # Create this secret with needed tokens
+
+  # Extra files
+  extraFiles:
+    enabled: false
+    mountPath: /opt/app-root/src
+
+# Advanced Configuration
+advanced:
+  # Resource limits
+  resources:
+    requests:
+      memory: "1Gi"
+      cpu: "500m"
+    limits:
+      memory: "2Gi"
+      cpu: "1000m"
+
+  # Node selector
+  nodeSelector: {}
+
+  # Tolerations
+  tolerations: []
+
+  # Affinity rules
+  affinity: {}

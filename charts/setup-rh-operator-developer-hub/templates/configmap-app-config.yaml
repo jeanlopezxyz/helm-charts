@@ -1,0 +1,49 @@
+{{- if .Values.backstage.appConfig.enabled -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.backstage.appConfig.configMapName }}
+  namespace: {{ .Values.backstage.namespace.name }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+data:
+  app-config.yaml: |
+    app:
+      title: {{ .Values.backstage.appConfig.app.title | quote }}
+      baseUrl: {{ .Values.backstage.appConfig.app.baseUrl | quote }}
+
+    backend:
+      baseUrl: {{ .Values.backstage.appConfig.backend.baseUrl | quote }}
+      cors:
+        origin: {{ .Values.backstage.appConfig.backend.cors.origin | quote }}
+      {{- if .Values.backstage.appConfig.backend.auth }}
+      auth:
+        keys:
+          - secret: ${BACKEND_SECRET}
+      {{- end }}
+
+    {{- if .Values.backstage.appConfig.integrations }}
+    integrations:
+      {{- toYaml .Values.backstage.appConfig.integrations | nindent 6 }}
+    {{- end }}
+
+    {{- if .Values.backstage.appConfig.catalog }}
+    catalog:
+      {{- toYaml .Values.backstage.appConfig.catalog | nindent 6 }}
+    {{- end }}
+
+    {{- if .Values.backstage.appConfig.kubernetes }}
+    kubernetes:
+      {{- toYaml .Values.backstage.appConfig.kubernetes | nindent 6 }}
+    {{- end }}
+
+    {{- if .Values.backstage.appConfig.techdocs }}
+    techdocs:
+      {{- toYaml .Values.backstage.appConfig.techdocs | nindent 6 }}
+    {{- end }}
+
+    {{- if .Values.backstage.appConfig.argocd }}
+    argocd:
+      {{- toYaml .Values.backstage.appConfig.argocd | nindent 6 }}
+    {{- end }}
+{{- end -}}

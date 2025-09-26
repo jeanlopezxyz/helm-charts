@@ -1,0 +1,47 @@
+{{- if .Values.backstage.instance.enabled -}}
+apiVersion: rhdh.redhat.com/v1alpha3
+kind: Backstage
+metadata:
+  name: {{ .Values.backstage.instance.name }}
+  namespace: {{ .Values.backstage.namespace.name }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  application:
+    {{- if .Values.backstage.appConfig.enabled }}
+    appConfig:
+      mountPath: /opt/app-root/src
+      configMaps:
+        - name: {{ .Values.backstage.appConfig.configMapName }}
+    {{- end }}
+    {{- if .Values.backstage.dynamicPlugins.enabled }}
+    dynamicPluginsConfigMapName: {{ .Values.backstage.dynamicPlugins.configMapName }}
+    {{- end }}
+    {{- if .Values.backstage.extraEnvs.secrets }}
+    extraEnvs:
+      secrets:
+        {{- range .Values.backstage.extraEnvs.secrets }}
+        - name: {{ . }}
+        {{- end }}
+    {{- end }}
+    {{- if .Values.backstage.extraFiles.enabled }}
+    extraFiles:
+      mountPath: {{ .Values.backstage.extraFiles.mountPath | default "/opt/app-root/src" }}
+    {{- end }}
+    replicas: {{ .Values.backstage.replicas | default 1 }}
+  route:
+    enabled: {{ .Values.backstage.route.enabled | default true }}
+    {{- if .Values.backstage.route.host }}
+    host: {{ .Values.backstage.route.host }}
+    {{- end }}
+    {{- if .Values.backstage.route.tls }}
+    tls:
+      {{- toYaml .Values.backstage.route.tls | nindent 6 }}
+    {{- end }}
+  database:
+    {{- if .Values.backstage.database.enableLocalDb }}
+    enableLocalDb: true
+    {{- else }}
+    authSecretName: {{ .Values.backstage.database.authSecretName }}
+    {{- end }}
+{{- end -}}

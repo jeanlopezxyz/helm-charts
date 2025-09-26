@@ -1,0 +1,22 @@
+{{- if .Values.backstage.dynamicPlugins.enabled -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.backstage.dynamicPlugins.configMapName }}
+  namespace: {{ .Values.backstage.namespace.name }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+data:
+  dynamic-plugins.yaml: |
+    includes:
+      - dynamic-plugins.default.yaml
+    plugins:
+      {{- range .Values.backstage.dynamicPlugins.plugins }}
+      - package: {{ .package | quote }}
+        disabled: {{ .disabled | default false }}
+        {{- if .pluginConfig }}
+        pluginConfig:
+          {{- toYaml .pluginConfig | nindent 10 }}
+        {{- end }}
+      {{- end }}
+{{- end -}}
