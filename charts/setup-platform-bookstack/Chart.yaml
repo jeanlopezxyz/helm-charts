@@ -2,7 +2,7 @@ apiVersion: v2
 name: setup-platform-bookstack
 description: Setup Bookstack Documentation Platform for DemoJam with backup integration
 type: application
-version: 1.0.0
+version: 1.0.1
 appVersion: "23.10.0"
 home: https://github.com/jeanlopezxyz/helm-charts
 sources:
