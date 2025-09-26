@@ -48,8 +48,9 @@ html_content = '''<!DOCTYPE html>
         .container { max-width: 1400px; margin: 0 auto; padding: 0 12px; }
         header {
             background: linear-gradient(135deg, rgba(15, 23, 42, 0.98) 0%, rgba(30, 41, 59, 0.95) 100%);
-            backdrop-filter: blur(20px); border-bottom: 1px solid rgba(59, 130, 246, 0.2);
-            padding: 2rem 0; position: relative; overflow: hidden;
+            backdrop-filter: blur(20px); border-bottom: 2px solid rgba(59, 130, 246, 0.3);
+            padding: 4rem 0; position: relative; overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
         }
         .header-content { position: relative; z-index: 1; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 2rem; }
         .header-left { flex: 1; min-width: 300px; }
@@ -59,7 +60,13 @@ html_content = '''<!DOCTYPE html>
             font-size: 1.5rem; color: #f8fafc; background: rgba(59, 130, 246, 0.2);
             border: 1px solid rgba(59, 130, 246, 0.3); backdrop-filter: blur(10px);
         }
-        h1 { font-size: 2.2rem; font-weight: 700; color: #f8fafc; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 1rem; }
+        h1 { 
+            font-size: 2.8rem; font-weight: 800; color: #f8fafc; margin-bottom: 1rem; 
+            display: flex; align-items: center; gap: 1rem; 
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
         .subtitle { color: #94a3b8; font-size: 1rem; margin-bottom: 1.5rem; font-weight: 500; }
         .repo-command-container {
             position: relative; margin-top: 1rem;
@@ -102,15 +109,19 @@ html_content = '''<!DOCTYPE html>
             .search-section { justify-content: center; }
         }
         .chart-card {
-            background: rgba(30, 41, 59, 0.9); border: 1px solid #475569; border-radius: 16px;
-            padding: 1.25rem; transition: all 0.3s ease; backdrop-filter: blur(20px);
-            position: relative; overflow: hidden; height: 260px; display: flex; flex-direction: column;
+            background: rgba(30, 41, 59, 0.95); border: 1px solid #475569; border-radius: 20px;
+            padding: 2rem; transition: all 0.3s ease; backdrop-filter: blur(20px);
+            position: relative; overflow: hidden; min-height: 200px; display: flex; flex-direction: column;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
         }
         .chart-card::before {
             content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
             background: linear-gradient(90deg, #3b82f6, #06b6d4);
         }
-        .chart-card:hover { transform: translateY(-8px); border-color: #3b82f6; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5); }
+        .chart-card:hover { 
+            transform: translateY(-4px); border-color: #3b82f6; 
+            box-shadow: 0 12px 20px -5px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(59, 130, 246, 0.1); 
+        }
         .chart-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 0.75rem; position: relative; }
         .chart-main-info { display: flex; align-items: center; flex: 1; }
         .chart-actions-top { display: flex; gap: 0.3rem; flex-shrink: 0; }
@@ -125,10 +136,11 @@ html_content = '''<!DOCTYPE html>
         .icon-btn-purple { background: rgba(139, 92, 246, 0.8); border: 1px solid #8b5cf6; color: white; }
         .icon-btn-purple:hover { background: rgba(124, 58, 237, 0.9); transform: scale(1.05); }
         .chart-icon {
-            width: 44px; height: 54px; margin-right: 1rem; border-radius: 10px; display: flex;
-            align-items: center; justify-content: center; font-size: 1.2rem; color: #3b82f6;
-            background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.2);
-            align-self: flex-start;
+            width: 48px; height: 48px; margin-right: 1.25rem; border-radius: 12px; display: flex;
+            align-items: center; justify-content: center; font-size: 1.3rem; color: #3b82f6;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.15) 0%, rgba(6, 182, 212, 0.1) 100%);
+            border: 1px solid rgba(59, 130, 246, 0.3); align-self: flex-start;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
         .chart-info h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.1rem; color: #f8fafc; line-height: 1.3; }
         .chart-version { color: #94a3b8; font-size: 0.75rem; font-weight: 500; }
@@ -138,30 +150,6 @@ html_content = '''<!DOCTYPE html>
             display: inline-block; background: rgba(59, 130, 246, 0.15); color: #93c5fd;
             padding: 0.2rem 0.6rem; border-radius: 6px; font-size: 0.7rem; font-weight: 500;
             margin-right: 0.4rem; margin-bottom: 0.3rem; border: 1px solid rgba(59, 130, 246, 0.25);
-        }
-        .command-container {
-            margin-top: auto; position: relative;
-        }
-        .command-header {
-            display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;
-        }
-        .command-label {
-            color: #94a3b8; font-size: 0.75rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em;
-        }
-        .copy-btn {
-            background: rgba(59, 130, 246, 0.2); border: 1px solid #3b82f6;
-            color: #3b82f6; padding: 0.4rem; border-radius: 6px; cursor: pointer; font-size: 0.7rem;
-            transition: all 0.2s ease; display: flex; align-items: center; justify-content: center;
-            width: 28px; height: 28px;
-        }
-        .copy-btn:hover {
-            background: rgba(59, 130, 246, 0.3); transform: scale(1.05);
-        }
-        .install-command {
-            background: rgba(15, 23, 42, 0.9); border: 1px solid #475569; border-radius: 10px;
-            padding: 1rem 1.25rem; font-family: "SF Mono", "Monaco", "Cascadia Code", monospace;
-            font-size: 0.85rem; color: #10b981; font-weight: 400; letter-spacing: 0.025em;
-            text-align: center; word-break: break-all;
         }
         .footer-content {
             display: flex; justify-content: space-between; align-items: center; padding: 2.5rem 0;
@@ -211,16 +199,7 @@ html_content = '''<!DOCTYPE html>
             <div class="header-content">
                 <div class="header-left">
                     <h1><i class="fas fa-dharmachakra" style="color: #3b82f6;"></i>Helm Charts Repository</h1>
-                    <p class="subtitle">Production-ready Helm charts for Red Hat OpenShift operators and enterprise applications. Automated installation with helper charts and comprehensive monitoring.</p>
-                    <div class="repo-command-container">
-                        <div class="repo-header">
-                            <span class="repo-label">Add Repository</span>
-                            <button class="repo-copy-btn" onclick="copyRepoCommand()" title="Copy command">
-                                <i class="fas fa-copy"></i>
-                            </button>
-                        </div>
-                        <div class="repo-add">helm repo add jeanlopezxyz https://jeanlopezxyz.github.io/helm-charts</div>
-                    </div>
+                    <p class="subtitle">Curated collection of enterprise-grade Helm charts designed for Red Hat OpenShift environments. Each chart follows cloud-native best practices with automated operator deployment, comprehensive health monitoring, and production-ready security configurations.</p>
                 </div>
             </div>
         </div>
@@ -263,15 +242,6 @@ for chart in charts:
                     </div>
                     <div class="chart-description">{chart['description']}</div>
                     <div class="chart-tags">{tags_html}</div>
-                    <div class="command-container">
-                        <div class="command-header">
-                            <span class="command-label">Install Command</span>
-                            <button class="copy-btn" onclick="copyToClipboard('helm install {install_name} jeanlopezxyz/{chart['name']}')" title="Copy command">
-                                <i class="fas fa-copy"></i>
-                            </button>
-                        </div>
-                        <div class="install-command">helm install {install_name} jeanlopezxyz/{chart['name']}</div>
-                    </div>
                 </div>'''
 
 html_content += '''
@@ -308,40 +278,6 @@ html_content += '''
             });
         });
         
-        function copyToClipboard(text) {
-            navigator.clipboard.writeText(text).then(() => {
-                const btn = event.target.closest('.copy-btn');
-                const original = btn.innerHTML;
-                btn.innerHTML = '<i class="fas fa-check"></i>';
-                btn.style.background = 'rgba(16, 185, 129, 0.3)';
-                btn.style.borderColor = '#10b981';
-                btn.style.color = '#10b981';
-                setTimeout(() => {
-                    btn.innerHTML = original;
-                    btn.style.background = '';
-                    btn.style.borderColor = '';
-                    btn.style.color = '';
-                }, 2000);
-            });
-        }
-        
-        function copyRepoCommand() {
-            const text = 'helm repo add jeanlopezxyz https://jeanlopezxyz.github.io/helm-charts';
-            navigator.clipboard.writeText(text).then(() => {
-                const btn = event.target.closest('.repo-copy-btn');
-                const original = btn.innerHTML;
-                btn.innerHTML = '<i class="fas fa-check"></i>';
-                btn.style.background = 'rgba(16, 185, 129, 0.3)';
-                btn.style.borderColor = '#10b981';
-                btn.style.color = '#10b981';
-                setTimeout(() => {
-                    btn.innerHTML = original;
-                    btn.style.background = '';
-                    btn.style.borderColor = '';
-                    btn.style.color = '';
-                }, 2000);
-            });
-        }
     </script>
 </body>
 </html>'''
