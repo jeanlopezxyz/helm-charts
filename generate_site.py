@@ -207,15 +207,6 @@ html_content = '''<!DOCTYPE html>
                 <div class="header-left">
                     <h1><i class="fas fa-dharmachakra" style="color: #3b82f6;"></i>Helm Charts Repository</h1>
                     <p class="subtitle">Enterprise Helm charts for Red Hat environments</p>
-                    <div class="repo-command-container">
-                        <div class="repo-header">
-                            <span class="repo-label">Add Repository</span>
-                            <button class="repo-copy-btn" onclick="copyRepoCommand()" title="Copy command">
-                                <i class="fas fa-copy"></i>
-                            </button>
-                        </div>
-                        <div class="repo-add">helm repo add jeanlopezxyz https://jeanlopezxyz.github.io/helm-charts</div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -258,15 +249,6 @@ for chart in charts:
                     </div>
                     <div class="chart-description">{chart['description']}</div>
                     <div class="chart-tags">{tags_html}</div>
-                    <div class="command-container">
-                        <div class="command-header">
-                            <span class="command-label">Install Command</span>
-                            <button class="copy-btn" onclick="copyToClipboard('helm install {install_name} jeanlopezxyz/{chart['name']}')" title="Copy command">
-                                <i class="fas fa-copy"></i>
-                            </button>
-                        </div>
-                        <div class="install-command">helm install {install_name} jeanlopezxyz/{chart['name']}</div>
-                    </div>
                 </div>'''
 
 html_content += '''
