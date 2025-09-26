@@ -12,11 +12,6 @@ maintainers:
   email: jealopez@redhat.com
 
 dependencies:
-# Reutilizar helper para backup
-- name: helper-objectstore
-  version: "~1.0.0"
-  repository: "https://jeanlopezxyz.github.io/helm-charts"
-  condition: helpers.objectstore.enabled
 # Database
 - name: mariadb
   version: "15.0.0"
