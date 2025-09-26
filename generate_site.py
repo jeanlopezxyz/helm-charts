@@ -111,7 +111,7 @@ html_content = '''<!DOCTYPE html>
         .chart-card {
             background: rgba(30, 41, 59, 0.95); border: 1px solid #475569; border-radius: 20px;
             padding: 1.25rem; transition: all 0.3s ease; backdrop-filter: blur(20px);
-            position: relative; overflow: hidden; min-height: 180px; display: flex; flex-direction: column;
+            position: relative; overflow: hidden; height: 220px; display: flex; flex-direction: column;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
         }
         .chart-card::before {
@@ -144,8 +144,12 @@ html_content = '''<!DOCTYPE html>
         }
         .chart-info h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.1rem; color: #f8fafc; line-height: 1.3; }
         .chart-version { color: #94a3b8; font-size: 0.75rem; font-weight: 500; }
-        .chart-description { color: #cbd5e1; font-size: 0.85rem; margin-bottom: 0.75rem; line-height: 1.4; flex: 1; }
-        .chart-tags { margin-bottom: 0.75rem; }
+        .chart-description {
+            color: #cbd5e1; font-size: 0.85rem; margin-bottom: auto; line-height: 1.4; flex: 1;
+            overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+            text-overflow: ellipsis;
+        }
+        .chart-tags { margin-top: auto; margin-bottom: 0; }
         .tag {
             display: inline-block; background: rgba(59, 130, 246, 0.15); color: #93c5fd;
             padding: 0.2rem 0.6rem; border-radius: 6px; font-size: 0.7rem; font-weight: 500;
@@ -199,7 +203,7 @@ html_content = '''<!DOCTYPE html>
             <div class="header-content">
                 <div class="header-left">
                     <h1><i class="fas fa-dharmachakra" style="color: #3b82f6;"></i>Helm Charts Repository</h1>
-                    <p class="subtitle">Curated collection of enterprise-grade Helm charts designed for Red Hat OpenShift environments. Each chart follows cloud-native best practices with automated operator deployment, comprehensive health monitoring, and production-ready security configurations.</p>
+                    <p class="subtitle">Helm charts for Red Hat OpenShift operators and applications.</p>
                 </div>
             </div>
         </div>
