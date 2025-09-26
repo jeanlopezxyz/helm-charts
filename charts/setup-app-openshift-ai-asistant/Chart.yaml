@@ -2,7 +2,7 @@ apiVersion: v2
 name: setup-app-openshift-ai-asistant
 description: Setup OpenShift AI Assistant with RAG architecture and corporate repository integration
 type: application
-version: 2.0.2
+version: 1.0.0
 appVersion: "1.0.0"
 home: https://github.com/jeanlopezxyz/demojam-2026
 sources:
