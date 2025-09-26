@@ -282,8 +282,8 @@ jobs:
                   }
                   .chart-info h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.1rem; color: #f8fafc; line-height: 1.3; }
                   .chart-version { color: #94a3b8; font-size: 0.75rem; font-weight: 500; }
-                  .chart-description { color: #cbd5e1; font-size: 0.85rem; margin-bottom: 0.75rem; line-height: 1.4; flex: 1; }
-                  .chart-tags { margin-bottom: 0.75rem; }
+                  .chart-description { color: #cbd5e1; font-size: 0.85rem; margin-bottom: auto; line-height: 1.4; flex: 1; }
+                  .chart-tags { margin-top: auto; margin-bottom: 0; }
                   .tag {
                       display: inline-block; background: rgba(59, 130, 246, 0.15); color: #93c5fd;
                       padding: 0.2rem 0.6rem; border-radius: 6px; font-size: 0.7rem; font-weight: 500;
