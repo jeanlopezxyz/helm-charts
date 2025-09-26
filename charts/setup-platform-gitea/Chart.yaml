@@ -2,7 +2,7 @@ apiVersion: v2
 name: setup-platform-gitea
 description: Setup Gitea Git Server for DemoJam platform with CI/CD and Keycloak integration
 type: application
-version: 1.0.0
+version: 1.0.1
 appVersion: "1.21.0"
 home: https://github.com/jeanlopezxyz/helm-charts
 sources:
