@@ -118,6 +118,18 @@ postgresql:
     persistence:
       enabled: true
       size: 20Gi
+    # OpenShift Security Context
+    podSecurityContext:
+      enabled: false  # Let OpenShift handle UIDs
+    containerSecurityContext:
+      enabled: false  # Let OpenShift handle UIDs
+  # Service Account with anyuid SCC
+  serviceAccount:
+    create: true
+  rbac:
+    create: true
+  podSecurityPolicy:
+    create: false
 
 # Persistent storage for repositories
 persistence:
