@@ -1,3 +1,5 @@
+# Red Hat Build of Keycloak (RHBK) Configuration
+
 # Helpers integration
 helpers:
   # Helper Operator para instalar RHBK operator
@@ -25,7 +27,168 @@ helpers:
           namespace: openshift-operators-redhat
           name: rhbk-operator
 
-# Configuración básica del operador
-operator:
-  # Namespace por defecto donde se pueden crear instancias Keycloak
-  defaultNamespace: "keycloak"
+# Keycloak Instance Configuration
+keycloak:
+  # Namespace configuration
+  namespace:
+    create: true
+    name: keycloak
+
+  # Keycloak instance
+  instance:
+    enabled: true
+    name: keycloak
+    replicas: 1
+
+  # Hostname configuration
+  hostname:
+    enabled: true
+    value: keycloak.apps.cluster.example.com
+    strict: false
+
+  # HTTP configuration
+  http:
+    enabled: true
+    httpEnabled: false  # Disable HTTP, use HTTPS only
+    httpPort: 8080
+    httpsPort: 8443
+
+  # Database configuration
+  database:
+    external: false  # Set to true for external DB
+    vendor: postgres
+    host: postgresql.keycloak.svc.cluster.local
+    port: 5432
+    name: keycloak
+    credentialsSecret: keycloak-db-secret
+
+  # Resource configuration
+  resources:
+    requests:
+      cpu: 500m
+      memory: 1Gi
+    limits:
+      cpu: 2000m
+      memory: 2Gi
+
+  # Additional Keycloak options
+  additionalOptions:
+    - name: log-level
+      value: INFO
+    - name: metrics-enabled
+      value: "true"
+    - name: health-enabled
+      value: "true"
+
+  # Unsupported configurations (for advanced use cases)
+  unsupported:
+    podTemplate:
+      metadata:
+        labels:
+          app: keycloak
+        annotations:
+          prometheus.io/scrape: "true"
+          prometheus.io/port: "8080"
+          prometheus.io/path: "/metrics"
+      spec:
+        containers:
+          - name: keycloak
+            env:
+              - name: KEYCLOAK_ADMIN
+                value: admin
+              - name: KEYCLOAK_ADMIN_PASSWORD
+                valueFrom:
+                  secretKeyRef:
+                    name: keycloak-admin-secret
+                    key: password
+
+  # Realm configuration
+  realm:
+    enabled: true
+    name: default-realm-import
+    realmName: myrealm
+    displayName: "My Organization Realm"
+
+    # Default users
+    users:
+      - username: admin
+        firstName: Admin
+        lastName: User
+        email: admin@example.com
+        credentials:
+          - type: password
+            value: admin123
+            temporary: false
+        realmRoles:
+          - admin
+
+    # Default clients
+    clients:
+      - clientId: web-app
+        name: Web Application
+        secret: web-app-secret
+        redirectUris:
+          - "https://myapp.example.com/*"
+        webOrigins:
+          - "https://myapp.example.com"
+        publicClient: false
+        directAccessGrantsEnabled: true
+        serviceAccountsEnabled: false
+
+      - clientId: mobile-app
+        name: Mobile Application
+        publicClient: true
+        redirectUris:
+          - "myapp://callback"
+        directAccessGrantsEnabled: true
+
+    # Identity Providers (optional)
+    identityProviders: []
+    # Example:
+    # - alias: github
+    #   providerId: github
+    #   enabled: true
+    #   config:
+    #     clientId: "your-github-client-id"
+    #     clientSecret: "your-github-client-secret"
+
+# Monitoring
+monitoring:
+  enabled: false
+  serviceMonitor:
+    enabled: false
+    namespace: openshift-monitoring
+    labels: {}
+    interval: 30s
+    path: /metrics
+
+# Network Policy
+networkPolicy:
+  enabled: false
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+    - from:
+      - namespaceSelector:
+          matchLabels:
+            name: openshift-ingress
+      ports:
+      - protocol: TCP
+        port: 8443
+
+# Advanced configuration
+advanced:
+  # Custom annotations for all resources
+  annotations: {}
+
+  # Custom labels for all resources
+  labels: {}
+
+  # Priority class name
+  priorityClassName: ""
+
+  # Pod disruption budget
+  podDisruptionBudget:
+    enabled: false
+    minAvailable: 1

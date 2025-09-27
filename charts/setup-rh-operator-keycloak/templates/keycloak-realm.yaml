@@ -1,0 +1,79 @@
+{{- if .Values.keycloak.realm.enabled -}}
+apiVersion: k8s.keycloak.org/v2alpha1
+kind: KeycloakRealmImport
+metadata:
+  name: {{ .Values.keycloak.realm.name }}
+  namespace: {{ .Values.keycloak.namespace.name }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"
+  labels:
+    app.kubernetes.io/name: keycloak
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  keycloakCRName: {{ .Values.keycloak.instance.name }}
+  realm:
+    realm: {{ .Values.keycloak.realm.realmName }}
+    enabled: true
+    displayName: {{ .Values.keycloak.realm.displayName | quote }}
+    
+    {{- if .Values.keycloak.realm.users }}
+    users:
+      {{- range .Values.keycloak.realm.users }}
+      - username: {{ .username }}
+        enabled: true
+        firstName: {{ .firstName | default "" }}
+        lastName: {{ .lastName | default "" }}
+        email: {{ .email | default "" }}
+        {{- if .credentials }}
+        credentials:
+          {{- range .credentials }}
+          - type: {{ .type }}
+            value: {{ .value }}
+            temporary: {{ .temporary | default false }}
+          {{- end }}
+        {{- end }}
+        {{- if .realmRoles }}
+        realmRoles:
+          {{- range .realmRoles }}
+          - {{ . }}
+          {{- end }}
+        {{- end }}
+      {{- end }}
+    {{- end }}
+
+    {{- if .Values.keycloak.realm.clients }}
+    clients:
+      {{- range .Values.keycloak.realm.clients }}
+      - clientId: {{ .clientId }}
+        name: {{ .name | default .clientId }}
+        enabled: true
+        {{- if .secret }}
+        secret: {{ .secret }}
+        {{- end }}
+        {{- if .redirectUris }}
+        redirectUris:
+          {{- range .redirectUris }}
+          - {{ . | quote }}
+          {{- end }}
+        {{- end }}
+        {{- if .webOrigins }}
+        webOrigins:
+          {{- range .webOrigins }}
+          - {{ . | quote }}
+          {{- end }}
+        {{- end }}
+        protocol: {{ .protocol | default "openid-connect" }}
+        publicClient: {{ .publicClient | default false }}
+        directAccessGrantsEnabled: {{ .directAccessGrantsEnabled | default true }}
+        serviceAccountsEnabled: {{ .serviceAccountsEnabled | default false }}
+        standardFlowEnabled: {{ .standardFlowEnabled | default true }}
+        implicitFlowEnabled: {{ .implicitFlowEnabled | default false }}
+      {{- end }}
+    {{- end }}
+
+    {{- if .Values.keycloak.realm.identityProviders }}
+    identityProviders:
+      {{- toYaml .Values.keycloak.realm.identityProviders | nindent 6 }}
+    {{- end }}
+{{- end -}}
