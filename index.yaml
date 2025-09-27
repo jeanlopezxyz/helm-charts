@@ -10,7 +10,44 @@ entries:
       support: Red Hat
     apiVersion: v2
     appVersion: 23.0.0
-    created: "2025-09-27T13:50:34.154796671-05:00"
+    created: "2025-09-27T13:54:16.430876801-05:00"
+    dependencies:
+    - condition: helpers.operator.enabled
+      name: helper-operator
+      repository: https://jeanlopezxyz.github.io/helm-charts
+      version: 1.0.0
+    description: Setup Red Hat Build of Keycloak operator installation
+    digest: 2a7ceea3a34da6eb9cd5f28e65f2865e8e8762b78e9aa6acd462fb4c7f4e2941
+    home: https://access.redhat.com/products/red-hat-build-of-keycloak
+    keywords:
+    - setup
+    - rh
+    - keycloak
+    - rhbk
+    - operator
+    - identity
+    - red-hat
+    maintainers:
+    - email: jealopez@redhat.com
+      name: Jean Paul Lopez
+    name: setup-rh-operator-keycloak
+    sources:
+    - https://github.com/jeanlopezxyz/helm-charts
+    - https://access.redhat.com/documentation/en-us/red_hat_build_of_keycloak
+    type: application
+    urls:
+    - https://jeanlopezxyz.github.io/helm-charts/setup-rh-operator-keycloak-1.0.7.tgz
+    version: 1.0.7
+  - annotations:
+      category: Security
+      certified: "true"
+      helm.sh/uses-operator: rhbk-operator
+      helm.sh/vendor: red-hat
+      licenses: Apache-2.0
+      support: Red Hat
+    apiVersion: v2
+    appVersion: 23.0.0
+    created: "2025-09-27T13:54:16.430057588-05:00"
     dependencies:
     - condition: helpers.operator.enabled
       name: helper-operator
@@ -38,4 +75,4 @@ entries:
     urls:
     - https://jeanlopezxyz.github.io/helm-charts/setup-rh-operator-keycloak-1.0.6.tgz
     version: 1.0.6
-generated: "2025-09-27T13:50:34.153871262-05:00"
+generated: "2025-09-27T13:54:16.429089954-05:00"

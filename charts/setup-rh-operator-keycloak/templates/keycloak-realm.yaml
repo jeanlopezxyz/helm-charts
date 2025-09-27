@@ -11,8 +11,11 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
 spec:
-  keycloakCRName: {{ .Values.keycloak.instance.name }}
+  instanceSelector:
+    matchLabels:
+      app: keycloak
   realm:
+    id: {{ .Values.keycloak.realm.realmName }}
     realm: {{ .Values.keycloak.realm.realmName }}
     enabled: true
     displayName: {{ .Values.keycloak.realm.displayName | quote }}
