@@ -1,0 +1,26 @@
+{{- range $name, $operator := .Values.operators }}
+{{- if and $operator.enabled $operator.operatorgroup.create }}
+---
+apiVersion: operators.coreos.com/v1
+kind: OperatorGroup
+metadata:
+  name: {{ $operator.operatorgroup.name | default "demo-operator-group" }}
+  namespace: {{ $operator.namespace.name }}
+  annotations:
+    argocd.argoproj.io/sync-wave: {{ $operator.syncwave | default "-1" | quote }}
+    {{- with $operator.additionalAnnotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+  labels:
+    {{- include "helper-operator.labels" $ | nindent 4 }}
+    {{- with $operator.additionalLabels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+spec:
+  {{- if $operator.operatorgroup.notownnamespace }}
+  {{- else }}
+  targetNamespaces:
+  - {{ $operator.namespace.name }}
+  {{- end }}
+{{- end }}
+{{- end }}

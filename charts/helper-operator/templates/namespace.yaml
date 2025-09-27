@@ -1,0 +1,25 @@
+{{- range $name, $operator := .Values.operators }}
+{{- if and $operator.enabled $operator.namespace.create }}
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: {{ $operator.namespace.name }}
+  annotations:
+    argocd.argoproj.io/sync-wave: {{ $operator.syncwave | default "-2" | quote }}
+    {{- with $operator.additionalAnnotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+  labels:
+    {{- include "helper-operator.labels" $ | nindent 4 }}
+    {{- with $operator.additionalLabels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+    {{- if $operator.namespace.displayname }}
+    openshift.io/display-name: {{ $operator.namespace.displayname | quote }}
+    {{- end }}
+{{- if $operator.namespace.descr }}
+  description: {{ $operator.namespace.descr | quote }}
+{{- end }}
+{{- end }}
+{{- end }}

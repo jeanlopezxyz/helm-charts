@@ -1,0 +1,51 @@
+{{- range $name, $operator := .Values.operators }}
+{{- if $operator.enabled }}
+---
+apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  name: {{ $operator.subscription.operatorName }}
+  namespace: {{ $operator.namespace.name }}
+  annotations:
+    argocd.argoproj.io/sync-wave: {{ $operator.syncwave | default "0" | quote }}
+    {{- with $operator.additionalAnnotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+  labels:
+    {{- include "helper-operator.labels" $ | nindent 4 }}
+    {{- with $operator.additionalLabels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+spec:
+  channel: {{ $operator.subscription.channel | default "stable" }}
+  installPlanApproval: {{ $operator.subscription.approval | default "Automatic" }}
+  name: {{ $operator.subscription.operatorName }}
+  source: {{ $operator.subscription.source | default "redhat-operators" }}
+  sourceNamespace: {{ $operator.subscription.sourceNamespace | default "openshift-marketplace" }}
+  {{- if $operator.subscription.startingCSV }}
+  startingCSV: {{ $operator.subscription.startingCSV }}
+  {{- end }}
+  {{- if $operator.subscription.config }}
+  config:
+    {{- if $operator.subscription.config.env }}
+    env:
+      {{- range $operator.subscription.config.env }}
+      - name: {{ .name }}
+        value: {{ .value | quote }}
+      {{- end }}
+    {{- end }}
+    {{- if $operator.subscription.config.resources }}
+    resources:
+      {{- toYaml $operator.subscription.config.resources | nindent 6 }}
+    {{- end }}
+    {{- if $operator.subscription.config.tolerations }}
+    tolerations:
+      {{- toYaml $operator.subscription.config.tolerations | nindent 6 }}
+    {{- end }}
+    {{- if $operator.subscription.config.nodeSelector }}
+    nodeSelector:
+      {{- toYaml $operator.subscription.config.nodeSelector | nindent 6 }}
+    {{- end }}
+  {{- end }}
+{{- end }}
+{{- end }}
