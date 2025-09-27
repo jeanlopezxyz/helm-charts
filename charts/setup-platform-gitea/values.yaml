@@ -1,4 +1,10 @@
+# Gitea Configuration
 replicaCount: 1
+
+# Namespace configuration  
+namespace:
+  create: true
+  name: gitea
 
 image:
   repository: gitea/gitea
@@ -91,6 +97,14 @@ auth:
     authUrl: "https://keycloak.apps.cluster.company.com/realms/demojam/protocol/openid-connect/auth"
     tokenUrl: "https://keycloak.apps.cluster.company.com/realms/demojam/protocol/openid-connect/token"
     userUrl: "https://keycloak.apps.cluster.company.com/realms/demojam/protocol/openid-connect/userinfo"
+
+# Persistence
+persistence:
+  enabled: true
+  storageClass: ""
+  accessModes:
+    - ReadWriteOnce
+  size: 10Gi
 
 # Database
 postgresql:
