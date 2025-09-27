@@ -1,0 +1,62 @@
+{{- if .Values.tekton.config.enabled -}}
+apiVersion: operator.tekton.dev/v1alpha1
+kind: TektonConfig
+metadata:
+  name: config
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+  labels:
+    {{- include "setup-rh-operator-pipelines.labels" . | nindent 4 }}
+spec:
+  targetNamespace: {{ .Values.tekton.config.targetNamespace }}
+  
+  {{- if .Values.tekton.pipeline.enabled }}
+  pipeline:
+    {{- with .Values.tekton.pipeline.params }}
+    params:
+      {{- toYaml . | nindent 6 }}
+    {{- end }}
+    {{- if .Values.tekton.pipeline.performance }}
+    performance:
+      {{- toYaml .Values.tekton.pipeline.performance | nindent 6 }}
+    {{- end }}
+  {{- end }}
+
+  {{- if .Values.tekton.trigger.enabled }}
+  trigger:
+    {{- with .Values.tekton.trigger.params }}
+    params:
+      {{- toYaml . | nindent 6 }}
+    {{- end }}
+  {{- end }}
+
+  {{- if .Values.tekton.dashboard.enabled }}
+  dashboard:
+    readonly: {{ .Values.tekton.dashboard.readonly }}
+    {{- with .Values.tekton.dashboard.params }}
+    params:
+      {{- toYaml . | nindent 6 }}
+    {{- end }}
+  {{- end }}
+
+  {{- if .Values.tekton.hub.enabled }}
+  hub:
+    {{- with .Values.tekton.hub.params }}
+    params:
+      {{- toYaml . | nindent 6 }}
+    {{- end }}
+  {{- end }}
+
+  {{- if .Values.tekton.chains.enabled }}
+  chains:
+    {{- with .Values.tekton.chains.params }}
+    params:
+      {{- toYaml . | nindent 6 }}
+    {{- end }}
+  {{- end }}
+
+  {{- with .Values.tekton.config.params }}
+  params:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+{{- end -}}

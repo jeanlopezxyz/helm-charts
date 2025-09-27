@@ -53,6 +53,92 @@ pipelines:
     # Storage por defecto para workspaces
     defaultWorkspaceSize: "1Gi"
 
+# Tekton Configuration (OpenShift Pipelines)
+tekton:
+  # TektonConfig - Main configuration for the cluster
+  config:
+    enabled: true
+    targetNamespace: openshift-pipelines
+    
+    # Global parameters for TektonConfig
+    params:
+      - name: createRbacResource
+        value: "true"
+      - name: defaultServiceAccount
+        value: "pipeline"
+      - name: defaultTimeout
+        value: "60m"
+      - name: defaultManagedByLabelValue
+        value: "tekton-pipelines"
+      - name: defaultPodTemplate
+        value: |
+          nodeSelector:
+            kubernetes.io/os: linux
+          tolerations:
+          - key: "kubernetes.io/arch"
+            operator: "Equal"
+            value: "amd64"
+            effect: "NoSchedule"
+
+  # Tekton Pipelines component
+  pipeline:
+    enabled: true
+    params:
+      - name: enable-api-fields
+        value: "beta"
+      - name: enable-tekton-oci-bundles
+        value: "true"
+      - name: enable-custom-tasks
+        value: "true"
+      - name: enable-provenance-in-status
+        value: "true"
+      - name: trusted-resources-verification-no-match-policy
+        value: "warn"
+    
+    # Performance tuning
+    performance:
+      replicas: 2
+      buckets: 10
+      kmsKeyName: ""
+      threadPoolSize: 10
+
+  # Tekton Triggers component
+  trigger:
+    enabled: true
+    params:
+      - name: enable-api-fields
+        value: "beta"
+
+  # Tekton Dashboard component
+  dashboard:
+    enabled: true
+    readonly: false
+    params:
+      - name: enable-logout
+        value: "true"
+      - name: enable-log-streaming
+        value: "true"
+
+  # Tekton Hub component
+  hub:
+    enabled: false  # Usually disabled in enterprise environments
+    params:
+      - name: enable-devconsole-integration
+        value: "true"
+
+  # Tekton Chains component (for supply chain security)
+  chains:
+    enabled: true
+    params:
+      - name: artifacts.taskrun.format
+        value: "tekton"
+      - name: artifacts.taskrun.storage
+        value: "oci"
+      - name: artifacts.oci.storage
+        value: "oci"
+      - name: transparency.enabled
+        value: "false"
+
 
 # Security Context (Enterprise Best Practices)
 podSecurityContext:
