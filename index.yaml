@@ -10,7 +10,7 @@ entries:
       support: Red Hat
     apiVersion: v2
     appVersion: 23.0.0
-    created: "2025-09-27T14:09:28.687106958-05:00"
+    created: "2025-09-27T14:22:29.5735896-05:00"
     dependencies:
     - condition: helpers.operator.enabled
       name: helper-operator
@@ -47,7 +47,7 @@ entries:
       support: Red Hat
     apiVersion: v2
     appVersion: 23.0.0
-    created: "2025-09-27T14:09:28.686296875-05:00"
+    created: "2025-09-27T14:22:29.572798427-05:00"
     dependencies:
     - condition: helpers.operator.enabled
       name: helper-operator
@@ -84,14 +84,14 @@ entries:
       support: Red Hat
     apiVersion: v2
     appVersion: 26.2.9
-    created: "2025-09-27T14:09:28.685421432-05:00"
+    created: "2025-09-27T14:22:29.57197993-05:00"
     dependencies:
     - condition: helpers.operator.enabled
       name: helper-operator
       repository: https://jeanlopezxyz.github.io/helm-charts
       version: 1.0.0
     description: Setup Red Hat Build of Keycloak operator installation
-    digest: 411520a6e557345d1af941171f528d0d6f81ef7bb2919c84107cc5a1eb60a5c2
+    digest: a958f52c1cb94fc4c07dfa7b8d1326a7894e588afa9804f7ea3368310f0a95bf
     home: https://access.redhat.com/products/red-hat-build-of-keycloak
     keywords:
     - setup
@@ -112,4 +112,4 @@ entries:
     urls:
     - https://jeanlopezxyz.github.io/helm-charts/setup-rh-operator-keycloak-1.0.0.tgz
     version: 1.0.0
-generated: "2025-09-27T14:09:28.684470665-05:00"
+generated: "2025-09-27T14:22:29.570951155-05:00"
