@@ -4,7 +4,7 @@ replicaCount: 1
 # Namespace configuration  
 namespace:
   create: true
-  name: gitea-new
+  name: gitea-test
 
 image:
   repository: gitea/gitea
@@ -168,4 +168,5 @@ persistence:
   enabled: true
   size: 50Gi
   storageClass: ""
-  accessMode: ReadWriteOnce
+  accessModes:
+    - ReadWriteOnce
