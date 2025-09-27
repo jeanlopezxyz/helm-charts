@@ -26,11 +26,11 @@ route:
 
 resources:
   limits:
-    cpu: 1000m
-    memory: 2Gi
-  requests:
     cpu: 500m
-    memory: 1Gi
+    memory: 512Mi
+  requests:
+    cpu: 100m
+    memory: 256Mi
 
 # Security Context (OpenShift compatible)
 podSecurityContext:
@@ -119,7 +119,7 @@ postgresql:
   primary:
     persistence:
       enabled: true
-      size: 20Gi
+      size: 5Gi
     # Disable all Bitnami security contexts for OpenShift
     podSecurityContext:
       enabled: false
@@ -166,7 +166,7 @@ postgresql:
 # Persistent storage for repositories
 persistence:
   enabled: true
-  size: 50Gi
+  size: 5Gi
   storageClass: ""
   accessModes:
     - ReadWriteOnce
