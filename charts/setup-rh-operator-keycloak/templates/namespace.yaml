@@ -5,9 +5,16 @@ metadata:
   name: {{ .Values.keycloak.namespace.name }}
   annotations:
     argocd.argoproj.io/sync-wave: "1"
+    openshift.io/display-name: "Red Hat Build of Keycloak"
+    openshift.io/description: "Identity and access management platform"
+    argocd.argoproj.io/managed: "true"
   labels:
     name: {{ .Values.keycloak.namespace.name }}
     app.kubernetes.io/name: keycloak
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
+    openshift.io/cluster-monitoring: "true"
+    pod-security.kubernetes.io/enforce: baseline
+    pod-security.kubernetes.io/audit: baseline
+    pod-security.kubernetes.io/warn: baseline
 {{- end -}}

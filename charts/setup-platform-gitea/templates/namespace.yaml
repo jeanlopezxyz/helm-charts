@@ -5,7 +5,39 @@ metadata:
   name: {{ .Values.namespace.name }}
   annotations:
     argocd.argoproj.io/sync-wave: "-1"
+    # OpenShift annotations
+    openshift.io/display-name: "Gitea Git Server"
+    openshift.io/description: "Git server with CI/CD and Keycloak integration"
+    # ArgoCD namespace management
+    argocd.argoproj.io/managed: "true"
   labels:
     {{- include "setup-platform-gitea.labels" . | nindent 4 }}
     name: {{ .Values.namespace.name }}
+    # OpenShift labels
+    openshift.io/cluster-monitoring: "true"
+    # Pod Security Standards (for newer clusters)
+    pod-security.kubernetes.io/enforce: baseline
+    pod-security.kubernetes.io/audit: baseline
+    pod-security.kubernetes.io/warn: baseline
+{{- end -}}
+
+---
+{{- if and .Values.namespace.create .Values.rbac.create -}}
+# ClusterRoleBinding for default ServiceAccount to use anyuid SCC
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: {{ .Values.namespace.name }}-default-anyuid
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
+  labels:
+    {{- include "setup-platform-gitea.labels" . | nindent 4 }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: system:openshift:scc:anyuid
+subjects:
+- kind: ServiceAccount
+  name: default
+  namespace: {{ .Values.namespace.name }}
 {{- end -}}
