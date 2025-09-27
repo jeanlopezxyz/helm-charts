@@ -16,12 +16,12 @@ maintainers:
 dependencies:
 # Reutilizar helper-operator para instalar operador de console
 - name: helper-operator
-  version: "~1.0.0"
+  version: "1.0.0"
   repository: "https://jeanlopezxyz.github.io/helm-charts"
   condition: helpers.operator.enabled
 # Reutilizar helper para status checking
 - name: helper-status-checker
-  version: "~4.0.0"
+  version: "1.0.0"
   repository: "https://jeanlopezxyz.github.io/helm-charts"
   condition: helpers.statusChecker.enabled
 

@@ -1,0 +1,19 @@
+{{- if .Values.console.customizations.branding.enabled }}
+apiVersion: operator.openshift.io/v1
+kind: Console
+metadata:
+  name: cluster
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+  labels:
+    {{- include "setup-rh-operator-console.labels" . | nindent 4 }}
+spec:
+  customization:
+    {{- if .Values.console.customizations.branding.customLogo }}
+    customLogo:
+      image: {{ .Values.console.customizations.branding.customLogo | quote }}
+    {{- end }}
+    {{- if .Values.console.customizations.branding.customProductName }}
+    customProductName: {{ .Values.console.customizations.branding.customProductName | quote }}
+    {{- end }}
+{{- end -}}

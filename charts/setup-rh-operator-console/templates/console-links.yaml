@@ -1,0 +1,17 @@
+{{- if .Values.console.customizations.customLinks.enabled }}
+{{- range .Values.console.customizations.customLinks.links }}
+---
+apiVersion: console.openshift.io/v1
+kind: ConsoleExternalLink
+metadata:
+  name: {{ .text | lower | replace " " "-" | replace "." "-" }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+  labels:
+    {{- include "setup-rh-operator-console.labels" $ | nindent 4 }}
+spec:
+  text: {{ .text | quote }}
+  href: {{ .href | quote }}
+  location: ApplicationMenu
+{{- end }}
+{{- end -}}
