@@ -24,7 +24,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/config: {{ include (print $.Template.BasePath "/deployment.yaml") . | sha256sum }}
+        checksum/config: {{ .Values | toYaml | sha256sum }}
       labels:
         app.kubernetes.io/name: sealed-secrets
         app.kubernetes.io/instance: {{ .Release.Name }}
