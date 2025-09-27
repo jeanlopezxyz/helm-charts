@@ -46,12 +46,17 @@ keycloak:
     value: keycloak.apps.cluster.example.com
     strict: false
 
-  # HTTP configuration
+  # HTTP configuration  
   http:
+    tlsSecret: my-tls-secret  # Required TLS secret name
+
+  # Update strategy
+  update:
+    strategy: RecreateOnImageChange
+
+  # Network Policy
+  networkPolicy:
     enabled: true
-    httpEnabled: false  # Disable HTTP, use HTTPS only
-    httpPort: 8080
-    httpsPort: 8443
 
   # Database configuration
   database:
