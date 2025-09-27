@@ -1,6 +1,6 @@
 {{- if .Values.keycloak.realm.enabled -}}
-apiVersion: k8s.keycloak.org/v2alpha1
-kind: KeycloakRealmImport
+apiVersion: keycloak.org/v1alpha1
+kind: KeycloakRealm
 metadata:
   name: {{ .Values.keycloak.realm.name }}
   namespace: {{ .Values.keycloak.namespace.name }}
