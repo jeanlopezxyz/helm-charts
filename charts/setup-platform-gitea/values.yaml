@@ -32,18 +32,14 @@ resources:
     cpu: 500m
     memory: 1Gi
 
-# Security Context (adjusted for Gitea)
+# Security Context (OpenShift compatible)
 podSecurityContext:
-  runAsNonRoot: true
-  runAsUser: 1001
-  runAsGroup: 1001
-  fsGroup: 1001
+  # Let OpenShift assign UIDs automatically
+  fsGroup: 0  # Use root group for file permissions
 
 securityContext:
   allowPrivilegeEscalation: false
   readOnlyRootFilesystem: false  # Gitea needs write access
-  runAsNonRoot: true
-  runAsUser: 1001
   capabilities:
     drop:
     - ALL
@@ -54,6 +50,10 @@ serviceAccount:
   annotations: {}
   name: ""
   automountServiceAccountToken: false
+
+# RBAC - Required for OpenShift SCC
+rbac:
+  create: true  # Creates ClusterRoleBinding to anyuid SCC
 
 # Helpers integration
 helpers:
