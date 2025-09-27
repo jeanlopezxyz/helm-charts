@@ -10,9 +10,9 @@ helpers:
         enabled: true
         syncwave: 0
         namespace:
-          name: openshift-operators-redhat
+          name: keycloack
         subscription:
-          channel: stable
+          channel: stable-v26.2
           operatorName: rhbk-operator
           source: redhat-operators
 
@@ -24,7 +24,7 @@ helpers:
         rhbk-operator:
           enabled: true
           type: deployment
-          namespace: openshift-operators-redhat
+          namespace: keycloack
           name: rhbk-operator
 
 # Keycloak Instance Configuration
