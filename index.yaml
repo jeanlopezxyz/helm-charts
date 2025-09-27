@@ -1,40 +1,41 @@
 apiVersion: v1
 entries:
-  setup-platform-gitea:
+  setup-rh-operator-keycloak:
   - annotations:
-      category: Developer Tools
-      licenses: MIT
-      support: Red Hat DemoJam
+      category: Security
+      certified: "true"
+      helm.sh/uses-operator: rhbk-operator
+      helm.sh/vendor: red-hat
+      licenses: Apache-2.0
+      support: Red Hat
     apiVersion: v2
-    appVersion: 1.21.0
-    created: "2025-09-25T21:14:31.024011242-05:00"
+    appVersion: 23.0.0
+    created: "2025-09-27T13:38:17.25578488-05:00"
     dependencies:
-    - condition: postgresql.enabled
-      name: postgresql
-      repository: https://charts.bitnami.com/bitnami
-      version: 13.2.24
-    description: Setup Gitea Git Server for DemoJam platform with CI/CD and Keycloak
-      integration
-    digest: ac3c784915109ad64a2f6444d4996bdd44b6764603943ce37a99b5344c4acc8b
-    home: https://github.com/jeanlopezxyz/helm-charts
+    - condition: helpers.operator.enabled
+      name: helper-operator
+      repository: https://jeanlopezxyz.github.io/helm-charts
+      version: 1.0.0
+    description: Setup Red Hat Build of Keycloak operator installation
+    digest: b84afefc1acd8af926d9cb0917fa888f6cba1f46e8e770aa149e1b6a71c6fe0c
+    home: https://access.redhat.com/products/red-hat-build-of-keycloak
     keywords:
     - setup
-    - platform
-    - git
-    - server
-    - gitea
-    - ci-cd
-    - demojam
-    - keycloak-integrated
+    - rh
+    - keycloak
+    - rhbk
+    - operator
+    - identity
+    - red-hat
     maintainers:
     - email: jealopez@redhat.com
       name: Jean Paul Lopez
-    name: setup-platform-gitea
+    name: setup-rh-operator-keycloak
     sources:
     - https://github.com/jeanlopezxyz/helm-charts
-    - https://gitea.io
+    - https://access.redhat.com/documentation/en-us/red_hat_build_of_keycloak
     type: application
     urls:
-    - https://jeanlopezxyz.github.io/helm-charts/setup-platform-gitea-1.1.0.tgz
-    version: 1.1.0
-generated: "2025-09-25T21:14:31.02085226-05:00"
+    - https://jeanlopezxyz.github.io/helm-charts/setup-rh-operator-keycloak-1.0.5.tgz
+    version: 1.0.5
+generated: "2025-09-27T13:38:17.254854823-05:00"
