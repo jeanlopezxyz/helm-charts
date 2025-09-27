@@ -1,0 +1,20 @@
+apiVersion: v2
+name: tpl
+description: A library that shall collect certain templates to reuse them among different charts
+type: library
+version: 1.0.0
+maintainers:
+- name: Jean Paul Lopez
+  email: jealopez@redhat.com
+home: https://github.com/jeanlopezxyz/helm-charts
+sources:
+- https://github.com/jeanlopezxyz/helm-charts
+- https://github.com/tjungbauer/helm-charts/tree/main/charts/tpl
+keywords:
+  - templates
+  - helper
+  - subchart
+  - library
+annotations:
+  artifacthub.io/category: integration-delivery
+  artifacthub.io/license: Apache-2.0
