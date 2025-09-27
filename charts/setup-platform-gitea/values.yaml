@@ -4,7 +4,7 @@ replicaCount: 1
 # Namespace configuration  
 namespace:
   create: true
-  name: gitea
+  name: gitea-new
 
 image:
   repository: gitea/gitea
@@ -114,20 +114,52 @@ postgresql:
     username: "gitea"
     password: "gitea-password"
     database: "gitea"
+  
+  # OpenShift Security Configuration
   primary:
     persistence:
       enabled: true
       size: 20Gi
-    # OpenShift Security Context
+    # Disable all Bitnami security contexts for OpenShift
     podSecurityContext:
-      enabled: false  # Let OpenShift handle UIDs
+      enabled: false
     containerSecurityContext:
-      enabled: false  # Let OpenShift handle UIDs
-  # Service Account with anyuid SCC
+      enabled: false
+    # Resources
+    resources:
+      requests:
+        cpu: 250m
+        memory: 256Mi
+      limits:
+        cpu: 1000m
+        memory: 512Mi
+  
+  # Global settings for OpenShift
+  global:
+    postgresql:
+      auth:
+        enablePostgresUser: true
+  
+  # Disable problematic features for OpenShift  
+  metrics:
+    enabled: false
+  ldap:
+    enabled: false
+  tls:
+    enabled: false
+  audit:
+    enabled: false
+  
+  # Service Account configuration
   serviceAccount:
     create: true
+    automountServiceAccountToken: false
+  
+  # RBAC for OpenShift
   rbac:
-    create: true
+    create: false  # We handle this in our template
+  
+  # Disable Pod Security Policy (not used in OpenShift)
   podSecurityPolicy:
     create: false
 
