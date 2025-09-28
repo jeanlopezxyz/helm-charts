@@ -73,9 +73,15 @@ spec:
           {{- end }}
           env:
             - name: GITEA__database__DB_TYPE
-              value: sqlite3
-            - name: GITEA__database__PATH
-              value: /tmp/gitea/data/gitea.db
+              value: postgres
+            - name: GITEA__database__HOST
+              value: "{{ .Release.Name }}-postgresql.{{ .Values.namespace.name }}.svc.cluster.local:5432"
+            - name: GITEA__database__NAME
+              value: "{{ .Values.postgresql.auth.database }}"
+            - name: GITEA__database__USER
+              value: "{{ .Values.postgresql.auth.username }}"
+            - name: GITEA__database__PASSWD
+              value: "{{ .Values.postgresql.auth.password }}"
             - name: GITEA__repository__ROOT
               value: /data/git/repositories
             - name: GITEA__server__DOMAIN
