@@ -102,9 +102,20 @@ spec:
               value: "gitea"
             - name: GITEA__database__PASSWD
               value: "gitea-password"
+            # Disable problematic features for OpenShift
+            - name: GITEA__server__DISABLE_SSH
+              value: "true"  # Disable SSH server to avoid port 22 issues
+            - name: GITEA__security__DISABLE_GIT_HOOKS
+              value: "true"
+            - name: GITEA__log__ROOT_PATH
+              value: "/data/gitea/log"
           volumeMounts:
             - name: data
               mountPath: /data
+            - name: tmp
+              mountPath: /tmp
+            - name: etc-gitea
+              mountPath: /etc/gitea
       volumes:
         - name: data
           {{- if .Values.persistence.enabled }}
@@ -112,8 +123,14 @@ spec:
             claimName: {{ include "setup-platform-gitea.fullname" . }}-data
           {{- else }}
           emptyDir: 
-            sizeLimit: 10Gi  # Limit size for emptyDir
+            sizeLimit: 10Gi
           {{- end }}
+        - name: tmp
+          emptyDir:
+            sizeLimit: 1Gi
+        - name: etc-gitea
+          emptyDir:
+            sizeLimit: 100Mi
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
