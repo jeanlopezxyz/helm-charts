@@ -1,0 +1,33 @@
+apiVersion: v2
+name: setup-platform-nexus
+description: Nexus Repository OSS for artifact management and storage
+type: application
+version: 1.0.0
+appVersion: "3.45.0"
+home: https://www.sonatype.com/products/nexus-repository
+icon: https://help.sonatype.com/docs/files/1114654/152174884/1/1645553647423/nexus-icon.png
+sources:
+- https://github.com/jeanlopezxyz/helm-charts
+- https://github.com/sonatype/nexus-public
+- https://help.sonatype.com/repomanager3
+maintainers:
+- name: Jean Paul Lopez
+  email: jealopez@redhat.com
+
+keywords:
+- nexus
+- repository
+- artifacts
+- maven
+- npm
+- docker
+- storage
+- sonatype
+
+annotations:
+  category: Development Tools
+  certified: "false"
+  support: "Community"
+  licenses: EPL-1.0
+  "helm.sh/vendor": "sonatype"
+  "helm.sh/integration": "nexus-repository"

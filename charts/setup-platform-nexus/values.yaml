@@ -1,0 +1,144 @@
+# Nexus Repository OSS Configuration
+
+# Nexus image configuration
+image:
+  repository: sonatype/nexus3
+  tag: "3.45.0"
+  pullPolicy: IfNotPresent
+
+# Nexus instance configuration
+nexus:
+  # Default admin credentials (change after first login)
+  defaultAdminPassword: "admin123"
+  
+  # Nexus data directory
+  dataDir: "/nexus-data"
+  
+  # JVM settings
+  jvm:
+    minHeapSize: "1G"
+    maxHeapSize: "2G"
+    
+  # Security settings
+  security:
+    enabled: true
+    anonymousAccess: false
+    
+  # Repository configuration
+  repositories:
+    # Enable default repositories
+    maven:
+      enabled: true
+    npm:
+      enabled: true
+    docker:
+      enabled: true
+    pypi:
+      enabled: true
+
+# Service configuration
+service:
+  type: ClusterIP
+  port: 8081
+  targetPort: 8081
+  annotations: {}
+
+# Route configuration (OpenShift)
+route:
+  enabled: true
+  host: ""  # Auto-generate if empty
+  path: "/"
+  tls:
+    enabled: true
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect
+
+# Persistence configuration
+persistence:
+  enabled: true
+  storageClass: ""
+  accessMode: ReadWriteOnce
+  size: 50Gi
+  annotations: {}
+
+# Resource configuration
+resources:
+  requests:
+    memory: "2Gi"
+    cpu: "500m"
+  limits:
+    memory: "4Gi"
+    cpu: "2000m"
+
+# Security context (OpenShift compatible)
+podSecurityContext:
+  runAsNonRoot: true
+  # fsGroup will be assigned by OpenShift
+
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: false
+  runAsNonRoot: true
+  # runAsUser will be assigned by OpenShift SCC
+  seccompProfile:
+    type: RuntimeDefault
+  capabilities:
+    drop:
+    - ALL
+
+# Service Account
+serviceAccount:
+  create: true
+  annotations: {}
+  name: ""
+  automountServiceAccountToken: false
+
+# Pod configuration
+replicaCount: 1
+updateStrategy:
+  type: Recreate
+
+# Node selection
+nodeSelector: {}
+tolerations: []
+affinity: {}
+
+# Monitoring
+monitoring:
+  enabled: false
+  serviceMonitor:
+    enabled: false
+    interval: 30s
+    path: /metrics
+
+# Backup configuration
+backup:
+  enabled: false
+  schedule: "0 2 * * *"
+  retention: "30d"
+  storageClass: ""
+  storageSize: "10Gi"
+
+# Network policy
+networkPolicy:
+  enabled: false
+  ingress:
+    - from:
+      - namespaceSelector:
+          matchLabels:
+            name: openshift-ingress
+      ports:
+      - protocol: TCP
+        port: 8081
+
+# Ingress (for non-OpenShift clusters)
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+  hosts:
+    - host: nexus.example.com
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []

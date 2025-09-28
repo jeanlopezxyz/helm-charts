@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "setup-platform-nexus.fullname" . }}
+  namespace: {{ include "setup-platform-nexus.namespace" . }}
+  labels:
+    {{- include "setup-platform-nexus.labels" . | nindent 4 }}
+  {{- with .Values.service.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: {{ .Values.service.targetPort }}
+      protocol: TCP
+      name: nexus-ui
+  selector:
+    {{- include "setup-platform-nexus.selectorLabels" . | nindent 4 }}
