@@ -1,0 +1,137 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Chart.Name }}
+  namespace: {{ .Values.namespace.name | default "bookstack" }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+  labels:
+    {{- include "setup-platform-bookstack.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "setup-platform-bookstack.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "setup-platform-bookstack.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.podSecurityContext }}
+      securityContext:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "setup-platform-bookstack.serviceAccountName" . }}
+      containers:
+        - name: bookstack
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- with .Values.securityContext }}
+          securityContext:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 60
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          {{- with .Values.resources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          env:
+            # Database configuration
+            - name: DB_HOST
+              value: {{ .Chart.Name }}-mariadb.{{ .Values.namespace.name | default "bookstack" }}.svc.cluster.local
+            - name: DB_PORT
+              value: "3306"
+            - name: DB_DATABASE
+              value: {{ .Values.mariadb.auth.database | default "bookstack" }}
+            - name: DB_USERNAME
+              value: {{ .Values.mariadb.auth.username | default "bookstack" }}
+            - name: DB_PASSWORD
+              value: {{ .Values.mariadb.auth.password | default "bookstack" }}
+            
+            # Application configuration
+            - name: APP_URL
+              value: https://{{ .Values.route.host | default "bookstack.local" }}
+            - name: APP_KEY
+              value: "base64:{{ randAlphaNum 32 | b64enc }}"
+            - name: APP_DEBUG
+              value: "false"
+            - name: APP_ENV
+              value: "production"
+            
+            # LDAP/Auth configuration (disabled by default)
+            - name: AUTH_METHOD
+              value: "standard"
+            - name: LDAP_SERVER
+              value: ""
+            
+            # Storage configuration
+            - name: STORAGE_TYPE
+              value: "local"
+            - name: STORAGE_UPLOADS
+              value: "/var/www/bookstack/storage/uploads"
+            
+            # Mail configuration (disabled)
+            - name: MAIL_DRIVER
+              value: "smtp"
+            - name: MAIL_HOST
+              value: ""
+            - name: MAIL_PORT
+              value: "587"
+            - name: MAIL_ENCRYPTION
+              value: "tls"
+            
+            # Cache configuration
+            - name: CACHE_DRIVER
+              value: "file"
+            - name: SESSION_DRIVER
+              value: "file"
+            
+          volumeMounts:
+            - name: uploads
+              mountPath: /var/www/bookstack/storage/uploads
+            - name: storage
+              mountPath: /var/www/bookstack/storage
+      volumes:
+        - name: uploads
+          {{- if .Values.persistence.uploads.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ .Chart.Name }}-uploads
+          {{- else }}
+          emptyDir:
+            sizeLimit: 5Gi
+          {{- end }}
+        - name: storage
+          {{- if .Values.persistence.storage.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ .Chart.Name }}-storage
+          {{- else }}
+          emptyDir:
+            sizeLimit: 2Gi
+          {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

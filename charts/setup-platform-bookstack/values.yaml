@@ -3,11 +3,11 @@ namespace:
   create: true
   name: "bookstack"
 
-replicaCount: 2
+replicaCount: 1
 
 image:
   repository: lscr.io/linuxserver/bookstack
-  tag: "23.10.0"
+  tag: "latest"  # Use latest available tag
   pullPolicy: IfNotPresent
 
 service:
@@ -25,31 +25,20 @@ route:
 
 resources:
   limits:
-    cpu: 500m
-    memory: 1Gi
+    cpu: 200m
+    memory: 256Mi
   requests:
-    cpu: 250m
-    memory: 512Mi
+    cpu: 50m
+    memory: 128Mi
 
-# Security Context (adjusted for Bookstack)
+# Security Context (OpenShift compatible)
 podSecurityContext:
-  runAsNonRoot: false  # Bookstack needs root for some operations
-  runAsUser: 0
-  runAsGroup: 0
-  fsGroup: 1001
+  # Let OpenShift assign UIDs automatically
+  fsGroup: 0
 
 securityContext:
   allowPrivilegeEscalation: false
-  readOnlyRootFilesystem: false  # Bookstack needs write access
-  runAsNonRoot: false
-  runAsUser: 0
-  capabilities:
-    drop:
-    - ALL
-    add:
-    - CHOWN
-    - SETUID
-    - SETGID
+  readOnlyRootFilesystem: false
 
 # Service Account
 serviceAccount:
@@ -91,12 +80,48 @@ mariadb:
     database: "bookstackapp"
   primary:
     persistence:
-      enabled: true
-      size: 10Gi
+      enabled: false  # Disabled due to CSI driver issues
+      size: 5Gi
+      storageClass: "ocs-external-storagecluster-cephfs"
+    # OpenShift Security Context
+    podSecurityContext:
+      enabled: false
+    containerSecurityContext:
+      enabled: false
+  # Service Account configuration
+  serviceAccount:
+    create: true
+  rbac:
+    create: false
+
+# RBAC - Required for OpenShift SCC
+rbac:
+  create: true  # Creates ClusterRoleBinding to anyuid SCC
 
 # Persistent storage for uploads
 persistence:
-  enabled: true
-  size: 5Gi
-  storageClass: ""
-  accessMode: ReadWriteOnce
+  uploads:
+    enabled: false  # Disabled due to CSI issues
+    size: 5Gi
+    storageClass: "ocs-external-storagecluster-cephfs"
+    accessModes:
+      - ReadWriteMany
+  storage:
+    enabled: false  # Disabled due to CSI issues
+    size: 2Gi
+    storageClass: "ocs-external-storagecluster-cephfs"
+    accessModes:
+      - ReadWriteMany
+
+# Node scheduling
+nodeSelector: {}
+
+tolerations:
+  - key: node-role.kubernetes.io/master
+    operator: Exists
+    effect: NoSchedule
+  - key: node-role.kubernetes.io/control-plane
+    operator: Exists
+    effect: NoSchedule
+
+affinity: {}
