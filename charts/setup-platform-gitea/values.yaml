@@ -165,11 +165,11 @@ postgresql:
 
 # Persistent storage for repositories
 persistence:
-  enabled: false  # Disabled due to CSI driver issues - change to true when storage is available
+  enabled: true  # Enable persistence for production use
   size: 5Gi
-  storageClass: "ocs-external-storagecluster-cephfs"  # Use CephFS when available
+  storageClass: "gp3-csi"  # Use default AWS EBS storage
   accessModes:
-    - ReadWriteMany  # CephFS supports ReadWriteMany
+    - ReadWriteOnce
 
 # Node scheduling
 nodeSelector: {}
