@@ -87,15 +87,36 @@ spec:
             - name: STORAGE_UPLOADS
               value: "/var/www/bookstack/storage/uploads"
             
-            # Mail configuration (disabled)
+            # Mail configuration
+            {{- if .Values.config.mail.enabled }}
             - name: MAIL_DRIVER
-              value: "smtp"
+              value: {{ .Values.config.mail.driver | quote }}
             - name: MAIL_HOST
-              value: ""
+              value: {{ .Values.config.mail.host | quote }}
             - name: MAIL_PORT
-              value: "587"
+              value: {{ .Values.config.mail.port | quote }}
             - name: MAIL_ENCRYPTION
-              value: "tls"
+              value: {{ .Values.config.mail.encryption | quote }}
+            {{- if .Values.config.mail.username }}
+            - name: MAIL_USERNAME
+              value: {{ .Values.config.mail.username | quote }}
+            {{- end }}
+            {{- if .Values.config.mail.password }}
+            - name: MAIL_PASSWORD
+              value: {{ .Values.config.mail.password | quote }}
+            {{- end }}
+            {{- if .Values.config.mail.fromAddress }}
+            - name: MAIL_FROM_ADDR
+              value: {{ .Values.config.mail.fromAddress | quote }}
+            {{- end }}
+            {{- if .Values.config.mail.fromName }}
+            - name: MAIL_FROM_NAME
+              value: {{ .Values.config.mail.fromName | quote }}
+            {{- end }}
+            {{- else }}
+            - name: MAIL_DRIVER
+              value: ""
+            {{- end }}
             
             # Cache configuration
             - name: CACHE_DRIVER

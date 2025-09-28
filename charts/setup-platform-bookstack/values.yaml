@@ -70,6 +70,18 @@ config:
   appUrl: "https://bookstack.apps.cluster.company.com"
   appKey: "base64:RandomGeneratedKey1234567890ABCDEFGHIJKLMNOP"
   
+  # Mail configuration
+  mail:
+    enabled: false
+    driver: "smtp"
+    host: ""
+    port: "587"
+    encryption: "tls"
+    username: ""
+    password: ""
+    fromAddress: ""
+    fromName: ""
+  
 # Database
 mariadb:
   enabled: true
