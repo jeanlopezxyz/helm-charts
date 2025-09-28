@@ -23,7 +23,7 @@ spec:
       {{- end }}
       serviceAccountName: {{ include "setup-platform-gitea.serviceAccountName" . }}
       initContainers:
-        - name: init-dirs
+        - name: init-config
           image: registry.redhat.io/ubi9/ubi-minimal:latest
           command:
             - /bin/sh
@@ -31,12 +31,17 @@ spec:
             - |
               mkdir -p /tmp/gitea/conf /tmp/gitea/log /tmp/gitea/data /tmp/gitea/custom
               mkdir -p /data/git/repositories
+              # Copy config from read-only mount to writable location
+              cp /config/app.ini /tmp/gitea/conf/app.ini
               chmod -R 755 /tmp/gitea /data/git
+              chown -R 1001:1001 /tmp/gitea /data/git
           volumeMounts:
             - name: data
               mountPath: /data
             - name: tmp
               mountPath: /tmp
+            - name: gitea-config
+              mountPath: /config
           securityContext:
             runAsUser: 1001
             allowPrivilegeEscalation: false
@@ -82,7 +87,9 @@ spec:
               value: "3000"
             - name: GITEA__server__ROOT_URL
               value: https://{{ .Values.route.host | default "gitea.local" }}
-            # OpenShift compatibility - run as user 1001
+            # OpenShift compatibility - let container handle user
+            - name: USER
+              value: "git"
             - name: USER_UID
               value: "1001"
             - name: USER_GID
@@ -130,10 +137,6 @@ spec:
               mountPath: /tmp
             - name: var-lib-gitea
               mountPath: /var/lib/gitea
-            - name: gitea-config
-              mountPath: /tmp/gitea/conf/app.ini
-              subPath: app.ini
-              readOnly: true
       volumes:
         - name: data
           {{- if .Values.persistence.enabled }}
