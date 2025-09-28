@@ -86,6 +86,7 @@ config:
   appName: "DemoJam Git Server"
   runMode: "prod"
   rootUrl: "https://gitea.apps.cluster.company.com"
+  disableSSH: "true"  # Disable SSH for OpenShift compatibility
 
 # Keycloak SSO Integration
 auth:

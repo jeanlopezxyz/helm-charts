@@ -90,7 +90,7 @@ spec:
             - name: RUN_MODE
               value: "prod"
             - name: GITEA__security__INSTALL_LOCK
-              value: "false"
+              value: "true"  # Skip setup wizard
             - name: GITEA_WORK_DIR
               value: "/tmp/gitea"
             - name: GITEA_CUSTOM
@@ -130,6 +130,10 @@ spec:
               mountPath: /tmp
             - name: var-lib-gitea
               mountPath: /var/lib/gitea
+            - name: gitea-config
+              mountPath: /tmp/gitea/conf/app.ini
+              subPath: app.ini
+              readOnly: true
       volumes:
         - name: data
           {{- if .Values.persistence.enabled }}
@@ -145,6 +149,9 @@ spec:
         - name: var-lib-gitea
           emptyDir:
             sizeLimit: 500Mi
+        - name: gitea-config
+          configMap:
+            name: {{ include "setup-platform-gitea.fullname" . }}-config
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
