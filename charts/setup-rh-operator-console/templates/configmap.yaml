@@ -11,7 +11,7 @@ data:
     {{- range .Values.console.customizations.customLinks.links }}
     ---
     apiVersion: console.openshift.io/v1
-    kind: ConsoleExternalLink
+    kind: ConsoleLink
     metadata:
       name: {{ .text | lower | replace " " "-" | replace "." "-" }}
       labels:

@@ -107,7 +107,7 @@ persistence:
 
 # Database
 postgresql:
-  enabled: false  # Use SQLite instead for simplicity
+  enabled: true  # Use PostgreSQL for production
   auth:
     postgresPassword: "gitea-postgres-password"
     username: "gitea"
@@ -117,9 +117,9 @@ postgresql:
   # OpenShift Security Configuration
   primary:
     persistence:
-      enabled: false  # Disabled due to CSI driver issues
+      enabled: true  # Enable PostgreSQL persistence
       size: 5Gi
-      storageClass: "ocs-external-storagecluster-cephfs"
+      storageClass: "gp3-csi"
     # Disable all Bitnami security contexts for OpenShift
     podSecurityContext:
       enabled: false

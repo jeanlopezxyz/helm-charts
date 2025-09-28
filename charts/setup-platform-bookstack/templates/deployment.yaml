@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ .Chart.Name }}
-  namespace: {{ .Values.namespace.name | default "bookstack" }}
+  namespace: {{ .Release.Namespace }}
   annotations:
     argocd.argoproj.io/sync-wave: "1"
   labels:
@@ -53,7 +53,7 @@ spec:
           env:
             # Database configuration
             - name: DB_HOST
-              value: {{ .Chart.Name }}-mariadb.{{ .Values.namespace.name | default "bookstack" }}.svc.cluster.local
+              value: {{ .Release.Name }}-mariadb.{{ .Release.Namespace }}.svc.cluster.local
             - name: DB_PORT
               value: "3306"
             - name: DB_DATABASE

@@ -1,5 +1,39 @@
 apiVersion: v1
 entries:
+  setup-platform-bookstack:
+  - annotations:
+      category: Documentation
+      licenses: MIT
+      support: Red Hat DemoJam
+    apiVersion: v2
+    appVersion: 23.10.0
+    created: "2025-09-27T22:24:28.125502-05:00"
+    dependencies:
+    - condition: mariadb.enabled
+      name: mariadb
+      repository: https://charts.bitnami.com/bitnami
+      version: 15.0.0
+    description: Setup Bookstack Documentation Platform for DemoJam with backup integration
+    digest: 15972f2af9f1fa54b51d5a154d5b4ba4c2b8f3c52b3ad3a3e554e71f96e07d11
+    home: https://github.com/jeanlopezxyz/helm-charts
+    keywords:
+    - setup
+    - platform
+    - documentation
+    - bookstack
+    - wiki
+    - demojam
+    - backup-integrated
+    maintainers:
+    - email: jealopez@redhat.com
+      name: Jean Paul Lopez
+    name: setup-platform-bookstack
+    sources:
+    - https://github.com/jeanlopezxyz/helm-charts
+    type: application
+    urls:
+    - https://jeanlopezxyz.github.io/helm-charts/setup-platform-bookstack-1.0.0.tgz
+    version: 1.0.0
   setup-rh-operator-keycloak:
   - annotations:
       category: Security
@@ -10,7 +44,7 @@ entries:
       support: Red Hat
     apiVersion: v2
     appVersion: 23.0.0
-    created: "2025-09-27T14:22:29.5735896-05:00"
+    created: "2025-09-27T22:24:28.127909656-05:00"
     dependencies:
     - condition: helpers.operator.enabled
       name: helper-operator
@@ -47,7 +81,7 @@ entries:
       support: Red Hat
     apiVersion: v2
     appVersion: 23.0.0
-    created: "2025-09-27T14:22:29.572798427-05:00"
+    created: "2025-09-27T22:24:28.126982535-05:00"
     dependencies:
     - condition: helpers.operator.enabled
       name: helper-operator
@@ -84,14 +118,14 @@ entries:
       support: Red Hat
     apiVersion: v2
     appVersion: 26.2.9
-    created: "2025-09-27T14:22:29.57197993-05:00"
+    created: "2025-09-27T22:24:28.126144015-05:00"
     dependencies:
     - condition: helpers.operator.enabled
       name: helper-operator
       repository: https://jeanlopezxyz.github.io/helm-charts
       version: 1.0.0
     description: Setup Red Hat Build of Keycloak operator installation
-    digest: a958f52c1cb94fc4c07dfa7b8d1326a7894e588afa9804f7ea3368310f0a95bf
+    digest: ef62b6ec7effc5d6971fab5777b5ad9155a5b0e6b46187926e2ff93ae6b8d304
     home: https://access.redhat.com/products/red-hat-build-of-keycloak
     keywords:
     - setup
@@ -112,4 +146,4 @@ entries:
     urls:
     - https://jeanlopezxyz.github.io/helm-charts/setup-rh-operator-keycloak-1.0.0.tgz
     version: 1.0.0
-generated: "2025-09-27T14:22:29.570951155-05:00"
+generated: "2025-09-27T22:24:28.123412682-05:00"

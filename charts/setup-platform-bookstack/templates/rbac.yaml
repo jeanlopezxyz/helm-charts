@@ -15,5 +15,5 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: {{ include "setup-platform-bookstack.serviceAccountName" . }}
-  namespace: {{ .Values.namespace.name }}
+  namespace: {{ .Release.Namespace }}
 {{- end -}}

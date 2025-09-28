@@ -177,10 +177,10 @@ backstage:
 
       # GitHub Actions plugin
       - package: './dynamic-plugins/dist/backstage-plugin-github-actions-dynamic'
-        disabled: false
+        disabled: true  # Plugin not available in this image version
 
       # GitLab plugin
-      - package: './dynamic-plugins/dist/backstage-plugin-gitlab-backend-dynamic'
+      - package: './dynamic-plugins/dist/immobiliarelabs-backstage-plugin-gitlab-backend-dynamic'
         disabled: true  # Enable if GitLab is configured
         pluginConfig:
           integrations:

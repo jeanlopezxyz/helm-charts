@@ -1,24 +1,26 @@
+{{- if .Values.namespace.create }}
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: bookstack
+  name: {{ .Release.Namespace }}
   annotations:
     argocd.argoproj.io/sync-wave: "-1"
     openshift.io/display-name: "Bookstack Documentation"
     openshift.io/description: "Corporate documentation platform"
     argocd.argoproj.io/managed: "true"
   labels:
-    name: bookstack
+    name: {{ .Release.Namespace }}
     openshift.io/cluster-monitoring: "true"
     pod-security.kubernetes.io/enforce: baseline
     pod-security.kubernetes.io/audit: baseline
     pod-security.kubernetes.io/warn: baseline
+{{- end }}
 
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: bookstack-default-anyuid
+  name: {{ .Release.Namespace }}-default-anyuid
   annotations:
     argocd.argoproj.io/sync-wave: "-1"
 roleRef:
@@ -28,4 +30,4 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: default
-  namespace: bookstack
+  namespace: {{ .Release.Namespace }}

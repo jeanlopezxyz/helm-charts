@@ -42,16 +42,21 @@ spec:
       - name: controller
         image: docker.io/bitnami/sealed-secrets-controller:0.24.5
         imagePullPolicy: IfNotPresent
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          seccompProfile:
+            type: RuntimeDefault
         command:
         - controller
         args:
         - --update-status={{ .Values.sealedSecrets.additionalConfig.updateStatus }}
-        - --skip-fetch={{ .Values.sealedSecrets.additionalConfig.skipFetch }}
         - --key-renew-period={{ .Values.sealedSecrets.additionalConfig.keyRenewalInterval }}
         - --key-prefix={{ .Values.sealedSecrets.additionalConfig.keyPrefix }}
-        - --log-level={{ .Values.sealedSecrets.controller.logLevel }}
         {{- if .Values.sealedSecrets.metrics.enabled }}
-        - --metrics-addr=:{{ .Values.sealedSecrets.metrics.port }}
+        - --listen-metrics-addr=:{{ .Values.sealedSecrets.metrics.port }}
         {{- end }}
         ports:
         - containerPort: 8080
