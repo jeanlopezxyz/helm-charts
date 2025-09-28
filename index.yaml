@@ -2,7 +2,7 @@ apiVersion: v1
 entries:
   helper-operator:
   - apiVersion: v2
-    created: "2025-09-28T02:47:30.594227685Z"
+    created: "2025-09-28T03:04:06.381386647Z"
     dependencies:
     - name: tpl
       repository: https://charts.stderr.at/
@@ -21,7 +21,7 @@ entries:
     - https://jeanlopezxyz.github.io/helm-charts/helper-operator-1.0.30.tgz
     version: 1.0.30
   - apiVersion: v2
-    created: "2025-09-28T02:47:30.593429425Z"
+    created: "2025-09-28T03:04:06.380619439Z"
     dependencies:
     - name: tpl
       repository: https://charts.stderr.at/
@@ -40,7 +40,7 @@ entries:
     - https://jeanlopezxyz.github.io/helm-charts/helper-operator-1.0.29.tgz
     version: 1.0.29
   - apiVersion: v2
-    created: "2025-09-28T02:47:30.592602702Z"
+    created: "2025-09-28T03:04:06.379831051Z"
     dependencies:
     - name: tpl
       repository: https://charts.stderr.at/
@@ -59,14 +59,14 @@ entries:
     - https://jeanlopezxyz.github.io/helm-charts/helper-operator-1.0.28.tgz
     version: 1.0.28
   - apiVersion: v2
-    created: "2025-09-28T02:47:30.591781208Z"
+    created: "2025-09-28T03:04:06.379012247Z"
     dependencies:
     - name: tpl
       repository: https://jeanlopezxyz.github.io/helm-charts
       version: 1.0.0
     description: Helper chart to reduce code repetition by being used as a dependency
       for installing Operators.
-    digest: b5b32149dc971691c6fc86556bb89f538cf87f741ac86b41bf35bc6f7196b751
+    digest: 5001772e8935068d7a46a90e0d29668e3f4de2daecac56b3927598d1486265a9
     keywords:
     - helper
     - subchart
@@ -81,7 +81,7 @@ entries:
   - annotations:
       artifacthub.io/license: Apache-2.0
     apiVersion: v2
-    created: "2025-09-28T02:47:30.595174913Z"
+    created: "2025-09-28T03:04:06.382323882Z"
     dependencies:
     - name: tpl
       repository: https://charts.stderr.at/
@@ -112,14 +112,14 @@ entries:
   - annotations:
       artifacthub.io/license: Apache-2.0
     apiVersion: v2
-    created: "2025-09-28T02:47:30.594527174Z"
+    created: "2025-09-28T03:04:06.381703327Z"
     dependencies:
     - name: tpl
       repository: https://jeanlopezxyz.github.io/helm-charts
       version: 1.0.0
     description: A helper Chart that creates a job to verify if the deployments of
       an operator are running.
-    digest: 83225d4c77cdb6b03cb127f538ebfb62a34bdacbc91441c1b5e4c00fecb09f7d
+    digest: 06953010b0484e2e87aab5d1afe36cf5fb0ea7023d7baefe396e30e7c50e5ede
     home: https://github.com/jeanlopezxyz/helm-charts
     keywords:
     - helper
@@ -150,7 +150,7 @@ entries:
       support: Red Hat
     apiVersion: v2
     appVersion: 1.0.0
-    created: "2025-09-28T02:47:30.639286565Z"
+    created: "2025-09-28T03:04:06.426971989Z"
     dependencies:
     - condition: helpers.operator.enabled
       name: helper-operator
@@ -203,7 +203,7 @@ entries:
       support: Red Hat
     apiVersion: v2
     appVersion: 1.0.0
-    created: "2025-09-28T02:47:30.627651665Z"
+    created: "2025-09-28T03:04:06.415435037Z"
     dependencies:
     - condition: helpers.operator.enabled
       name: helper-operator
@@ -256,7 +256,7 @@ entries:
       support: Red Hat
     apiVersion: v2
     appVersion: 1.0.0
-    created: "2025-09-28T02:47:30.616971469Z"
+    created: "2025-09-28T03:04:06.40381334Z"
     dependencies:
     - condition: helpers.operator.enabled
       name: helper-operator
@@ -309,7 +309,7 @@ entries:
       support: Red Hat
     apiVersion: v2
     appVersion: 1.0.0
-    created: "2025-09-28T02:47:30.605878473Z"
+    created: "2025-09-28T03:04:06.393190042Z"
     dependencies:
     - condition: helpers.operator.enabled
       name: helper-operator
@@ -329,7 +329,7 @@ entries:
       version: 18.4.0
     description: Setup OpenShift AI Assistant with RAG architecture and corporate
       repository integration
-    digest: e4d2da3b04b343ad9736abad4510ecf4645477d8d383bd554105b9a4851c59ab
+    digest: 6e4c6002d3a62c89a8bb6afaf1f245516daaf25e9f71f9e27d3dc3d233c70b88
     home: https://github.com/jeanlopezxyz/demojam-2026
     keywords:
     - setup
@@ -359,7 +359,7 @@ entries:
       support: Red Hat DemoJam
     apiVersion: v2
     appVersion: 23.10.0
-    created: "2025-09-28T02:47:30.646525698Z"
+    created: "2025-09-28T03:04:06.433524127Z"
     dependencies:
     - condition: mariadb.enabled
       name: mariadb
@@ -392,14 +392,14 @@ entries:
       support: Red Hat DemoJam
     apiVersion: v2
     appVersion: 23.10.0
-    created: "2025-09-28T02:47:30.642714393Z"
+    created: "2025-09-28T03:04:06.430294755Z"
     dependencies:
     - condition: mariadb.enabled
       name: mariadb
       repository: https://charts.bitnami.com/bitnami
       version: 15.0.0
     description: Setup Bookstack Documentation Platform for DemoJam with backup integration
-    digest: 7af98ce2780105f3bc435204359b722a0b3e085c1d1b93d8b3f08a737e05cf93
+    digest: ca5c334ccb7c5e9af2e15049c7b093453c274e6259d0084dfa7438d942d75c64
     home: https://github.com/jeanlopezxyz/helm-charts
     keywords:
     - setup
@@ -426,7 +426,7 @@ entries:
       support: Red Hat DemoJam
     apiVersion: v2
     appVersion: 1.21.0
-    created: "2025-09-28T02:47:30.661160495Z"
+    created: "2025-09-28T03:04:06.448052281Z"
     dependencies:
     - condition: postgresql.enabled
       name: postgresql
@@ -462,7 +462,7 @@ entries:
       support: Red Hat DemoJam
     apiVersion: v2
     appVersion: 1.21.0
-    created: "2025-09-28T02:47:30.655947726Z"
+    created: "2025-09-28T03:04:06.443005115Z"
     dependencies:
     - condition: postgresql.enabled
       name: postgresql
@@ -498,7 +498,7 @@ entries:
       support: Red Hat DemoJam
     apiVersion: v2
     appVersion: 1.21.0
-    created: "2025-09-28T02:47:30.651906202Z"
+    created: "2025-09-28T03:04:06.43894717Z"
     dependencies:
     - condition: postgresql.enabled
       name: postgresql
@@ -506,7 +506,7 @@ entries:
       version: 13.2.24
     description: Setup Gitea Git Server for DemoJam platform with CI/CD and Keycloak
       integration
-    digest: 4b42f01d4842c7039b94a6ae6bf8080e9b2b8185b087833474cd9b6260bead9a
+    digest: 646b330cdbe8d7166a0f49ea9ea7c5b37cb8bb1989c9acdba5c517d2244e92e7
     home: https://github.com/jeanlopezxyz/helm-charts
     keywords:
     - setup
@@ -539,7 +539,7 @@ entries:
       support: Red Hat
     apiVersion: v2
     appVersion: 1.0.0
-    created: "2025-09-28T02:47:30.679469271Z"
+    created: "2025-09-28T03:04:06.466493387Z"
     dependencies:
     - condition: helpers.operator.enabled
       name: helper-operator
@@ -584,7 +584,7 @@ entries:
       support: Red Hat
     apiVersion: v2
     appVersion: 1.0.0
-    created: "2025-09-28T02:47:30.676971691Z"
+    created: "2025-09-28T03:04:06.463665018Z"
     dependencies:
     - condition: helpers.operator.enabled
       name: helper-operator
@@ -629,7 +629,7 @@ entries:
       support: Red Hat
     apiVersion: v2
     appVersion: 1.0.0
-    created: "2025-09-28T02:47:30.675063529Z"
+    created: "2025-09-28T03:04:06.461841443Z"
     dependencies:
     - condition: helpers.operator.enabled
       name: helper-operator
@@ -674,7 +674,7 @@ entries:
       support: Red Hat
     apiVersion: v2
     appVersion: 1.0.0
-    created: "2025-09-28T02:47:30.673265432Z"
+    created: "2025-09-28T03:04:06.459928101Z"
     dependencies:
     - condition: helpers.operator.enabled
       name: helper-operator
@@ -719,7 +719,7 @@ entries:
       support: Red Hat
     apiVersion: v2
     appVersion: 1.0.0
-    created: "2025-09-28T02:47:30.671343605Z"
+    created: "2025-09-28T03:04:06.45806389Z"
     dependencies:
     - condition: helpers.operator.enabled
       name: helper-operator
@@ -764,7 +764,7 @@ entries:
       support: Red Hat
     apiVersion: v2
     appVersion: 1.0.0
-    created: "2025-09-28T02:47:30.668603068Z"
+    created: "2025-09-28T03:04:06.455358634Z"
     dependencies:
     - condition: helpers.operator.enabled
       name: helper-operator
@@ -809,7 +809,7 @@ entries:
       support: Red Hat
     apiVersion: v2
     appVersion: 1.0.0
-    created: "2025-09-28T02:47:30.666789362Z"
+    created: "2025-09-28T03:04:06.45354615Z"
     dependencies:
     - condition: helpers.operator.enabled
       name: helper-operator
@@ -854,7 +854,7 @@ entries:
       support: Red Hat
     apiVersion: v2
     appVersion: 1.0.0
-    created: "2025-09-28T02:47:30.664829093Z"
+    created: "2025-09-28T03:04:06.451728345Z"
     dependencies:
     - condition: helpers.operator.enabled
       name: helper-operator
@@ -899,7 +899,7 @@ entries:
       support: Red Hat
     apiVersion: v2
     appVersion: 1.0.0
-    created: "2025-09-28T02:47:30.662993557Z"
+    created: "2025-09-28T03:04:06.449916301Z"
     dependencies:
     - condition: helpers.operator.enabled
       name: helper-operator
@@ -943,7 +943,7 @@ entries:
       support: Red Hat
     apiVersion: v2
     appVersion: 1.2.0
-    created: "2025-09-28T02:47:30.681578789Z"
+    created: "2025-09-28T03:04:06.468488592Z"
     dependencies:
     - condition: helpers.operator.enabled
       name: helper-operator
@@ -979,7 +979,7 @@ entries:
       support: Red Hat
     apiVersion: v2
     appVersion: 1.2.0
-    created: "2025-09-28T02:47:30.680572019Z"
+    created: "2025-09-28T03:04:06.467508197Z"
     dependencies:
     - condition: helpers.operator.enabled
       name: helper-operator
@@ -1017,7 +1017,7 @@ entries:
       support: Red Hat
     apiVersion: v2
     appVersion: 23.0.0
-    created: "2025-09-28T02:47:30.683543937Z"
+    created: "2025-09-28T03:04:06.470462557Z"
     dependencies:
     - condition: helpers.operator.enabled
       name: helper-operator
@@ -1054,7 +1054,7 @@ entries:
       support: Red Hat
     apiVersion: v2
     appVersion: 23.0.0
-    created: "2025-09-28T02:47:30.68256505Z"
+    created: "2025-09-28T03:04:06.469488223Z"
     dependencies:
     - condition: helpers.operator.enabled
       name: helper-operator
@@ -1093,7 +1093,7 @@ entries:
       support: Red Hat
     apiVersion: v2
     appVersion: 1.0.0
-    created: "2025-09-28T02:47:30.690795044Z"
+    created: "2025-09-28T03:04:06.47868857Z"
     dependencies:
     - condition: helpers.operator.enabled
       name: helper-operator
@@ -1137,7 +1137,7 @@ entries:
       support: Red Hat
     apiVersion: v2
     appVersion: 1.0.0
-    created: "2025-09-28T02:47:30.688973234Z"
+    created: "2025-09-28T03:04:06.476768586Z"
     dependencies:
     - condition: helpers.operator.enabled
       name: helper-operator
@@ -1181,7 +1181,7 @@ entries:
       support: Red Hat
     apiVersion: v2
     appVersion: 1.0.0
-    created: "2025-09-28T02:47:30.686487853Z"
+    created: "2025-09-28T03:04:06.474776898Z"
     dependencies:
     - condition: helpers.operator.enabled
       name: helper-operator
@@ -1225,7 +1225,7 @@ entries:
       support: Red Hat
     apiVersion: v2
     appVersion: 1.0.0
-    created: "2025-09-28T02:47:30.684682863Z"
+    created: "2025-09-28T03:04:06.471610354Z"
     dependencies:
     - condition: helpers.operator.enabled
       name: helper-operator
@@ -1236,7 +1236,7 @@ entries:
       repository: https://jeanlopezxyz.github.io/helm-charts
       version: 1.0.0
     description: Setup Console operator for enhanced OpenShift UI capabilities
-    digest: dba01f42f2d58e4fabf2f57f35fc083d1e87863c53872fe9d1d874cf97024d2a
+    digest: 67db92275f5d5f8dced7631615e483977e12b8f03cdd1618f1e4feaedd72273a
     home: https://docs.openshift.com/container-platform/latest/web_console/web-console.html
     keywords:
     - setup
@@ -1268,7 +1268,7 @@ entries:
       support: Red Hat
     apiVersion: v2
     appVersion: 1.2.0
-    created: "2025-09-28T02:47:30.694216501Z"
+    created: "2025-09-28T03:04:06.482186893Z"
     dependencies:
     - condition: helpers.operator.enabled
       name: helper-operator
@@ -1304,7 +1304,7 @@ entries:
       support: Red Hat
     apiVersion: v2
     appVersion: 1.2.0
-    created: "2025-09-28T02:47:30.693244737Z"
+    created: "2025-09-28T03:04:06.481182283Z"
     dependencies:
     - condition: helpers.operator.enabled
       name: helper-operator
@@ -1340,14 +1340,14 @@ entries:
       support: Red Hat
     apiVersion: v2
     appVersion: 1.2.0
-    created: "2025-09-28T02:47:30.692262844Z"
+    created: "2025-09-28T03:04:06.480170279Z"
     dependencies:
     - condition: helpers.operator.enabled
       name: helper-operator
       repository: https://jeanlopezxyz.github.io/helm-charts
       version: ~1.0.0
     description: Setup Red Hat Developer Hub operator installation
-    digest: bd8da65b714ec057e03d9c0a2ad60e383bd2aa86481554c9661f07e14d89d04f
+    digest: af670936a30c972a945ab7acd0db5874f8b7fc10988c189079d23519209cf5f2
     home: https://developers.redhat.com/products/developer-hub
     keywords:
     - setup
@@ -1378,7 +1378,7 @@ entries:
       support: Red Hat
     apiVersion: v2
     appVersion: 26.2.9
-    created: "2025-09-28T02:47:30.702028664Z"
+    created: "2025-09-28T03:04:06.490050144Z"
     dependencies:
     - condition: helpers.operator.enabled
       name: helper-operator
@@ -1415,7 +1415,7 @@ entries:
       support: Red Hat
     apiVersion: v2
     appVersion: 23.0.0
-    created: "2025-09-28T02:47:30.700688703Z"
+    created: "2025-09-28T03:04:06.488733292Z"
     dependencies:
     - condition: helpers.operator.enabled
       name: helper-operator
@@ -1452,7 +1452,7 @@ entries:
       support: Red Hat
     apiVersion: v2
     appVersion: 23.0.0
-    created: "2025-09-28T02:47:30.69935329Z"
+    created: "2025-09-28T03:04:06.48738939Z"
     dependencies:
     - condition: helpers.operator.enabled
       name: helper-operator
@@ -1489,7 +1489,7 @@ entries:
       support: Red Hat
     apiVersion: v2
     appVersion: 23.0.0
-    created: "2025-09-28T02:47:30.697977752Z"
+    created: "2025-09-28T03:04:06.486065676Z"
     dependencies:
     - condition: helpers.operator.enabled
       name: helper-operator
@@ -1526,7 +1526,7 @@ entries:
       support: Red Hat
     apiVersion: v2
     appVersion: 23.0.0
-    created: "2025-09-28T02:47:30.696949653Z"
+    created: "2025-09-28T03:04:06.485053732Z"
     dependencies:
     - condition: helpers.operator.enabled
       name: helper-operator
@@ -1563,14 +1563,14 @@ entries:
       support: Red Hat
     apiVersion: v2
     appVersion: 26.2.9
-    created: "2025-09-28T02:47:30.695253477Z"
+    created: "2025-09-28T03:04:06.483997505Z"
     dependencies:
     - condition: helpers.operator.enabled
       name: helper-operator
       repository: https://jeanlopezxyz.github.io/helm-charts
       version: 1.0.0
     description: Setup Red Hat Build of Keycloak operator installation
-    digest: 1d7e48d5abb14e4dccbbc7342aa473e87c541bee27401cfc6616669ec7e67537
+    digest: ff8e8bd7eee8c4f447cd62ed85b16f2a82d2ecdeea5506f85d569bb5f0954b74
     home: https://access.redhat.com/products/red-hat-build-of-keycloak
     keywords:
     - setup
@@ -1602,7 +1602,7 @@ entries:
       support: Red Hat
     apiVersion: v2
     appVersion: 1.0.0
-    created: "2025-09-28T02:47:30.709392669Z"
+    created: "2025-09-28T03:04:06.497514489Z"
     dependencies:
     - condition: helpers.operator.enabled
       name: helper-operator
@@ -1646,7 +1646,7 @@ entries:
       support: Red Hat
     apiVersion: v2
     appVersion: 1.0.0
-    created: "2025-09-28T02:47:30.707613378Z"
+    created: "2025-09-28T03:04:06.495753801Z"
     dependencies:
     - condition: helpers.operator.enabled
       name: helper-operator
@@ -1690,7 +1690,7 @@ entries:
       support: Red Hat
     apiVersion: v2
     appVersion: 1.0.0
-    created: "2025-09-28T02:47:30.70578775Z"
+    created: "2025-09-28T03:04:06.493956275Z"
     dependencies:
     - condition: helpers.operator.enabled
       name: helper-operator
@@ -1734,7 +1734,7 @@ entries:
       support: Red Hat
     apiVersion: v2
     appVersion: 1.0.0
-    created: "2025-09-28T02:47:30.70334463Z"
+    created: "2025-09-28T03:04:06.492144372Z"
     dependencies:
     - condition: helpers.operator.enabled
       name: helper-operator
@@ -1745,7 +1745,7 @@ entries:
       repository: https://jeanlopezxyz.github.io/helm-charts
       version: 1.0.0
     description: Setup Red Hat Pipelines (Tekton) for CI/CD automation
-    digest: f0b52aadc7ee56bb5f8dd24f958066edc8d2eb5026a8bb24a0cab3ed4b417854
+    digest: d2de7e6c5e63e5a4d25d157a6f2978c498909895d7ae0a7bb1d43a363e04ae3c
     home: https://tekton.dev/
     keywords:
     - setup
@@ -1779,7 +1779,7 @@ entries:
       support: Red Hat
     apiVersion: v2
     appVersion: 1.0.0
-    created: "2025-09-28T02:47:30.720952448Z"
+    created: "2025-09-28T03:04:06.509782807Z"
     dependencies:
     - condition: helpers.operator.enabled
       name: helper-operator
@@ -1824,7 +1824,7 @@ entries:
       support: Red Hat
     apiVersion: v2
     appVersion: 1.0.0
-    created: "2025-09-28T02:47:30.719140526Z"
+    created: "2025-09-28T03:04:06.507191086Z"
     dependencies:
     - condition: helpers.operator.enabled
       name: helper-operator
@@ -1869,7 +1869,7 @@ entries:
       support: Red Hat
     apiVersion: v2
     appVersion: 1.0.0
-    created: "2025-09-28T02:47:30.717389377Z"
+    created: "2025-09-28T03:04:06.505448291Z"
     dependencies:
     - condition: helpers.operator.enabled
       name: helper-operator
@@ -1914,7 +1914,7 @@ entries:
       support: Red Hat
     apiVersion: v2
     appVersion: 1.0.0
-    created: "2025-09-28T02:47:30.715579298Z"
+    created: "2025-09-28T03:04:06.503701038Z"
     dependencies:
     - condition: helpers.operator.enabled
       name: helper-operator
@@ -1959,7 +1959,7 @@ entries:
       support: Red Hat
     apiVersion: v2
     appVersion: 1.0.0
-    created: "2025-09-28T02:47:30.713773167Z"
+    created: "2025-09-28T03:04:06.501878185Z"
     dependencies:
     - condition: helpers.operator.enabled
       name: helper-operator
@@ -2004,7 +2004,7 @@ entries:
       support: Red Hat
     apiVersion: v2
     appVersion: 1.0.0
-    created: "2025-09-28T02:47:30.711151231Z"
+    created: "2025-09-28T03:04:06.499656046Z"
     dependencies:
     - condition: helpers.operator.enabled
       name: helper-operator
@@ -2048,9 +2048,9 @@ entries:
         url: https://keybase.io/jeanlopezxyz
     apiVersion: v2
     appVersion: 0.24.5
-    created: "2025-09-28T02:47:30.722270317Z"
+    created: "2025-09-28T03:04:06.51038013Z"
     description: Sealed Secrets controller for encrypted secrets management in Kubernetes
-    digest: 92b9adc3e0351a5fb10209b822dd475959b804463828a9ce1fb1d26867acdad8
+    digest: 8ba94ae6882622a3a5dec7f3201eb2583747fd0d8797695edbaacc210c6930a2
     home: https://sealed-secrets.netlify.app/
     icon: https://raw.githubusercontent.com/bitnami-labs/sealed-secrets/main/assets/images/sealed-secrets.svg
     keywords:
@@ -2076,10 +2076,10 @@ entries:
       artifacthub.io/category: integration-delivery
       artifacthub.io/license: Apache-2.0
     apiVersion: v2
-    created: "2025-09-28T02:47:30.722449081Z"
+    created: "2025-09-28T03:04:06.510562158Z"
     description: A library that shall collect certain templates to reuse them among
       different charts
-    digest: bc13665a65b247f79c78635a1c78879c0d7cf8335295d9f7ff16e76b485adb87
+    digest: a5e3175dd904952cb05a1e8086004d291e52d885f3a4efd33815ef206ecf4719
     home: https://github.com/jeanlopezxyz/helm-charts
     keywords:
     - templates
@@ -2097,4 +2097,4 @@ entries:
     urls:
     - https://jeanlopezxyz.github.io/helm-charts/tpl-1.0.0.tgz
     version: 1.0.0
-generated: "2025-09-28T02:47:30.591088675Z"
+generated: "2025-09-28T03:04:06.378297386Z"
