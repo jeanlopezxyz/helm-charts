@@ -118,8 +118,9 @@ postgresql:
   # OpenShift Security Configuration
   primary:
     persistence:
-      enabled: true
+      enabled: false  # Disabled due to CSI driver issues
       size: 5Gi
+      storageClass: "ocs-external-storagecluster-ceph-rbd-immediate"
     # Disable all Bitnami security contexts for OpenShift
     podSecurityContext:
       enabled: false
@@ -165,9 +166,9 @@ postgresql:
 
 # Persistent storage for repositories
 persistence:
-  enabled: true
+  enabled: false  # Disabled due to CSI driver issues
   size: 5Gi
-  storageClass: ""
+  storageClass: "ocs-external-storagecluster-ceph-rbd-immediate"
   accessModes:
     - ReadWriteOnce
 
