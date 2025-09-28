@@ -10,10 +10,14 @@ helpers:
         syncwave: 0
         namespace:
           name: openshift-operators
+          create: false
         subscription:
           channel: latest
           operatorName: openshift-pipelines-operator-rh
           source: redhat-operators
+        operatorgroup:
+          create: false
+          notownnamespace: true
           
 
   # Status Checker para health monitoring
