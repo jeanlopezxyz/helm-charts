@@ -33,8 +33,7 @@ spec:
               mkdir -p /data/git/repositories
               # Copy config from read-only mount to writable location
               cp /config/app.ini /tmp/gitea/conf/app.ini
-              chmod -R 755 /tmp/gitea /data/git
-              chown -R 1001:1001 /tmp/gitea /data/git
+              chmod -R 777 /tmp/gitea /data/git
           volumeMounts:
             - name: data
               mountPath: /data
@@ -103,7 +102,7 @@ spec:
             - name: GITEA_CUSTOM
               value: "/tmp/gitea/custom"
             - name: GITEA__database__HOST
-              value: "gitea-final-postgresql.gitea-final.svc.cluster.local:5432"
+              value: "{{ .Release.Name }}-postgresql.{{ .Values.namespace.name }}.svc.cluster.local:5432"
             - name: GITEA__database__NAME
               value: "gitea"
             - name: GITEA__database__USER

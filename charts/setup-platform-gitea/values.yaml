@@ -8,7 +8,7 @@ namespace:
 
 image:
   repository: gitea/gitea
-  tag: "1.21.0-rootless"  # Use rootless image
+  tag: "1.21.0"  # Use regular image, not rootless
   pullPolicy: IfNotPresent
 
 service:
@@ -32,16 +32,14 @@ resources:
     cpu: 50m
     memory: 128Mi
 
-# Security Context (OpenShift compatible - Gitea refuses to run as root)
+# Security Context (OpenShift with privileged SCC)
 podSecurityContext:
-  runAsUser: 1001
-  runAsGroup: 1001
-  fsGroup: 1001
+  # Let OpenShift assign appropriate UIDs
+  fsGroup: 0
 
 securityContext:
-  runAsUser: 1001
-  runAsGroup: 1001
-  allowPrivilegeEscalation: false
+  # Let Gitea container handle user management
+  allowPrivilegeEscalation: true
   readOnlyRootFilesystem: false
 
 # Service Account

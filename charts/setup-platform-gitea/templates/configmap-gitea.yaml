@@ -16,7 +16,7 @@ data:
 
     [database]
     DB_TYPE  = postgres
-    HOST     = {{ include "setup-platform-gitea.fullname" . }}-postgresql.{{ .Values.namespace.name }}.svc.cluster.local:5432
+    HOST     = {{ .Release.Name }}-postgresql.{{ .Values.namespace.name }}.svc.cluster.local:5432
     NAME     = {{ .Values.postgresql.auth.database }}
     USER     = {{ .Values.postgresql.auth.username }}
     PASSWD   = {{ .Values.postgresql.auth.password }}
