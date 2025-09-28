@@ -12,8 +12,8 @@ helpers:
         namespace:
           name: openshift-operators
         subscription:
-          channel: stable
-          operatorName: rhdh-operator
+          channel: fast
+          operatorName: rhdh
           source: redhat-operators
 
   # Status Checker para health monitoring del operador
