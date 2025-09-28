@@ -39,11 +39,6 @@ spec:
           securityContext:
             runAsUser: 0
             allowPrivilegeEscalation: true
-            capabilities:
-              add:
-                - CHOWN
-                - DAC_OVERRIDE
-                - FOWNER
       containers:
         - name: gitea
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
@@ -86,13 +81,15 @@ spec:
               value: "3000"
             - name: GITEA__server__ROOT_URL
               value: https://{{ .Values.route.host | default "gitea.local" }}
-            # OpenShift compatibility - let Gitea run as root initially
+            # OpenShift compatibility - run as user 1001
             - name: USER_UID
-              value: "0"
+              value: "1001"
             - name: USER_GID
-              value: "0" 
+              value: "1001"
+            - name: RUN_MODE
+              value: "prod"
             - name: GITEA__security__INSTALL_LOCK
-              value: "false"  # Allow initial setup
+              value: "false"
             - name: GITEA_WORK_DIR
               value: "/data"
             - name: GITEA_CUSTOM

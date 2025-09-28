@@ -32,17 +32,17 @@ resources:
     cpu: 50m
     memory: 128Mi
 
-# Security Context (OpenShift compatible)
+# Security Context (OpenShift compatible - Gitea refuses to run as root)
 podSecurityContext:
-  # Let OpenShift assign UIDs automatically
-  fsGroup: 0  # Use root group for file permissions
+  runAsUser: 1001
+  runAsGroup: 1001
+  fsGroup: 1001
 
 securityContext:
+  runAsUser: 1001
+  runAsGroup: 1001
   allowPrivilegeEscalation: false
-  readOnlyRootFilesystem: false  # Gitea needs write access
-  capabilities:
-    drop:
-    - ALL
+  readOnlyRootFilesystem: false
 
 # Service Account
 serviceAccount:
