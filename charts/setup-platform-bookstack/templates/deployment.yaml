@@ -165,6 +165,21 @@ spec:
             - name: SESSION_DRIVER
               value: "file"
             
+            {{- if .Values.documentation.enabled }}
+            # Documentation Git Sync paths
+            {{- range $name, $repo := .Values.documentation.gitSync.repositories }}
+            {{- if $repo.enabled }}
+            - name: DOCS_{{ $name | upper }}_PATH
+              value: {{ $repo.mountPath }}/repo
+            {{- end }}
+            {{- end }}
+            - name: DOCS_GIT_ENABLED
+              value: "true"
+            {{- else }}
+            - name: DOCS_GIT_ENABLED
+              value: "false"
+            {{- end }}
+            
           volumeMounts:
             - name: uploads
               mountPath: /var/www/bookstack/storage/uploads
@@ -179,6 +194,57 @@ spec:
             {{- end }}
             {{- end }}
             {{- end }}
+        
+        {{- if .Values.documentation.enabled }}
+        # Git Sync sidecar containers for continuous synchronization
+        {{- range $name, $repo := .Values.documentation.gitSync.repositories }}
+        {{- if $repo.enabled }}
+        - name: git-sync-{{ $name }}-sidecar
+          image: {{ $.Values.documentation.gitSync.image }}
+          imagePullPolicy: {{ $.Values.documentation.gitSync.pullPolicy }}
+          env:
+            - name: GIT_SYNC_REPO
+              value: {{ $repo.url | quote }}
+            - name: GIT_SYNC_BRANCH
+              value: {{ $repo.branch | quote }}
+            - name: GIT_SYNC_ROOT
+              value: {{ $repo.mountPath | quote }}
+            - name: GIT_SYNC_DEST
+              value: "repo"
+            - name: GIT_SYNC_WAIT
+              value: {{ $repo.interval | quote }}
+            - name: GIT_SYNC_MAX_SYNC_FAILURES
+              value: "10"
+            {{- if $repo.secret }}
+            - name: GIT_SYNC_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $repo.secret }}
+                  key: username
+            - name: GIT_SYNC_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $repo.secret }}
+                  key: password
+            {{- end }}
+          volumeMounts:
+            - name: docs-{{ $name }}
+              mountPath: {{ $repo.mountPath }}
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: [ALL]
+            runAsNonRoot: true
+          resources:
+            requests:
+              cpu: 10m
+              memory: 32Mi
+            limits:
+              cpu: 100m
+              memory: 128Mi
+        {{- end }}
+        {{- end }}
+        {{- end }}
       volumes:
         - name: uploads
           {{- if .Values.persistence.uploads.enabled }}
