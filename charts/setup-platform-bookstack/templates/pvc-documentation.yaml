@@ -1,0 +1,19 @@
+{{- if and .Values.documentation.enabled .Values.documentation.persistence.enabled }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "setup-platform-bookstack.fullname" . }}-docs
+  namespace: {{ include "setup-platform-bookstack.namespace" . }}
+  labels:
+    {{- include "setup-platform-bookstack.labels" . | nindent 4 }}
+    app.kubernetes.io/component: documentation
+spec:
+  accessModes:
+    - {{ .Values.documentation.persistence.accessMode }}
+  resources:
+    requests:
+      storage: {{ .Values.documentation.persistence.size }}
+  {{- if .Values.documentation.persistence.storageClass }}
+  storageClassName: {{ .Values.documentation.persistence.storageClass }}
+  {{- end }}
+{{- end }}

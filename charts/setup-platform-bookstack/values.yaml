@@ -81,6 +81,50 @@ config:
     password: ""
     fromAddress: ""
     fromName: ""
+
+# Documentation Git Sync Configuration
+documentation:
+  enabled: false
+  
+  # Git Sync settings
+  gitSync:
+    enabled: false
+    image: "k8s.gcr.io/git-sync/git-sync:v3.6.3"
+    pullPolicy: "IfNotPresent"
+    
+    # Multiple repositories
+    repositories:
+      policies:
+        enabled: false
+        url: ""
+        branch: "main"
+        interval: 600  # 10 minutes
+        mountPath: "/docs/policies"
+        # Optional: for private repos
+        secret: ""
+        
+      templates:
+        enabled: false
+        url: ""
+        branch: "main"
+        interval: 300  # 5 minutes
+        mountPath: "/docs/templates"
+        secret: ""
+        
+      userDocs:
+        enabled: false
+        url: ""
+        branch: "main"
+        interval: 120  # 2 minutes
+        mountPath: "/docs/user"
+        secret: ""
+        
+  # Persistent storage for git repos
+  persistence:
+    enabled: true
+    size: "5Gi"
+    storageClass: ""
+    accessMode: "ReadWriteOnce"
   
 # Database
 mariadb:
