@@ -2,8 +2,8 @@ apiVersion: v2
 name: setup-platform-nexus
 description: Nexus Repository OSS for artifact management and storage
 type: application
-version: 1.0.0
-appVersion: "3.45.0"
+version: 1.0.2
+appVersion: "3.84.1"
 home: https://www.sonatype.com/products/nexus-repository
 icon: https://help.sonatype.com/docs/files/1114654/152174884/1/1645553647423/nexus-icon.png
 sources:

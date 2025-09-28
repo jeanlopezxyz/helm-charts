@@ -3,7 +3,7 @@
 # Nexus image configuration
 image:
   repository: sonatype/nexus3
-  tag: "3.45.0"
+  tag: "3.84.1"
   pullPolicy: IfNotPresent
 
 # Nexus instance configuration
