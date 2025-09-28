@@ -1,0 +1,68 @@
+{{- if .Values.persistence.enabled }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "setup-platform-sonarqube.fullname" . }}-data
+  namespace: {{ include "setup-platform-sonarqube.namespace" . }}
+  labels:
+    {{- include "setup-platform-sonarqube.labels" . | nindent 4 }}
+    app.kubernetes.io/component: data-storage
+  {{- with .Values.persistence.data.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  accessModes:
+    - {{ .Values.persistence.data.accessMode }}
+  resources:
+    requests:
+      storage: {{ .Values.persistence.data.size }}
+  {{- if .Values.persistence.data.storageClass }}
+  storageClassName: {{ .Values.persistence.data.storageClass }}
+  {{- end }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "setup-platform-sonarqube.fullname" . }}-extensions
+  namespace: {{ include "setup-platform-sonarqube.namespace" . }}
+  labels:
+    {{- include "setup-platform-sonarqube.labels" . | nindent 4 }}
+    app.kubernetes.io/component: extensions-storage
+  {{- with .Values.persistence.extensions.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  accessModes:
+    - {{ .Values.persistence.extensions.accessMode }}
+  resources:
+    requests:
+      storage: {{ .Values.persistence.extensions.size }}
+  {{- if .Values.persistence.extensions.storageClass }}
+  storageClassName: {{ .Values.persistence.extensions.storageClass }}
+  {{- end }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "setup-platform-sonarqube.fullname" . }}-logs
+  namespace: {{ include "setup-platform-sonarqube.namespace" . }}
+  labels:
+    {{- include "setup-platform-sonarqube.labels" . | nindent 4 }}
+    app.kubernetes.io/component: logs-storage
+  {{- with .Values.persistence.logs.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  accessModes:
+    - {{ .Values.persistence.logs.accessMode }}
+  resources:
+    requests:
+      storage: {{ .Values.persistence.logs.size }}
+  {{- if .Values.persistence.logs.storageClass }}
+  storageClassName: {{ .Values.persistence.logs.storageClass }}
+  {{- end }}
+{{- end }}

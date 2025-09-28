@@ -1,0 +1,181 @@
+# SonarQube Community Edition Configuration
+
+# SonarQube image configuration
+image:
+  repository: sonarqube
+  tag: "2025.1-community"
+  pullPolicy: IfNotPresent
+
+# SonarQube instance configuration
+sonarqube:
+  # Default admin credentials (change after first login)
+  defaultAdminPassword: "admin"
+  
+  # JVM settings
+  jvm:
+    options: "-Xmx2G -Xms512m -XX:+HeapDumpOnOutOfMemoryError"
+    
+  # SonarQube properties
+  properties:
+    # Web server configuration
+    web:
+      host: "0.0.0.0"
+      port: 9000
+      context: "/"
+    # Database settings (will be auto-configured if using embedded PostgreSQL)
+    jdbc:
+      username: "sonarqube"
+      password: "sonarqube"
+    # ElasticSearch settings
+    search:
+      host: "127.0.0.1"
+      port: 9001
+
+# Service configuration
+service:
+  type: ClusterIP
+  port: 9000
+  targetPort: 9000
+  annotations: {}
+
+# Route configuration (OpenShift)
+route:
+  enabled: true
+  host: ""  # Auto-generate if empty
+  path: "/"
+  tls:
+    enabled: true
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect
+
+# Ingress configuration (Kubernetes)
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+  hosts:
+    - host: sonarqube.example.com
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+
+# Persistence configuration
+persistence:
+  enabled: true
+  # Data directory for SonarQube
+  data:
+    storageClass: ""
+    accessMode: ReadWriteOnce
+    size: 10Gi
+    annotations: {}
+  # Extensions directory
+  extensions:
+    storageClass: ""
+    accessMode: ReadWriteOnce
+    size: 5Gi
+    annotations: {}
+  # Logs directory
+  logs:
+    storageClass: ""
+    accessMode: ReadWriteOnce
+    size: 5Gi
+    annotations: {}
+
+# PostgreSQL database configuration
+postgresql:
+  enabled: true
+  auth:
+    username: "sonarqube"
+    password: "sonarqube"
+    database: "sonarqube"
+  primary:
+    persistence:
+      enabled: true
+      size: 20Gi
+    resources:
+      requests:
+        memory: "512Mi"
+        cpu: "250m"
+      limits:
+        memory: "1Gi"
+        cpu: "500m"
+
+# Resource configuration
+resources:
+  requests:
+    memory: "2Gi"
+    cpu: "500m"
+  limits:
+    memory: "4Gi"
+    cpu: "2000m"
+
+# Security context (OpenShift compatible)
+podSecurityContext:
+  runAsNonRoot: true
+  # fsGroup will be assigned by OpenShift
+
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: false
+  runAsNonRoot: true
+  # runAsUser will be assigned by OpenShift SCC
+  seccompProfile:
+    type: RuntimeDefault
+  capabilities:
+    drop:
+    - ALL
+
+# Service Account
+serviceAccount:
+  create: true
+  annotations: {}
+  name: ""
+  automountServiceAccountToken: false
+
+# Pod configuration
+replicaCount: 1
+updateStrategy:
+  type: Recreate
+
+# Node selection
+nodeSelector: {}
+tolerations: []
+affinity: {}
+
+# Monitoring
+monitoring:
+  enabled: false
+  serviceMonitor:
+    enabled: false
+    interval: 30s
+    path: /api/monitoring/metrics
+
+# Plugins
+plugins:
+  # Install additional plugins
+  install: []
+  # Example:
+  # - "https://github.com/dependency-check/dependency-check-sonar-plugin/releases/download/3.0.1/sonar-dependency-check-plugin-3.0.1.jar"
+
+# Environment variables
+env: []
+# Example:
+# - name: SONAR_WEB_JAVAADDITIONALOPTS
+#   value: "-javaagent:/opt/sonarqube/extensions/plugins/sonar-applicationinsights-plugin-1.2.4.jar"
+
+# Additional configuration
+extraVolumes: []
+extraVolumeMounts: []
+
+# Network policy
+networkPolicy:
+  enabled: false
+  ingress:
+    - from:
+      - namespaceSelector:
+          matchLabels:
+            name: openshift-ingress
+      ports:
+      - protocol: TCP
+        port: 9000
