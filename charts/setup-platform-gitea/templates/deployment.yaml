@@ -114,8 +114,14 @@ spec:
               mountPath: /data
             - name: tmp
               mountPath: /tmp
-            - name: etc-gitea
-              mountPath: /etc/gitea
+            - name: var-lib-gitea
+              mountPath: /var/lib/gitea
+            - name: etc-passwd
+              mountPath: /etc/passwd
+              subPath: passwd
+            - name: etc-group
+              mountPath: /etc/group
+              subPath: group
       volumes:
         - name: data
           {{- if .Values.persistence.enabled }}
@@ -128,9 +134,15 @@ spec:
         - name: tmp
           emptyDir:
             sizeLimit: 1Gi
-        - name: etc-gitea
+        - name: var-lib-gitea
           emptyDir:
-            sizeLimit: 100Mi
+            sizeLimit: 500Mi
+        - name: etc-passwd
+          configMap:
+            name: {{ include "setup-platform-gitea.fullname" . }}-passwd
+        - name: etc-group
+          configMap:
+            name: {{ include "setup-platform-gitea.fullname" . }}-group
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

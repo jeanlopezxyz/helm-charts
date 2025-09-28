@@ -1,0 +1,29 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "setup-platform-gitea.fullname" . }}-passwd
+  namespace: {{ .Values.namespace.name }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+  labels:
+    {{- include "setup-platform-gitea.labels" . | nindent 4 }}
+data:
+  passwd: |
+    root:x:0:0:root:/root:/bin/bash
+    git:x:1001:1001:Git Version Control:/var/lib/gitea:/bin/bash
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "setup-platform-gitea.fullname" . }}-group
+  namespace: {{ .Values.namespace.name }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+  labels:
+    {{- include "setup-platform-gitea.labels" . | nindent 4 }}
+data:
+  group: |
+    root:x:0:
+    git:x:1001:
