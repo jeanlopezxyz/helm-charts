@@ -26,11 +26,11 @@ route:
 
 resources:
   limits:
-    cpu: 500m
-    memory: 512Mi
-  requests:
-    cpu: 100m
+    cpu: 200m
     memory: 256Mi
+  requests:
+    cpu: 50m
+    memory: 128Mi
 
 # Security Context (OpenShift compatible)
 podSecurityContext:
@@ -170,3 +170,16 @@ persistence:
   storageClass: ""
   accessModes:
     - ReadWriteOnce
+
+# Node scheduling
+nodeSelector: {}
+
+tolerations:
+  - key: node-role.kubernetes.io/master
+    operator: Exists
+    effect: NoSchedule
+  - key: node-role.kubernetes.io/control-plane
+    operator: Exists
+    effect: NoSchedule
+
+affinity: {}
