@@ -107,7 +107,7 @@ persistence:
 
 # Database
 postgresql:
-  enabled: true
+  enabled: false  # Use SQLite instead for simplicity
   auth:
     postgresPassword: "gitea-postgres-password"
     username: "gitea"

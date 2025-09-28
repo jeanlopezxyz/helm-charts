@@ -30,17 +30,16 @@ spec:
             - -c
             - |
               mkdir -p /tmp/gitea/conf /tmp/gitea/log /tmp/gitea/data /tmp/gitea/custom
-              mkdir -p /data/git/repositories
-              # Copy config from read-only mount to writable location
-              cp /config/app.ini /tmp/gitea/conf/app.ini
+              mkdir -p /data/git/repositories /data/git/.ssh
+              # Create basic config file and SSH files
+              touch /tmp/gitea/conf/app.ini
+              touch /data/git/.ssh/authorized_keys /data/git/.ssh/authorized_keys.tmp
               chmod -R 777 /tmp/gitea /data/git
           volumeMounts:
             - name: data
               mountPath: /data
             - name: tmp
               mountPath: /tmp
-            - name: gitea-config
-              mountPath: /config
           securityContext:
             runAsUser: 1001
             allowPrivilegeEscalation: false
@@ -55,9 +54,6 @@ spec:
           ports:
             - name: http
               containerPort: 3000
-              protocol: TCP
-            - name: ssh
-              containerPort: 22
               protocol: TCP
           livenessProbe:
             httpGet:
@@ -77,7 +73,9 @@ spec:
           {{- end }}
           env:
             - name: GITEA__database__DB_TYPE
-              value: postgres
+              value: sqlite3
+            - name: GITEA__database__PATH
+              value: /tmp/gitea/data/gitea.db
             - name: GITEA__repository__ROOT
               value: /data/git/repositories
             - name: GITEA__server__DOMAIN
@@ -101,19 +99,17 @@ spec:
               value: "/tmp/gitea"
             - name: GITEA_CUSTOM
               value: "/tmp/gitea/custom"
-            - name: GITEA__database__HOST
-              value: "{{ .Release.Name }}-postgresql.{{ .Values.namespace.name }}.svc.cluster.local:5432"
-            - name: GITEA__database__NAME
-              value: "gitea"
-            - name: GITEA__database__USER
-              value: "gitea"
-            - name: GITEA__database__PASSWD
-              value: "gitea-password"
-            # OpenShift specific configuration
+            # OpenShift specific configuration - disable everything that needs file permissions
             - name: GITEA__server__DISABLE_SSH
               value: "true"
+            - name: GITEA__server__START_SSH_SERVER
+              value: "false"
             - name: GITEA__security__DISABLE_GIT_HOOKS
               value: "true"
+            - name: GITEA__repository__ENABLE_PUSH_CREATE_USER
+              value: "false"
+            - name: GITEA__repository__ENABLE_PUSH_CREATE_ORG
+              value: "false"
             - name: GITEA__log__ROOT_PATH
               value: "/tmp/gitea/log"
             - name: GITEA__log__MODE
@@ -151,9 +147,6 @@ spec:
         - name: var-lib-gitea
           emptyDir:
             sizeLimit: 500Mi
-        - name: gitea-config
-          configMap:
-            name: {{ include "setup-platform-gitea.fullname" . }}-config
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
