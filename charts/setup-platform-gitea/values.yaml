@@ -120,7 +120,7 @@ postgresql:
     persistence:
       enabled: false  # Disabled due to CSI driver issues
       size: 5Gi
-      storageClass: "ocs-external-storagecluster-ceph-rbd-immediate"
+      storageClass: "ocs-external-storagecluster-cephfs"
     # Disable all Bitnami security contexts for OpenShift
     podSecurityContext:
       enabled: false
@@ -166,11 +166,11 @@ postgresql:
 
 # Persistent storage for repositories
 persistence:
-  enabled: false  # Disabled due to CSI driver issues
+  enabled: false  # Disabled due to CSI driver issues - change to true when storage is available
   size: 5Gi
-  storageClass: "ocs-external-storagecluster-ceph-rbd-immediate"
+  storageClass: "ocs-external-storagecluster-cephfs"  # Use CephFS when available
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany  # CephFS supports ReadWriteMany
 
 # Node scheduling
 nodeSelector: {}
