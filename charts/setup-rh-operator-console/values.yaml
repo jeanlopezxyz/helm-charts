@@ -6,7 +6,7 @@ helpers:
 
   # Status Checker para health monitoring del console nativo
   statusChecker:
-    enabled: true
+    enabled: false
     statusChecks:
       checks:
         openshift-console:

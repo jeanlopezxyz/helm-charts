@@ -10,7 +10,7 @@ helpers:
         enabled: true
         syncwave: 0
         namespace:
-          name: keycloack
+          name: rhbk-operator
         subscription:
           channel: stable-v26.2
           operatorName: rhbk-operator
@@ -24,7 +24,7 @@ helpers:
         rhbk-operator:
           enabled: true
           type: deployment
-          namespace: keycloack
+          namespace: rhbk-operator
           name: rhbk-operator
 
 # Keycloak Instance Configuration
@@ -32,7 +32,7 @@ keycloak:
   # Namespace configuration
   namespace:
     create: true
-    name: keycloak
+    name: rhbk-operator
 
   # Keycloak instance
   instance:
@@ -48,7 +48,7 @@ keycloak:
 
   # HTTP configuration  
   http:
-    tlsSecret: my-tls-secret  # Required TLS secret name
+    # tlsSecret: my-tls-secret  # Optional TLS secret
 
   # Update strategy
   update:
@@ -62,10 +62,13 @@ keycloak:
   database:
     external: false  # Set to true for external DB
     vendor: postgres
-    host: postgresql.keycloak.svc.cluster.local
+    host: postgresql.rhbk-operator.svc.cluster.local
     port: 5432
     name: keycloak
     credentialsSecret: keycloak-db-secret
+    # Only used when external: true
+    username: "keycloak"  # Default DB username - CHANGE IN PRODUCTION
+    password: "keycloak123"  # Default DB password - CHANGE IN PRODUCTION
 
   # Resource configuration
   resources:
@@ -75,6 +78,10 @@ keycloak:
     limits:
       cpu: 2000m
       memory: 2Gi
+
+  # Admin credentials configuration
+  admin:
+    password: "admin123"  # Default admin password - CHANGE IN PRODUCTION
 
   # Additional Keycloak options
   additionalOptions:

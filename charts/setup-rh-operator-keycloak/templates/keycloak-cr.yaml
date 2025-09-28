@@ -3,7 +3,7 @@ apiVersion: k8s.keycloak.org/v2alpha1
 kind: Keycloak
 metadata:
   name: {{ .Values.keycloak.instance.name }}
-  namespace: openshift-operators-redhat
+  namespace: {{ .Values.keycloak.namespace.name }}
   annotations:
     argocd.argoproj.io/sync-wave: "2"
   labels:
@@ -19,10 +19,8 @@ spec:
     enabled: {{ .Values.keycloak.networkPolicy.enabled }}
   {{- end }}
 
-  {{- if .Values.keycloak.http.tlsSecret }}
   http:
-    tlsSecret: {{ .Values.keycloak.http.tlsSecret }}
-  {{- end }}
+    httpEnabled: true
 
   {{- if .Values.keycloak.update.strategy }}
   update:
@@ -54,5 +52,18 @@ spec:
   {{- if .Values.keycloak.resources }}
   resources:
     {{- toYaml .Values.keycloak.resources | nindent 4 }}
+  {{- end }}
+
+  {{- if .Values.keycloak.additionalOptions }}
+  additionalOptions:
+    {{- range .Values.keycloak.additionalOptions }}
+    - name: {{ .name }}
+      value: {{ .value | quote }}
+    {{- end }}
+  {{- end }}
+
+  {{- if .Values.keycloak.unsupported }}
+  unsupported:
+    {{- toYaml .Values.keycloak.unsupported | nindent 4 }}
   {{- end }}
 {{- end -}}

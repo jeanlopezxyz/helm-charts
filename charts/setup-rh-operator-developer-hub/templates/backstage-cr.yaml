@@ -3,7 +3,7 @@ apiVersion: rhdh.redhat.com/v1alpha3
 kind: Backstage
 metadata:
   name: {{ .Values.backstage.instance.name }}
-  namespace: {{ .Values.backstage.namespace.name }}
+  namespace: {{ .Release.Namespace }}
   annotations:
     argocd.argoproj.io/sync-wave: "2"
 spec:

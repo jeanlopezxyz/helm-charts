@@ -29,10 +29,10 @@ helpers:
 
 # Backstage Instance Configuration
 backstage:
-  # Namespace configuration
+  # Namespace configuration  
   namespace:
     create: true
-    name: rhdh
+    name: rhdh-operator
 
   # Backstage instance creation
   instance:
@@ -197,10 +197,24 @@ backstage:
             proxyPath: /prometheus/api
             uiUrl: "${PROMETHEUS_URL}"
 
+  # Secrets configuration
+  secrets:
+    create: true
+    backendSecret: "default-backend-secret-change-me"
+    github:
+      token: "ghp_placeholder_token"
+      org: "example-org"
+    argocd:
+      username: "admin"
+      password: "placeholder-password"
+    additional: {}
+      # JIRA_TOKEN: "your-jira-token"
+      # SONARQUBE_TOKEN: "your-sonar-token"
+
   # Environment variables from secrets
   extraEnvs:
     secrets:
-      - rhdh-secrets  # Create this secret with needed tokens
+      - rhdh-secrets
 
   # Extra files
   extraFiles:
