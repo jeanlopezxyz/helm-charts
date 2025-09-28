@@ -23,22 +23,23 @@ spec:
       {{- end }}
       serviceAccountName: {{ include "setup-platform-gitea.serviceAccountName" . }}
       initContainers:
-        - name: init-data-directories
+        - name: init-dirs
           image: registry.redhat.io/ubi9/ubi-minimal:latest
           command:
             - /bin/sh
             - -c
             - |
-              mkdir -p /data/gitea/conf /data/gitea/log /data/git/repositories /data/git/.ssh /data/ssh
-              touch /data/gitea/conf/app.ini
-              touch /data/git/.ssh/environment
-              chmod -R 777 /data
+              mkdir -p /tmp/gitea/conf /tmp/gitea/log /tmp/gitea/data /tmp/gitea/custom
+              mkdir -p /data/git/repositories
+              chmod -R 755 /tmp/gitea /data/git
           volumeMounts:
             - name: data
               mountPath: /data
+            - name: tmp
+              mountPath: /tmp
           securityContext:
-            runAsUser: 0
-            allowPrivilegeEscalation: true
+            runAsUser: 1001
+            allowPrivilegeEscalation: false
       containers:
         - name: gitea
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
@@ -91,9 +92,9 @@ spec:
             - name: GITEA__security__INSTALL_LOCK
               value: "false"
             - name: GITEA_WORK_DIR
-              value: "/data"
+              value: "/tmp/gitea"
             - name: GITEA_CUSTOM
-              value: "/data/gitea"
+              value: "/tmp/gitea/custom"
             - name: GITEA__database__HOST
               value: "gitea-final-postgresql.gitea-final.svc.cluster.local:5432"
             - name: GITEA__database__NAME
@@ -102,13 +103,21 @@ spec:
               value: "gitea"
             - name: GITEA__database__PASSWD
               value: "gitea-password"
-            # Disable problematic features for OpenShift
+            # OpenShift specific configuration
             - name: GITEA__server__DISABLE_SSH
-              value: "true"  # Disable SSH server to avoid port 22 issues
+              value: "true"
             - name: GITEA__security__DISABLE_GIT_HOOKS
               value: "true"
             - name: GITEA__log__ROOT_PATH
-              value: "/data/gitea/log"
+              value: "/tmp/gitea/log"
+            - name: GITEA__log__MODE
+              value: "console"
+            - name: GITEA__server__APP_DATA_PATH
+              value: "/tmp/gitea/data"
+            - name: GITEA__picture__DISABLE_GRAVATAR
+              value: "true"
+            - name: GITEA__indexer__REPO_INDEXER_ENABLED
+              value: "false"
           volumeMounts:
             - name: data
               mountPath: /data
