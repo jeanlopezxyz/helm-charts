@@ -73,7 +73,7 @@ PostgreSQL connection string
 */}}
 {{- define "setup-platform-sonarqube.postgresql.url" -}}
 {{- if .Values.postgresql.enabled }}
-{{- printf "jdbc:postgresql://%s-postgresql:5432/%s" .Release.Name .Values.postgresql.auth.database }}
+{{- printf "jdbc:postgresql://%s-postgresql:%d/%s" (include "setup-platform-sonarqube.fullname" .) (.Values.postgresql.service.port | int) .Values.postgresql.auth.database }}
 {{- else }}
 {{- .Values.sonarqube.jdbc.url }}
 {{- end }}

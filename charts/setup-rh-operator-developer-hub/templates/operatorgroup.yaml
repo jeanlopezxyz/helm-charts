@@ -1,0 +1,14 @@
+{{- if and .Values.operator.enabled (ne .Values.operator.namespace "openshift-operators") }}
+apiVersion: operators.coreos.com/v1
+kind: OperatorGroup
+metadata:
+  name: rhdh-operator-group
+  namespace: {{ .Values.operator.namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+  labels:
+    {{- include "setup-rh-operator-developer-hub.labels" . | nindent 4 }}
+spec:
+  targetNamespaces:
+  - {{ .Values.operator.namespace }}
+{{- end }}

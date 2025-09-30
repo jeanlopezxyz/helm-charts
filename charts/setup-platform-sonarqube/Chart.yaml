@@ -14,11 +14,7 @@ maintainers:
 - name: Jean Paul Lopez
   email: jealopez@redhat.com
 
-dependencies:
-- name: postgresql
-  version: "15.5.32"
-  repository: https://charts.bitnami.com/bitnami
-  condition: postgresql.enabled
+# No external dependencies - using built-in PostgreSQL template with Red Hat official image
 
 keywords:
 - sonarqube

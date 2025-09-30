@@ -82,17 +82,41 @@ persistence:
     size: 5Gi
     annotations: {}
 
-# PostgreSQL database configuration
+# PostgreSQL database configuration - Red Hat Official
 postgresql:
   enabled: true
+  # Use Red Hat PostgreSQL from Quay.io
+  image:
+    repository: "quay.io/sclorg/postgresql-16-c8s"
+    tag: "latest"
+    pullPolicy: "IfNotPresent"
+    
+  # Database configuration
   auth:
+    database: "sonarqube_quality_db"
     username: "sonarqube_quality"
     password: "sonarqube-quality-password"
-    database: "sonarqube_quality_db"
-  primary:
-    persistence:
-      enabled: true
-      size: 20Gi
+    rootPassword: "sonarqube-postgres-root-password"
+    
+  # Persistent storage
+  persistence:
+    enabled: true
+    size: "20Gi"
+    storageClass: ""
+    accessMode: "ReadWriteOnce"
+    
+  # Resources
+  resources:
+    requests:
+      memory: "512Mi"
+      cpu: "250m"
+    limits:
+      memory: "1Gi"
+      cpu: "500m"
+      
+  # Service configuration
+  service:
+    port: 5432
     resources:
       requests:
         memory: "512Mi"

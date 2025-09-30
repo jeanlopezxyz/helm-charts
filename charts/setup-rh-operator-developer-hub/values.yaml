@@ -1,5 +1,12 @@
 # Red Hat Developer Hub (Backstage) Configuration
 
+# Operator installation
+operator:
+  enabled: true
+  channel: fast
+  namespace: openshift-operators
+  installPlanApproval: Automatic
+
 # Helpers integration for operator installation
 helpers:
   # Helper Operator para instalar RHDH operator
