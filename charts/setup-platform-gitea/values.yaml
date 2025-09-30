@@ -3,8 +3,8 @@ replicaCount: 1
 
 # Namespace configuration  
 namespace:
-  create: true
-  name: gitea-git-server
+  create: false  # Use release namespace
+  name: ""       # Will use .Release.Namespace
 
 image:
   repository: gitea/gitea
@@ -108,6 +108,8 @@ persistence:
 # Database
 postgresql:
   enabled: true  # Use PostgreSQL for production
+  image:
+    tag: "16.4.0-debian-12-r9"  # Exact version that works with SonarQube
   auth:
     postgresPassword: "gitea-postgres-password"
     username: "gitea_git_user"

@@ -16,5 +16,5 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: {{ include "setup-platform-gitea.fullname" . }}-postgresql
-  namespace: {{ .Values.namespace.name }}
+  namespace: {{ .Release.Namespace }}
 {{- end -}}

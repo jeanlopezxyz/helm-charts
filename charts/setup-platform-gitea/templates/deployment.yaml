@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "setup-platform-gitea.fullname" . }}
-  namespace: {{ .Values.namespace.name }}
+  namespace: {{ .Release.Namespace }}
   annotations:
     argocd.argoproj.io/sync-wave: "1"
   labels:
@@ -75,7 +75,7 @@ spec:
             - name: GITEA__database__DB_TYPE
               value: postgres
             - name: GITEA__database__HOST
-              value: "{{ .Release.Name }}-postgresql.{{ .Values.namespace.name }}.svc.cluster.local:5432"
+              value: "{{ .Release.Name }}-postgresql.{{ .Release.Namespace }}.svc.cluster.local:5432"
             - name: GITEA__database__NAME
               value: "{{ .Values.postgresql.auth.database }}"
             - name: GITEA__database__USER
