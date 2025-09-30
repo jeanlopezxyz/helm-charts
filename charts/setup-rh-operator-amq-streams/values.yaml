@@ -10,14 +10,14 @@ operator:
 # Namespace configuration
 namespace:
   create: true
-  name: kafka
+  name: amq-streams
   
 # Kafka cluster configuration
 kafka:
   # Cluster creation
   cluster:
     enabled: true
-    name: my-cluster
+    name: amq-streams-cluster
     
     # Kafka version
     version: 3.8.0
@@ -96,32 +96,39 @@ kafka:
 # Kafka Connect (optional)
 kafkaConnect:
   enabled: false
-  name: my-connect-cluster
+  name: amq-streams-connect
   replicas: 3
   
 # Topics configuration
 topics:
   enabled: true
   topics:
-    - name: demo-topic
+    - name: amq-demo-topic
       partitions: 3
       replicas: 3
       config:
         retention.ms: 604800000  # 7 days
         segment.ms: 86400000     # 1 day
         
-    - name: events-topic
+    - name: amq-events-topic
       partitions: 6
       replicas: 3
       config:
         retention.ms: 2592000000  # 30 days
         cleanup.policy: compact
+        
+    - name: amq-logs-topic
+      partitions: 12
+      replicas: 3
+      config:
+        retention.ms: 86400000  # 1 day
+        cleanup.policy: delete
 
 # Users configuration
 users:
   enabled: false
   users:
-    - name: kafka-user
+    - name: amq-streams-admin
       type: tls
       authorization:
         type: simple
@@ -129,7 +136,34 @@ users:
           - resource:
               type: topic
               name: "*"
-            operations: [Read, Write, Describe]
+            operations: [Read, Write, Describe, Create, Delete]
+          - resource:
+              type: cluster
+            operations: [Describe]
+            
+    - name: amq-streams-producer
+      type: tls
+      authorization:
+        type: simple
+        acls:
+          - resource:
+              type: topic
+              name: "amq-*"
+            operations: [Write, Describe]
+            
+    - name: amq-streams-consumer
+      type: tls
+      authorization:
+        type: simple
+        acls:
+          - resource:
+              type: topic
+              name: "amq-*"
+            operations: [Read, Describe]
+          - resource:
+              type: group
+              name: "*"
+            operations: [Read]
 
 # Monitoring
 monitoring:

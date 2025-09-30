@@ -5,8 +5,8 @@ metadata:
   name: {{ .Values.namespace.name }}
   annotations:
     argocd.argoproj.io/sync-wave: "-1"
-    openshift.io/display-name: "Red Hat AMQ Streams"
-    openshift.io/description: "Apache Kafka and related components"
+    openshift.io/display-name: "Red Hat AMQ Streams - Apache Kafka"
+    openshift.io/description: "Event streaming platform with Apache Kafka and AMQ Streams operator"
   labels:
     name: {{ .Values.namespace.name }}
     {{- include "setup-rh-operator-amq-streams.labels" . | nindent 4 }}
