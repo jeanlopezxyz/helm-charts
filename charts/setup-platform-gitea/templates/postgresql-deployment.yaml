@@ -36,16 +36,14 @@ spec:
           seccompProfile:
             type: RuntimeDefault
         env:
-        - name: POSTGRES_DB
+        - name: POSTGRESQL_DATABASE
           value: {{ .Values.postgresql.auth.database | quote }}
-        - name: POSTGRES_USER
+        - name: POSTGRESQL_USER
           value: {{ .Values.postgresql.auth.username | quote }}
-        - name: POSTGRES_PASSWORD
+        - name: POSTGRESQL_PASSWORD
           value: {{ .Values.postgresql.auth.password | quote }}
-        - name: POSTGRES_ROOT_PASSWORD
+        - name: POSTGRESQL_ADMIN_PASSWORD
           value: {{ .Values.postgresql.auth.rootPassword | quote }}
-        - name: PGDATA
-          value: "/var/lib/postgresql/data/pgdata"
         ports:
         - name: postgresql
           containerPort: {{ .Values.postgresql.service.port }}
@@ -53,9 +51,9 @@ spec:
         livenessProbe:
           exec:
             command:
-            - /bin/sh
+            - /bin/bash
             - -c
-            - exec pg_isready -U {{ .Values.postgresql.auth.username | quote }} -d {{ .Values.postgresql.auth.database | quote }} -h 127.0.0.1 -p {{ .Values.postgresql.service.port }}
+            - pg_isready -h 127.0.0.1 -p {{ .Values.postgresql.service.port }} -U {{ .Values.postgresql.auth.username }}
           initialDelaySeconds: 30
           periodSeconds: 10
           timeoutSeconds: 5
@@ -64,9 +62,9 @@ spec:
         readinessProbe:
           exec:
             command:
-            - /bin/sh
+            - /bin/bash
             - -c
-            - exec pg_isready -U {{ .Values.postgresql.auth.username | quote }} -d {{ .Values.postgresql.auth.database | quote }} -h 127.0.0.1 -p {{ .Values.postgresql.service.port }}
+            - pg_isready -h 127.0.0.1 -p {{ .Values.postgresql.service.port }} -U {{ .Values.postgresql.auth.username }}
           initialDelaySeconds: 5
           periodSeconds: 10
           timeoutSeconds: 5
@@ -78,7 +76,7 @@ spec:
         {{- end }}
         volumeMounts:
         - name: postgresql-data
-          mountPath: /var/lib/postgresql/data
+          mountPath: /var/lib/pgsql/data
   {{- if .Values.postgresql.persistence.enabled }}
   volumeClaimTemplates:
   - metadata:

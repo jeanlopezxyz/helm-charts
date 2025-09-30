@@ -108,10 +108,10 @@ persistence:
 # Database - Official PostgreSQL
 postgresql:
   enabled: true
-  # Use official PostgreSQL image instead of Bitnami
+  # Use PostgreSQL from Quay.io (public, always available)
   image:
-    repository: "postgres"
-    tag: "16.4"
+    repository: "quay.io/sclorg/postgresql-16-c8s"
+    tag: "latest"
     pullPolicy: "IfNotPresent"
   
   # Database configuration
