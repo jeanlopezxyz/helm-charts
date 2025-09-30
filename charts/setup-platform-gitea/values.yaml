@@ -118,8 +118,15 @@ postgresql:
   primary:
     persistence:
       enabled: true  # Enable PostgreSQL persistence
-      size: 5Gi
-      storageClass: "gp3-csi"
+      size: 10Gi
+      storageClass: ""  # Auto-detect
+    resources:
+      requests:
+        memory: "512Mi"
+        cpu: "250m"
+      limits:
+        memory: "1Gi"
+        cpu: "500m"
     # Disable all Bitnami security contexts for OpenShift
     podSecurityContext:
       enabled: false
