@@ -108,7 +108,7 @@ spec:
             
             # Application configuration
             - name: APP_URL
-              value: https://{{ .Values.route.host | default "bookstack.local" }}
+              value: {{ .Values.config.appUrl | default (printf "https://%s" (.Values.route.host | default "bookstack.local")) }}
             - name: APP_KEY
               value: "base64:{{ randAlphaNum 32 | b64enc }}"
             - name: APP_DEBUG

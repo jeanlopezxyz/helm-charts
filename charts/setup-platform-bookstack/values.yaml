@@ -67,7 +67,7 @@ helpers:
 # Bookstack Configuration
 config:
   timezone: "America/Lima"
-  appUrl: "https://bookstack-wiki.apps.cluster.company.com"
+  appUrl: ""  # Auto-detect from OpenShift route if empty
   appKey: "base64:RandomGeneratedKey1234567890ABCDEFGHIJKLMNOP"
   
   # Mail configuration
