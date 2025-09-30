@@ -31,13 +31,13 @@ helpers:
 backstage:
   # Namespace configuration  
   namespace:
-    create: true
-    name: rhdh-operator
+    create: false  # Use release namespace
+    name: ""       # Will use .Release.Namespace
 
   # Backstage instance creation
   instance:
     enabled: true
-    name: developer-hub
+    name: rhdh-backstage
 
   # Number of replicas
   replicas: 1
@@ -63,11 +63,11 @@ backstage:
     configMapName: rhdh-app-config
     app:
       title: Red Hat Developer Hub
-      baseUrl: https://developer-hub.apps.cluster.example.com
+      baseUrl: https://rhdh-backstage.apps.cluster.example.com
     backend:
-      baseUrl: https://developer-hub.apps.cluster.example.com
+      baseUrl: https://rhdh-backstage.apps.cluster.example.com
       cors:
-        origin: https://developer-hub.apps.cluster.example.com
+        origin: https://rhdh-backstage.apps.cluster.example.com
       auth: true
     # GitHub Integration
     integrations:

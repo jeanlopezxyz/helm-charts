@@ -32,18 +32,18 @@ keycloak:
   # Namespace configuration
   namespace:
     create: true
-    name: rhbk-operator
+    name: rhbk-keycloak
 
   # Keycloak instance
   instance:
     enabled: true
-    name: keycloak
+    name: rhbk-keycloak
     replicas: 1
 
   # Hostname configuration
   hostname:
     enabled: true
-    value: keycloak.apps.cluster.example.com
+    value: rhbk-keycloak.apps.cluster.example.com
     strict: false
 
   # HTTP configuration  
@@ -111,15 +111,15 @@ keycloak:
               - name: KEYCLOAK_ADMIN_PASSWORD
                 valueFrom:
                   secretKeyRef:
-                    name: keycloak-admin-secret
+                    name: rhbk-admin-secret
                     key: password
 
   # Realm configuration
   realm:
     enabled: true
-    name: default-realm-import
-    realmName: myrealm
-    displayName: "My Organization Realm"
+    name: rhbk-realm-import
+    realmName: rhbk-company-realm
+    displayName: "RHBK Company Authentication Realm"
 
     # Default users
     users:

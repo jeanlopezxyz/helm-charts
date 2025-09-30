@@ -4,7 +4,7 @@ replicaCount: 1
 # Namespace configuration  
 namespace:
   create: true
-  name: gitea-test
+  name: gitea-git-server
 
 image:
   repository: gitea/gitea
@@ -110,9 +110,9 @@ postgresql:
   enabled: true  # Use PostgreSQL for production
   auth:
     postgresPassword: "gitea-postgres-password"
-    username: "gitea"
-    password: "gitea-password"
-    database: "gitea"
+    username: "gitea_git_user"
+    password: "gitea-git-server-password"
+    database: "gitea_git_db"
   
   # OpenShift Security Configuration
   primary:

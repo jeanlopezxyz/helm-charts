@@ -3,13 +3,13 @@
 # SonarQube image configuration
 image:
   repository: sonarqube
-  tag: "2025.1-community"
+  tag: "25.8.0.112029-community"
   pullPolicy: IfNotPresent
 
 # SonarQube instance configuration
 sonarqube:
   # Default admin credentials (change after first login)
-  defaultAdminPassword: "admin"
+  defaultAdminPassword: "sonarqube-admin123"
   
   # JVM settings
   jvm:
@@ -86,9 +86,9 @@ persistence:
 postgresql:
   enabled: true
   auth:
-    username: "sonarqube"
-    password: "sonarqube"
-    database: "sonarqube"
+    username: "sonarqube_quality"
+    password: "sonarqube-quality-password"
+    database: "sonarqube_quality_db"
   primary:
     persistence:
       enabled: true

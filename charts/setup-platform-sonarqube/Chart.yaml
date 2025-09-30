@@ -2,8 +2,8 @@ apiVersion: v2
 name: setup-platform-sonarqube
 description: SonarQube Community Edition for code quality and security analysis
 type: application
-version: 1.0.0
-appVersion: "2025.1-community"
+version: 1.0.1
+appVersion: "25.8.0.112029-community"
 home: https://www.sonarsource.com/products/sonarqube/
 icon: https://www.sonarqube.org/assets/logo-31ad3115b1b4b120f3d1efd63e6b13ac9f1c89437f0cf6881cc4d8b5603a52b4.svg
 sources:

@@ -9,7 +9,7 @@ image:
 # Nexus instance configuration
 nexus:
   # Default admin credentials (change after first login)
-  defaultAdminPassword: "admin123"
+  defaultAdminPassword: "nexus-admin123"
   
   # Nexus data directory
   dataDir: "/nexus-data"

@@ -67,7 +67,7 @@ helpers:
 # Bookstack Configuration
 config:
   timezone: "America/Lima"
-  appUrl: "https://bookstack.apps.cluster.company.com"
+  appUrl: "https://bookstack-wiki.apps.cluster.company.com"
   appKey: "base64:RandomGeneratedKey1234567890ABCDEFGHIJKLMNOP"
   
   # Mail configuration
@@ -146,9 +146,9 @@ mariadb:
   enabled: true
   auth:
     rootPassword: "bookstack-root-password"
-    username: "bookstack"
-    password: "bookstack-password"
-    database: "bookstackapp"
+    username: "bookstack_wiki"
+    password: "bookstack-wiki-password"
+    database: "bookstack_wiki_db"
   primary:
     persistence:
       enabled: false  # Disabled due to CSI driver issues

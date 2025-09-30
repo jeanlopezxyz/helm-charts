@@ -39,7 +39,7 @@ helpers:
 # Pipeline Configuration
 pipelines:
   # Namespace donde se ejecutarán las pipelines por defecto
-  defaultNamespace: "rhop-pipelines"
+  defaultNamespace: "openshift-pipelines-runs"
   
   # Configuraciones por defecto para las pipelines
   defaults:
