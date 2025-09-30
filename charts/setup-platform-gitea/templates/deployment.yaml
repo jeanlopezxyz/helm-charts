@@ -75,7 +75,7 @@ spec:
             - name: GITEA__database__DB_TYPE
               value: postgres
             - name: GITEA__database__HOST
-              value: "{{ .Release.Name }}-postgresql.{{ .Release.Namespace }}.svc.cluster.local:5432"
+              value: "{{ include "setup-platform-gitea.fullname" . }}-postgresql:{{ .Values.postgresql.service.port }}"
             - name: GITEA__database__NAME
               value: "{{ .Values.postgresql.auth.database }}"
             - name: GITEA__database__USER

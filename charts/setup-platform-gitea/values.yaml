@@ -105,35 +105,41 @@ persistence:
     - ReadWriteOnce
   size: 10Gi
 
-# Database
+# Database - Official PostgreSQL
 postgresql:
-  enabled: true  # Use PostgreSQL for production
+  enabled: true
+  # Use official PostgreSQL image instead of Bitnami
   image:
-    tag: "16.4.0-debian-12-r9"  # Exact version that works with SonarQube
+    repository: "postgres"
+    tag: "16.4"
+    pullPolicy: "IfNotPresent"
+  
+  # Database configuration
   auth:
-    postgresPassword: "gitea-postgres-password"
+    database: "gitea_git_db"
     username: "gitea_git_user"
     password: "gitea-git-server-password"
-    database: "gitea_git_db"
+    rootPassword: "gitea-postgres-root-password"
   
-  # OpenShift Security Configuration
-  primary:
-    persistence:
-      enabled: true  # Enable PostgreSQL persistence
-      size: 10Gi
-      storageClass: ""  # Auto-detect
-    resources:
-      requests:
-        memory: "512Mi"
-        cpu: "250m"
-      limits:
-        memory: "1Gi"
-        cpu: "500m"
-    # Disable all Bitnami security contexts for OpenShift
-    podSecurityContext:
-      enabled: false
-    containerSecurityContext:
-      enabled: false
+  # Persistent storage
+  persistence:
+    enabled: true
+    size: "10Gi"
+    storageClass: ""
+    accessMode: "ReadWriteOnce"
+  
+  # Resources
+  resources:
+    requests:
+      memory: "512Mi"
+      cpu: "250m"
+    limits:
+      memory: "1Gi"
+      cpu: "500m"
+      
+  # Service configuration
+  service:
+    port: 5432
     # Resources
     resources:
       requests:
