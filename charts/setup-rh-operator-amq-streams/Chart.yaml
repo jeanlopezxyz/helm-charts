@@ -1,0 +1,34 @@
+apiVersion: v2
+name: setup-rh-operator-amq-streams
+description: Setup Red Hat AMQ Streams operator for Apache Kafka on OpenShift
+type: application
+version: 1.0.0
+appVersion: "2.8.0"
+home: https://access.redhat.com/products/red-hat-amq-streams
+icon: https://developers.redhat.com/sites/default/files/styles/article_feature/public/blog/2021/05/openshift-featured.png
+sources:
+- https://github.com/jeanlopezxyz/helm-charts
+- https://access.redhat.com/documentation/en-us/red_hat_amq_streams
+- https://github.com/strimzi/strimzi-kafka-operator
+maintainers:
+- name: Jean Paul Lopez
+  email: jealopez@redhat.com
+
+keywords:
+- setup
+- rh
+- red-hat
+- amq
+- streams
+- kafka
+- operator
+- messaging
+- event-streaming
+
+annotations:
+  category: Messaging
+  certified: "true"
+  support: "Red Hat"
+  licenses: Apache-2.0
+  "helm.sh/vendor": "red-hat"
+  "helm.sh/integration": "amq-streams"

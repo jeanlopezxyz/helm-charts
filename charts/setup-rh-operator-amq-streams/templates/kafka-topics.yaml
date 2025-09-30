@@ -1,0 +1,22 @@
+{{- if .Values.topics.enabled }}
+{{- range .Values.topics.topics }}
+---
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaTopic
+metadata:
+  name: {{ .name }}
+  namespace: {{ include "setup-rh-operator-amq-streams.namespace" $ }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"
+  labels:
+    {{- include "setup-rh-operator-amq-streams.labels" $ | nindent 4 }}
+    strimzi.io/cluster: {{ $.Values.kafka.cluster.name }}
+spec:
+  partitions: {{ .partitions }}
+  replicas: {{ .replicas }}
+  {{- if .config }}
+  config:
+    {{- toYaml .config | nindent 4 }}
+  {{- end }}
+{{- end }}
+{{- end }}

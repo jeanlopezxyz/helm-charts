@@ -1,0 +1,71 @@
+{{- if .Values.kafka.cluster.enabled }}
+apiVersion: kafka.strimzi.io/v1beta2
+kind: Kafka
+metadata:
+  name: {{ .Values.kafka.cluster.name }}
+  namespace: {{ include "setup-rh-operator-amq-streams.namespace" . }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+  labels:
+    {{- include "setup-rh-operator-amq-streams.labels" . | nindent 4 }}
+spec:
+  kafka:
+    version: {{ .Values.kafka.cluster.version }}
+    replicas: {{ .Values.kafka.cluster.replicas }}
+    listeners:
+      - name: plain
+        port: 9092
+        type: internal
+        tls: false
+      - name: tls
+        port: 9093
+        type: internal
+        tls: true
+    config:
+      {{- toYaml .Values.kafka.cluster.config | nindent 6 }}
+      log.message.format.version: {{ .Values.kafka.cluster.version | quote }}
+      log.message.timestamp.type: CreateTime
+    storage:
+      type: {{ .Values.kafka.cluster.storage.type }}
+      size: {{ .Values.kafka.cluster.storage.size }}
+      {{- if .Values.kafka.cluster.storage.storageClass }}
+      class: {{ .Values.kafka.cluster.storage.storageClass }}
+      {{- end }}
+      deleteClaim: {{ .Values.kafka.cluster.storage.deleteClaim }}
+    {{- with .Values.kafka.cluster.resources }}
+    resources:
+      {{- toYaml . | nindent 6 }}
+    {{- end }}
+    {{- with .Values.kafka.cluster.jvmOptions }}
+    jvmOptions:
+      {{- toYaml . | nindent 6 }}
+    {{- end }}
+  zookeeper:
+    replicas: {{ .Values.kafka.zookeeper.replicas }}
+    storage:
+      type: {{ .Values.kafka.zookeeper.storage.type }}
+      size: {{ .Values.kafka.zookeeper.storage.size }}
+      {{- if .Values.kafka.zookeeper.storage.storageClass }}
+      class: {{ .Values.kafka.zookeeper.storage.storageClass }}
+      {{- end }}
+      deleteClaim: {{ .Values.kafka.zookeeper.storage.deleteClaim }}
+    {{- with .Values.kafka.zookeeper.resources }}
+    resources:
+      {{- toYaml . | nindent 6 }}
+    {{- end }}
+  entityOperator:
+    {{- if .Values.kafka.entityOperator.topicOperator.enabled }}
+    topicOperator:
+      {{- with .Values.kafka.entityOperator.topicOperator.resources }}
+      resources:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- end }}
+    {{- if .Values.kafka.entityOperator.userOperator.enabled }}
+    userOperator:
+      {{- with .Values.kafka.entityOperator.userOperator.resources }}
+      resources:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- end }}
+{{- end }}

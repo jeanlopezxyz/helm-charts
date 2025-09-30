@@ -1,0 +1,22 @@
+{{- if .Values.users.enabled }}
+{{- range .Values.users.users }}
+---
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaUser
+metadata:
+  name: {{ .name }}
+  namespace: {{ include "setup-rh-operator-amq-streams.namespace" $ }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"
+  labels:
+    {{- include "setup-rh-operator-amq-streams.labels" $ | nindent 4 }}
+    strimzi.io/cluster: {{ $.Values.kafka.cluster.name }}
+spec:
+  authentication:
+    type: {{ .type }}
+  {{- if .authorization }}
+  authorization:
+    {{- toYaml .authorization | nindent 4 }}
+  {{- end }}
+{{- end }}
+{{- end }}
